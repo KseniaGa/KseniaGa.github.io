@@ -3,54 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kseniia Harshina - Professional Website </title>
+    <title>Kseniia Harshina - Doctoral Consortium</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Press Start 2P', cursive;
+            background-color: #1a1a2e;
+            color: #e3f6f5;
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
         }
+
         .container {
             width: 80%;
             margin: auto;
             overflow: hidden;
         }
+
         header {
-            background: #333;
+            background: #162447;
             color: #fff;
             padding-top: 30px;
             min-height: 70px;
-            border-bottom: #77aaff 3px solid;
+            border-bottom: #e43f5a 3px solid;
         }
+
         header a {
             color: #fff;
             text-decoration: none;
             text-transform: uppercase;
             font-size: 16px;
         }
+
         header ul {
             padding: 0;
             list-style: none;
         }
+
         header li {
             display: inline;
             padding: 0 20px 0 20px;
         }
+
         .content {
             padding: 20px;
         }
+
         .main-content {
             padding: 20px;
-            background: #f4f4f4;
+            background: #1f4068;
             margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px #162447;
         }
+
+        h1, h2 {
+            color: #e43f5a;
+        }
+
+        a {
+            color: #e43f5a;
+        }
+
+        a:hover {
+            color: #00adb5;
+        }
+
         footer {
-            background: #333;
+            background: #162447;
             color: #fff;
             text-align: center;
             padding: 10px;
             margin-top: 20px;
+        }
+
+        .button {
+            background-color: #e43f5a;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #00adb5;
         }
     </style>
 </head>
@@ -73,35 +119,61 @@
     <section id="home" class="content">
         <div class="container main-content">
             <h2>Welcome</h2>
-            <p>Welcome to my professional website. I am Kseniia, a doctoral candidate focused on [Your Research Area].</p>
+            <p>Welcome to my professional website. I am Kseniia Harshina, a doctoral candidate focused on developing innovative solutions through Virtual Reality and Machine Learning. My research aims to enhance empathy and perspective-taking through game-based approaches.</p>
         </div>
     </section>
 
     <section id="about" class="content">
         <div class="container main-content">
             <h2>About Me</h2>
-            <p>[A detailed bio about yourself]</p>
+            <p>
+                I am Kseniia Harshina, currently a University Assistant at the University of Klagenfurt, Austria. My research focuses on developing a Virtual-Reality Game for Empathy Enhancement and Perspective-Taking in the Context of Refugee Experiences. I have a diverse background in game studies and engineering, with significant experience in machine learning, swarm intelligence, and game design.
+            </p>
+            <p>
+                I completed my M.Sc. in Game Studies and Engineering from Alpen-Adria University, Klagenfurt, where my master's thesis explored generating UAV countermeasures using machine learning. I hold a B.Sc. in Software Engineering from the National Technical University of Ukraine 'Igor Sikorsky Kyiv Polytechnic Institute.'
+            </p>
         </div>
     </section>
 
     <section id="research" class="content">
         <div class="container main-content">
             <h2>Research</h2>
-            <p>[An overview of your research projects and links to your publications]</p>
+            <p>
+                My current research projects include:
+            </p>
+            <ul>
+                <li>Developing a Virtual-Reality Game for Empathy Enhancement and Perspective-Taking in the Context of Refugee Experiences (Ada Lovelace research project).</li>
+                <li>Generating UAV swarm countermeasures using Reinforcement Learning (MCUAS research project).</li>
+                <li>Optimizing industrial plants using Swarm Intelligence (ML&Swarms project).</li>
+                <li>Edge-Cloud Infrastructure optimization using Swarm Intelligence (ACES project).</li>
+            </ul>
+            <p>
+                I have also worked on various projects during my master's and bachelor's studies, including a master’s thesis on generating UAV countermeasures using machine learning and a bachelor’s thesis on a project management web application focused on volunteering projects.
+            </p>
+            <h3>Publications</h3>
+            <ul>
+                <li>Harshina, K., & others. (2023). "Behind the Screens: An Exploratory Study on Gamer Types and Identities in Game Jams." Annual Symposium on Computer-Human Interaction in Play (CHI PLAY).</li>
+                <li>Umlauft, M., & others. (2023). "Bottom-Up Bio-Inspired Algorithms for Optimizing Industrial Plants." International Conference on Agents and Artificial Intelligence.</li>
+                <li>Simonjan, J., & others. (2023). "Reinforcement Learning based Countermeasures against Intelligent Attacking UAV Swarms." International Workshop on Wireless Sensors and Drones in the Internet of Things.</li>
+                <li>Alshaer, M., & others. (2021). "Emotional Mario: A Games Analytics Challenge: MediaEval 2021." MediaEval Benchmarking Initiative for Multimedia Evaluation.</li>
+            </ul>
         </div>
     </section>
 
     <section id="cv" class="content">
         <div class="container main-content">
             <h2>Curriculum Vitae</h2>
-            <p><a href="your-cv.pdf" download>Download my CV</a></p>
+            <p><a href="path-to-your-cv.pdf" download class="button">Download my CV</a></p>
         </div>
     </section>
 
     <section id="contact" class="content">
         <div class="container main-content">
             <h2>Contact</h2>
-            <p>Email: <a href="mailto:your.email@example.com">Kseniia.Harshina@aau.at</a></p>
+            <p>Email: <a href="mailto:Kseniia.Harshina@aau.at">Kseniia.Harshina@aau.at</a></p>
+            <p>LinkedIn: <a href="https://www.linkedin.com/in/ksenia-harshina-694a4a172">Kseniia Harshina</a></p>
+            <p>Google Scholar: <a href="https://scholar.google.com/citations?hl=en&view_op=list_works&gmla=AKKJWFechpRnz0EGXt3ECZNsrs4WGlX3qbv-9zY9v1blw61KK8bezzubd8fioRaaX7jBXs0_mda7BXBTJXFIDNvBlBFI&user=GN3Bb2UAAAAJ">Kseniia Harshina</a></p>
+            <p>Itch.io: <a href="https://kseniaharshina.itch.io/">Kseniia Harshina</a></p>
         </div>
     </section>
 
