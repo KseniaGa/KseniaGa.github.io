@@ -161,6 +161,39 @@
             .game p {
                 text-align: center;
             }
+
+
+            .publications-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.publications-list li {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.publications-list a {
+    text-decoration: none;
+    color: #88c0d0;
+    display: flex;
+    align-items: center;
+}
+
+.publications-list a:hover {
+    color: #4a5f78;
+}
+
+.publications-list img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.publications-list a:hover img {
+    transform: scale(1.1);
+}
         
     </style>
 </head>
@@ -180,7 +213,7 @@
                     <li><a href="#about">About Me</a></li>
                     <li><a href="#research">Research</a></li>
                     <li><a href="#cv">CV</a></li>
-                    <li><a href="#games">CV</a></li>
+                    <li><a href="#games">Games</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -218,13 +251,37 @@
             <a href="https://scholar.google.com/citations?hl=en&view_op=list_works&gmla=AKKJWFechpRnz0EGXt3ECZNsrs4WGlX3qbv-9zY9v1blw61KK8bezzubd8fioRaaX7jBXs0_mda7BXBTJXFIDNvBlBFI&user=GN3Bb2UAAAAJ" class="button" target="_blank">Google Scholar </a> 
             </p>
 
-            <ul>
-                <li><a href="adaptive_2024_1_10_50002 (3).pdf"  class="button" target="_blank"> Download </a> Agent-based Modeling in the Edge Continuum using Swarm Intelligence.</li>
-                <li><a href="PlayWrite_4.pdf"  class="button" target="_blank"> Download </a> In the Ring and on the Runway: Masculinities of Drag and Wrestling from TV to Video Games.</a> </li>
-                <li><a href="ACM_BehindTheScreens.pdf"  class="button" target="_blank"> Download </a> "Behind the Screens: An Exploratory Study on Gamer Types and Identities in Game Jams." Annual Symposium on Computer-Human Interaction in Play (CHI PLAY).</li>
-                <li> <a href="Bottom-Up Bio-Inspired Algorithms for Optimizing Industrial Plants.pdf"  class="button" target="_blank"> Download </a> Bottom-Up Bio-Inspired Algorithms for Optimizing Industrial Plants." International Conference on Agents and Artificial Intelligence. </li>
-                <li> <a href="Reinforcement_Learning-Based_Countermeasures_Against_Attacking_UAV_Swarms.pdf"  class="button" target="_blank"> Download </a>  "Reinforcement Learning based Countermeasures against Intelligent Attacking UAV Swarms." International Workshop on Wireless Sensors and Drones in the Internet of Things.  </li>
-                <li> <a href="Emotional Mario A Games Analytics Challenge.pdf"  class="button" target="_blank"> Download </a>  "Emotional Mario: A Games Analytics Challenge: MediaEval 2021." MediaEval Benchmarking Initiative for Multimedia Evaluation. </li>
+            <ul class="publications-list">
+                <li>
+                    <a href="adaptive_2024_1_10_50002 (3).pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> Agent-based Modeling in the Edge Continuum using Swarm Intelligence.
+                    </a>
+                </li>
+                <li>
+                    <a href="PlayWrite_4.pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> In the Ring and on the Runway: Masculinities of Drag and Wrestling from TV to Video Games.
+                    </a>
+                </li>
+                <li>
+                    <a href="ACM_BehindTheScreens.pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> Behind the Screens: An Exploratory Study on Gamer Types and Identities in Game Jams.
+                    </a>
+                </li>
+                <li>
+                    <a href="Bottom-Up Bio-Inspired Algorithms for Optimizing Industrial Plants.pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> Bottom-Up Bio-Inspired Algorithms for Optimizing Industrial Plants.
+                    </a>
+                </li>
+                <li>
+                    <a href="Reinforcement_Learning-Based_Countermeasures_Against_Attacking_UAV_Swarms.pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> Reinforcement Learning based Countermeasures against Intelligent Attacking UAV Swarms.
+                    </a>
+                </li>
+                <li>
+                    <a href="Emotional Mario A Games Analytics Challenge.pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> Emotional Mario: A Games Analytics Challenge: MediaEval 2021.
+                    </a>
+                </li>
             </ul>
         </div>
     </section>
