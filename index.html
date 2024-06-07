@@ -236,15 +236,24 @@
 }
 
 
-
-            .publications-list {
+/* Publications Section */
+.publications-list {
     list-style-type: none;
     padding: 0;
 }
 
 .publications-list li {
-    margin-bottom: 15px;
-    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(233, 242, 239, 0.85);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #162447;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.publications-list li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 0px 15px 0px #162447;
 }
 
 .publications-list a {
@@ -257,6 +266,23 @@
 .publications-list a:hover {
     color: #4a5f78;
 }
+
+.publications-list img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.publications-list a:hover img {
+    transform: scale(1.1);
+}
+
+.publications-list p {
+    margin: 5px 0;
+    color: #444;
+}
+
 
 .publications-list img {
     width: 24px;
@@ -335,7 +361,12 @@
     <section id="research" class="content">
         <div class="container main-content">
             <h2>Research</h2>
+
             <h3>Publications</h3>
+            <p>
+            <a href="https://scholar.google.com/citations?hl=en&view_op=list_works&gmla=AKKJWFechpRnz0EGXt3ECZNsrs4WGlX3qbv-9zY9v1blw61KK8bezzubd8fioRaaX7jBXs0_mda7BXBTJXFIDNvBlBFI&user=GN3Bb2UAAAAJ" class="button" target="_blank">Google Scholar </a> 
+            </p>
+
             <ul class="publications-list">
                 <li>
                     <a href="adaptive_2024_1_10_50002 (3).pdf" target="_blank">
@@ -386,6 +417,14 @@
                     <p>An analysis of game data to understand emotional responses in players.</p>
                 </li>
             </ul>
+
+            <h3>Talks </h3>
+            <h2><i class="fas fa-video"></i> Using AI to free Player's Agency from the Limits of Predefined Language in Video Games </h2>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/OX_e3UXyLTs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <p>In this talk...</p>
+        </div>
         </div>
     </section>
 
