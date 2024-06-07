@@ -137,6 +137,40 @@
             z-index: -50;
         }
 
+
+/* About Section */
+.about-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(233, 242, 239, 0.85);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #162447;
+}
+
+.about-section h3 {
+    color: #88c0d0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.about-section p, .about-section ul {
+    color: #444;
+    text-align: center;
+}
+
+.about-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.about-section ul li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+
+
 /* Game Grid */
 .game-grid {
     display: flex;
@@ -272,15 +306,30 @@
         <div class="container main-content">
             <h2>About Me</h2>
             <img src="wids.jpg" alt="speaking at a stage event">
-            <img src="kcgl.jpg" alt="speaking at an event">
-            <p>
-                I am Kseniia Harshina, currently a University Assistant at the University of Klagenfurt, Austria. My research focuses on developing a Virtual-Reality Game for Empathy Enhancement and Perspective-Taking in the Context of Refugee Experiences. I have a background in game studies and engineering, with experience in machine learning, swarm intelligence, and game design.
-            </p>
-            <p>
-                I completed my M.Sc. in Game Studies and Engineering from Alpen-Adria University, Klagenfurt, where my master's thesis explored generating UAV countermeasures using machine learning. I hold a B.Sc. in Software Engineering from the National Technical University of Ukraine 'Igor Sikorsky Kyiv Polytechnic Institute.'
-            </p>
+            <div class="about-section">
+                <h3>Research Interests</h3>
+                <p>...</p>
+            </div>
+            <div class="about-section">
+                <h3>PhD Dissertation</h3>
+                <p>Currently, I am working on my PhD dissertation at the University of Klagenfurt, Austria, where I explore the impact of immersive technologies on social and cognitive skills.</p>
+            </div>
+            <div class="about-section">
+                <h3>Education and Work Experience</h3>
+                <ul>
+                    <li><strong>University of Klagenfurt, Austria</strong> - University Assistant, PhD Candidate in Game Studies and Engineering</li>
+                    <li><strong>Alpen-Adria University</strong> - M.Sc. in Game Studies and Engineering</li>
+                    <li><strong>National Technical University of Ukraine 'Igor Sikorsky Kyiv Polytechnic Institute'</strong> - B.Sc. in Software Engineering</li>
+                </ul>
+            </div>
+            <div class="about-section">
+                <h3>Games Intersectional Roundtable</h3>
+                <p>I founded Games Intersectional, a community aimed at supporting marginalized people in the gaming industry. We organize monthly roundtables to discuss issues, share experiences, and provide support. Our community is sponsored by the Global Campus Online Project.</p>
+            </div>
+            <!-- Add more sections as needed -->
         </div>
     </section>
+    
 
     <section id="research" class="content">
         <div class="container main-content">
