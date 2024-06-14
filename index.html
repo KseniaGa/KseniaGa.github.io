@@ -139,6 +139,37 @@
 
 
 /* About Section */
+/* About Section Container */
+.about-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* About Image */
+.about-image {
+    flex: 1;
+    max-width: 300px;
+}
+
+.about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #8ecae6;
+}
+
+/* About Text */
+.about-text {
+    flex: 2;
+}
+
+.about-text h2 {
+    color: #88c0d0;
+    text-align: left;
+}
+
 .about-section {
     margin-bottom: 30px;
     padding: 20px;
@@ -150,12 +181,12 @@
 .about-section h3 {
     color: #88c0d0;
     margin-bottom: 15px;
-    text-align: center;
+    text-align: left;
 }
 
 .about-section p, .about-section ul {
     color: #444;
-    text-align: center;
+    text-align: left;
 }
 
 .about-section ul {
@@ -168,8 +199,6 @@
     font-size: 16px;
     line-height: 1.6;
 }
-
-
 
 /* Game Grid */
 .game-grid {
@@ -329,9 +358,13 @@
     </section>
 
     <section id="about" class="content">
-        <div class="container main-content">
-            <h2>About Me</h2>
-            <img src="wids.jpg" alt="speaking at a stage event">
+        <div class="container main-content about-container">
+            <div class="about-image">
+                <img src="wids.jpg" alt="speaking at a stage event">
+            </div>
+            
+            <div class="about-text">
+                <h2>About Me</h2>
             <div class="about-section">
                 <h3>Research Interests</h3>
                 <p> <ul> <li> Main Areas: Game Studies, AI, Psychology, Intersectionality </li> <li> Neurodiversity and Games </li>  <li> Forced Migration and Collonial Narratives in Games</li>
@@ -355,6 +388,7 @@
                 <p>I started Games Intersectional, a community aimed at supporting marginalized people in the gaming industry. We organize monthly roundtables to discuss issues, share experiences, and provide support. This project is sponsored by the Global Campus Online Project.</p>
             </div>
             <!-- Add more sections as needed -->
+        </div>
         </div>
     </section>
     
