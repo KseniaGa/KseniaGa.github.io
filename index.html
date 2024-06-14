@@ -266,23 +266,43 @@
 
 
 /* Publications Section */
+/* Research Section */
+.research-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.research-item {
+    flex: 1 1 45%;
+    background: rgba(233, 242, 239, 0.85);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #162447;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.research-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 0px 15px 0px #162447;
+}
+
+.research-item h3 {
+    color: #88c0d0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
 .publications-list {
     list-style-type: none;
     padding: 0;
 }
 
 .publications-list li {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: rgba(233, 242, 239, 0.85);
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px #162447;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.publications-list li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 0px 15px 0px #162447;
+    margin-bottom: 15px;
+    font-size: 16px;
 }
 
 .publications-list a {
@@ -312,17 +332,18 @@
     color: #444;
 }
 
-
-.publications-list img {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-    transition: transform 0.3s ease;
+.video-container {
+    text-align: center;
+    margin: 20px 0;
 }
 
-.publications-list a:hover img {
-    transform: scale(1.1);
+.video-container iframe {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #162447;
 }
+
         
     </style>
 </head>
@@ -361,7 +382,7 @@
         <div class="container main-content about-container">
             <div class="about-image">
                 <img src="wids.jpg" alt="speaking at a stage event">
-                <img src="wids.jpg" alt="speaking at a stage event">
+                <!-- <img src="wids.jpg" alt="speaking at a stage event"> --> 
             </div>
             
             <div class="about-text">
@@ -397,7 +418,8 @@
     <section id="research" class="content">
         <div class="container main-content">
             <h2>Research</h2>
-
+            <div class="research-grid">
+            <div class="research-item">
             <h3>Publications</h3>
             <p>
             <a href="https://scholar.google.com/citations?hl=en&view_op=list_works&gmla=AKKJWFechpRnz0EGXt3ECZNsrs4WGlX3qbv-9zY9v1blw61KK8bezzubd8fioRaaX7jBXs0_mda7BXBTJXFIDNvBlBFI&user=GN3Bb2UAAAAJ" class="button" target="_blank">Google Scholar </a> 
@@ -454,13 +476,15 @@
                     
                 </li>
             </ul>
+            </div>
 
+            <div class="research-item">
             <h2>Talks </h2>
             <h3><i class="fas fa-video"></i> Games and Language Conference, 2023: Using AI to free Player's Agency from the Limits of Predefined Language in Video Games </h3>
             <div class="video-container">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/OX_e3UXyLTs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <p></p>
+            </div> 
         </div>
         </div>
     </section>
