@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kseniia Harshina </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -354,6 +356,50 @@
     box-shadow: 0px 0px 10px 0px #162447;
 }
 
+
+/* Contact Section */
+.contact-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    text-align: center;
+}
+
+.contact-item {
+    flex: 1 1 300px;
+    background: rgba(233, 242, 239, 0.85);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #162447;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 0px 15px 0px #162447;
+}
+
+.contact-item h3 {
+    color: #88c0d0;
+    margin-bottom: 15px;
+}
+
+.contact-item p, .contact-item a {
+    color: #444;
+    text-decoration: none;
+}
+
+.contact-item a:hover {
+    color: #4a5f78;
+}
+
+.contact-item i {
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+
         
     </style>
 </head>
@@ -402,7 +448,7 @@
             <div class="about-section">
                 <h3>General Research Interests </h3> <p> Game Studies, AI, Psychology, Intersectionality </p>
                  <h3> Specific Research Areas: </h3> 
-                 <p> <ul> <li></li>  </li> <li> Neurodiversity, Mental Health and Games </li>  <li> Forced Migration and Collonial Narratives in Games</li>
+                 <p> <ul> <li> Forced Migration and Collonial Narratives in Games</li>  <li> Mental Health Benefits of Games </li> <li> Benefits of Games for Neurodivergent Players </li> 
                       <li>Queer Game Studies and Intersectional Representation in Games </li>  <li> AI: Reinforcement Learning, Swarm Intelligence, Generative AI </li> </ul> </p>
             </div>
             <div class="about-section">
@@ -556,11 +602,24 @@
     <section id="contact" class="content">
         <div class="container main-content">
             <h2>Contact</h2>
-            <p><a href="mailto:Kseniia.Harshina@aau.at"  class="button" target="_blank"> Kseniia.Harshina@aau.at </a></p>
-            <p> <a href="https://www.linkedin.com/in/ksenia-harshina-694a4a172"  class="button" target="_blank"> LinkedIn </a></p>
-             </a></p>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <p><a href="mailto:Kseniia.Harshina@aau.at"><i class="fas fa-envelope"></i> Kseniia.Harshina@aau.at</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>LinkedIn</h3>
+                    <p><a href="https://www.linkedin.com/in/ksenia-harshina-694a4a172" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn Profile</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>Twitter</h3>
+                    <p><a href="https://x.com/KsyushaGames" target="_blank"><i class="fab fa-twitter"></i> Twitter Profile</a></p>
+                </div>
+                <!-- Add more social media profiles as needed -->
+            </div>
         </div>
     </section>
+    
 
     <footer>
         <p>© 2024 Kseniia Harshina. All rights reserved.</p>
