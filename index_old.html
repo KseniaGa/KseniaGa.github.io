@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kseniia Harshina </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        body {
+            font-family: 'Press Start 2P';
+            background-color: #1a1a2e;
+            color: #444444;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            font-size: 16px; 
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+        }
+
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            max-width: 400px; /* Adjust the size as needed */
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px #8ecae6;
+}
+
+
+        
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        header {
+            font-family: 'Press Start 2P', cursive;
+            background: rgba(58, 141, 85, 0.85);
+            color: #f0f4f8;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #88c0d0 3px solid;
+        }
+
+        header a {
+            color: #d8dee9;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        header li {
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .main-content {
+            padding: 20px;
+            background: rgba(233, 242, 239, 0.85);
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px #162447;
+        }
+
+        h1, h2 {
+            color: #88c0d0;
+        }
+
+        h2 {
+        font-size: 2em; /* Larger font size for headings */
+        margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 20px; /* Add spacing between paragraphs */
+        }
+
+        a {
+            color: #88c0d0;
+        }
+
+        a:hover {
+            color: #4a5f78;
+        }
+
+        footer {
+            background: rgba(58, 141, 85, 0.85);
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #88c0d0;
+            border: none;
+            color: #2e3440;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #4a5f78;
+        }
+
+                /* Video Background */
+        #video-bg {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            background-size: cover;
+        }
+
+        #video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -50;
+        }
+
+
+/* About Section */
+/* About Section Container */
+.about-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* About Image */
+.about-image {
+    flex: 1;
+    max-width: 300px;
+}
+
+.about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #8ecae6;
+}
+
+.phd-image {
+    width: 100%; /* Ensures the image uses the full width of its container */
+    max-width: 750px; /* Set a larger max-width as needed */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #8ecae6;
+}
+
+/* About Text */
+.about-text {
+    flex: 2;
+}
+
+.about-text h2 {
+    color: #88c0d0;
+    text-align: left;
+}
+
+.about-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(233, 242, 239, 0.85);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #162447;
+}
+
+.about-section h3 {
+    color: #88c0d0;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.about-section p, .about-section ul {
+    color: #444;
+    text-align: left;
+}
+
+.about-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.about-section ul li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Game Grid */
+.game-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Individual Game Item */
+.game-item {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px;
+}
+
+.game-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.game-item h3 {
+    margin: 15px 0;
+    color: #333;
+}
+
+.game-item p {
+    padding: 0 15px;
+    color: #666;
+}
+
+.game-item a.button {
+    display: inline-block;
+    background-color: #88c0d0;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 15px 0;
+    transition: background-color 0.3s ease;
+}
+
+.game-item a.button:hover {
+    background-color: #4a5f78;
+}
+
+/* Hover Effects */
+.game-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.game-item img:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+
+/* Publications Section */
+/* Research Section */
+.research-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.research-item {
+    flex: 1 1 45%;
+    background: rgba(233, 242, 239, 0.85);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #162447;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.research-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 0px 15px 0px #162447;
+}
+
+.research-item h3 {
+    color: #88c0d0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.publications-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.publications-list li {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.publications-list a {
+    text-decoration: none;
+    color: #88c0d0;
+    display: flex;
+    align-items: center;
+}
+
+.publications-list a:hover {
+    color: #4a5f78;
+}
+
+.publications-list img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.publications-list a:hover img {
+    transform: scale(1.1);
+}
+
+.publications-list p {
+    margin: 5px 0;
+    color: #444;
+}
+
+.video-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.video-container iframe {
+    max-width: 100%;
+    height: 10;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #162447;
+}
+
+
+/* Contact Section */
+.contact-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    text-align: center;
+}
+
+.contact-item {
+    flex: 1 1 300px;
+    background: rgba(233, 242, 239, 0.85);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #162447;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 0px 15px 0px #162447;
+}
+
+.contact-item h3 {
+    color: #88c0d0;
+    margin-bottom: 15px;
+}
+
+.contact-item p, .contact-item a {
+    color: #444;
+    text-decoration: none;
+}
+
+.contact-item a:hover {
+    color: #4a5f78;
+}
+
+.contact-item i {
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+
+        
+    </style>
+</head>
+<body>
+
+    <video id="video-bg" autoplay muted loop>
+        <source src="bg.webm" type="video/webm">
+        Your browser does not support the video tag.
+    </video>
+
+    <header>
+        <div class="container">
+            <h1>Kseniia Harshina</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Me</a></li>
+                    <li><a href="#research">Research</a></li>
+                   <!-- <li><a href="#cv">CV</a></li> -->
+                    <li><a href="#games">Games</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="content">
+        <div class="container main-content">
+            <h2>Welcome</h2>
+            <!-- <p>   <a href="https://kseniaharshina.itch.io/" class="button" target="_blank"> Itch.io  </a></p> -->
+            <p> Вітаю! Welcome to my professional website! </p>
+        </div>
+    </section>
+
+    <section id="about" class="content">
+        <div class="container main-content about-container">
+            <div class="about-image">
+                
+                <img src="wids.jpg" alt="speaking at a stage event">
+                
+                <img src="gurt2.PNG" alt="girt"> 
+                
+                <!-- <img src="lndf.jpg" alt="lndf"> -->
+            </div>
+            
+            <div class="about-text">
+                <h2>About Me</h2>
+            <div class="about-section">
+                <h3>General Research Interests </h3> <p> Game Studies, Artificial Intelligence, Psychology, Intersectionality </p>
+                 <h3> Specific Research Areas </h3> 
+                 <p> <ul> <li> Forced Migration and Collonial Narratives in Games</li>  <li> Mental Health Benefits of Games </li> <li> Benefits of Games for Neurodivergent Players </li> 
+                      <li>Queer Game Studies and Intersectional Representation in Games </li>  <li> AI: Reinforcement Learning, Swarm Intelligence, Procedural Content Generation </li> </ul> </p>
+            </div>
+            <div class="about-section">
+                <h3>PhD Candidate at the University of Klagenfurt, 2024-Ongoing </h3>
+                <img src="poster3.png" alt="poster" class="phd-image">
+               <!-- <p>Dissertation Project: "Developing a Virtual-Reality Game for Empathy Enhancement and Perspective-Taking in the Context of Forced Migration Experiences" </p> -->
+            </div>
+            <!-- <div class="about-section">
+                <h3>Education</h3>
+                <ul>
+                    <li><strong>University of Klagenfurt, Austria</strong> PhD Candidate in Game Studies and Engineering</li>
+                    <li><strong>Alpen-Adria University</strong> - M.Sc. in Game Studies and Engineering</li>
+                    <li><strong>National Technical University of Ukraine 'Igor Sikorsky Kyiv Polytechnic Institute'</strong> - B.Sc. in Software Engineering</li>
+                </ul>
+            </div> -->
+            <div class="about-section">
+                <h3>Games Intersectional Roundtable</h3>
+                <!--<img src="gurt.jpeg" alt="girt"> -->
+                <p>I started Games Intersectional, a community aimed at supporting marginalized people in the gaming industry. We organize monthly roundtables to discuss issues, share experiences, and provide support. This project is sponsored by the Global Campus Online Project.</p>
+            </div>
+
+            <div class="about-section">
+                <h3>Curriculum Vitae</h3>
+                <p>You can view my CV for a detailed overview of my academic and professional experience.</p>
+                <p><a href="https://docs.google.com/document/d/1dReuUzgNY0jBUplomE4yAWvKOcJmKM-Kghq6HZs0RHk/view" download class="button">Download my CV</a></p>
+            </div>
+            <!-- Add more sections as needed -->
+        </div>
+        </div>
+    </section>
+    
+
+    <section id="research" class="content">
+        <div class="container main-content">
+            <h2>Research</h2>
+            <div class="research-grid">
+            <div class="research-item">
+            <h3>Publications</h3>
+            <p>
+            <a href="https://scholar.google.com/citations?hl=en&view_op=list_works&gmla=AKKJWFechpRnz0EGXt3ECZNsrs4WGlX3qbv-9zY9v1blw61KK8bezzubd8fioRaaX7jBXs0_mda7BXBTJXFIDNvBlBFI&user=GN3Bb2UAAAAJ" class="button" target="_blank">Google Scholar </a> 
+            </p>
+
+            <ul class="publications-list">
+                <li>
+                    <a href="adaptive_2024_1_10_50002 (3).pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> 
+                        <span>Agent-based Modeling in the Edge Continuum using Swarm Intelligence.</span>
+                    </a>
+                    <p>Published: April 2024</p>
+                    <a href="https://www.iaria.org/conferences2024/awardsADAPTIVE24/adaptive2024_a3.pdf" target="_blank"> <span> Best Paper Award</span> </a>
+                    <!-- <p>A study on the application of swarm intelligence in edge computing environments.</p> -->
+                </li>
+                <li>
+                    <a href="PlayWrite_4.pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> 
+                        <span>In the Ring and on the Runway: Masculinities of Drag and Wrestling from TV to Video Games.</span>
+                    </a>
+                    <p>Published: 2024</p>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="ACM_BehindTheScreens.pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> 
+                        <span>Behind the Screens: An Exploratory Study on Gamer Types and Identities in Game Jams.</span>
+                    </a>
+                    <p>Published: October 2023</p>
+                    <!-- <p>This paper studies the identities and motivations of participants in game jams.</p> -->
+                </li>
+                <li>
+                    <a href="Bottom-Up Bio-Inspired Algorithms for Optimizing Industrial Plants.pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> 
+                        <span>Bottom-Up Bio-Inspired Algorithms for Optimizing Industrial Plants.</span>
+                    </a>
+                    <p>Published: 2023</p>
+                    <p>Additonally, was short-listed as a book chapter in <a href="https://link.springer.com/chapter/10.1007/978-3-031-55326-4_1" target="_blank"> "Lecture Notes in AI" </a> by Springer, which was published in 2024</p>
+                </li>
+                <li>
+                    <a href="Reinforcement_Learning-Based_Countermeasures_Against_Attacking_UAV_Swarms.pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> 
+                        <span>Reinforcement Learning based Countermeasures against Intelligent Attacking UAV Swarms.</span>
+                    </a>
+                    <p>Published: September 2023</p>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="Emotional Mario A Games Analytics Challenge.pdf" target="_blank">
+                        <img src="pdf-icon.png" alt="PDF Icon"> 
+                        <span>Emotional Mario: A Games Analytics Challenge: MediaEval 2021.</span>
+                    </a>
+                    <p>Published: August 2021</p>
+                    
+                </li>
+            </ul>
+            </div>
+
+            <div class="research-item">
+            <h2>Talks </h2>
+            <h3><i class="fas fa-video"></i> Games and Language Conference, 2023: Using AI to free Player's Agency from the Limits of Predefined Language in Video Games </h3>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/OX_e3UXyLTs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h3><i class="fas fa-video"></i> Women in Data Science Villach, 2023: How to Incorporate Data Analytics into the Game Development Process to Boost Player Engagement </h3>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/DcqM1dnY1zI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+
+            </div> 
+        </div>
+        </div>
+    </section>
+
+    <!--
+    <section id="cv" class="content">
+        <div class="container main-content">
+            <h2>Curriculum Vitae</h2>
+            <p><a href="https://docs.google.com/document/d/1dReuUzgNY0jBUplomE4yAWvKOcJmKM-Kghq6HZs0RHk/view" download class="button">Download my CV</a></p>
+        </div>
+    </section>
+
+-->
+
+    <section id="games" class="content">
+        <div class="container main-content">
+            <h2>My Games</h2>
+            <div class="game-grid">
+                <div class="game-item">
+                    <img src="mm.png" alt="Monster Match">
+                    <h3>Monster Match</h3>
+                    <p>Speed-date your way out of a pub crawling with flesh-eating monsters!</p>
+                    <a href="https://rachelgo.itch.io/monstermatch" class="button" target="_blank">Play Monster Match</a>
+                </div>
+                <div class="game-item">
+                    <img src="cotn2.png" alt="Game Title 2">
+                    <h3>Curse of the Narrator</h3>
+                    <p>Create an outstanding story to satisfy the narrator!</p>
+                    <a href="https://vulvarine.itch.io/the-curse-of-the-narrator" class="button" target="_blank">Play COTN</a>
+                </div>
+
+                <div class="game-item">
+                    <img src="uic.png" alt="Game Title 2">
+                    <h3>UI&Chill</h3>
+                    <p>Cozy game designed to help you calm down and de-stress...right?</p>
+                    <a href="https://rachelgo.itch.io/u-i-chill" class="button" target="_blank">Play UI&Chill</a>
+                </div>
+
+                <div class="game-item">
+                    <img src="slay2.png" alt="Game Title 2">
+                    <h3>Slay Princess</h3>
+                    <p>Character creator, narrative driven extravaganza.</p>
+                    <a href="https://yenrye.itch.io/slay-princess" class="button" target="_blank">Let's Play</a>
+                </div>
+
+                <div class="game-item">
+                    <img src="wingsGame.png" alt="Game Title">
+                    <h3>Slay Princess</h3>
+                    <p>Character creator, narrative driven extravaganza.</p>
+                    <a href="https://kseniaharshina.itch.io/potoybik" class="button" target="_blank">Potoybik</a>
+                </div>
+
+
+                <!-- Add more game items as needed -->
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="content">
+        <div class="container main-content">
+            <h2>Contact</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <p><a href="mailto:Kseniia.Harshina@aau.at"><i class="fas fa-envelope"></i> Kseniia.Harshina@aau.at</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>LinkedIn</h3>
+                    <p><a href="https://www.linkedin.com/in/ksenia-harshina-694a4a172" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn Profile</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>Twitter</h3>
+                    <p><a href="https://x.com/KsyushaGames" target="_blank"><i class="fab fa-twitter"></i> Twitter Profile</a></p>
+                </div>
+                <!-- Add more social media profiles as needed -->
+            </div>
+        </div>
+    </section>
+    
+
+    <footer>
+        <p>© 2024 Kseniia Harshina. All rights reserved.</p>
+    </footer>
+</body>
+</html>

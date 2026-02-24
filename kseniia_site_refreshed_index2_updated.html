@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kseniia Harshina — Games • Research • Community</title>
+  <meta name="description" content="PhD candidate in Game Studies & Engineering. Researching games, catharsis & empowerment; organizing inclusive game communities; making small, strange games." />
+  <meta name="theme-color" content="#171923" />
+  <meta property="og:title" content="Kseniia Harshina" />
+  <meta property="og:description" content="Games • Research • Community" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="wids.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root{--bg:#0f1220;--surface:#171923;--card:#1e2433;--text:#e6eef8;--muted:#a5b2c9;--acc:#8ecae6;--acc2:#58d6a6;--ring:#3b82f6;--link:#8ecae6;--shadow:0 10px 30px rgba(0,0,0,.35)}
+    @media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--surface:#ffffff;--card:#ffffff;--text:#172033;--muted:#42536b;--acc:#287aa9;--acc2:#0f8c63;--link:#166086;--shadow:0 8px 24px rgba(2,12,27,.08)}}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:radial-gradient(1200px 600px at 10% -10%,rgba(142,202,230,.25),transparent 60%),radial-gradient(800px 400px at 110% 10%,rgba(88,214,166,.18),transparent 50%),var(--bg);color:var(--text);font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";line-height:1.6}
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+    .skip{position:absolute;left:-9999px}
+    .skip:focus{left:16px;top:16px;background:var(--surface);color:var(--text);padding:.6rem 1rem;border-radius:.6rem;box-shadow:var(--shadow)}
+    header{position:sticky;top:0;z-index:50;background:rgba(23,25,35,.7);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;gap:10px;align-items:center}
+    .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+    .brand a{font-family:"Comfortaa",cursive;font-weight:700;letter-spacing:.5px;color:var(--text)}
+    .menu{display:flex;gap:18px;align-items:center}
+    .menu a{font-weight:600;color:var(--text);opacity:.85}
+    .menu a:hover{opacity:1}
+    .hamburger{display:none;background:transparent;border:0;color:var(--text);font-size:22px}
+    @media (max-width:800px){.menu{display:none}.hamburger{display:block}}
+    .mobile{display:none}
+    .mobile.open{display:block}
+    .mobile a{display:block;padding:12px 0;border-top:1px solid rgba(255,255,255,.06)}
+    .hero{padding:72px 0 36px}
+    .hero .wrap{display:grid;grid-template-columns:1.2fr .9fr;gap:28px;align-items:center}
+    @media (max-width:900px){.hero .wrap{grid-template-columns:1fr}}
+    h1{font-family:"Comfortaa",cursive;font-weight:700;font-size:clamp(28px,4.2vw,44px);margin:.2rem 0}
+    .tag{display:inline-flex;gap:10px;align-items:center;padding:8px 12px;border-radius:999px;background:linear-gradient(135deg,rgba(142,202,230,.18),rgba(88,214,166,.16));border:1px solid rgba(255,255,255,.08)}
+    .lead{font-size:clamp(16px,1.8vw,18px);color:var(--muted)}
+    .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:var(--card);color:var(--text);box-shadow:var(--shadow)}
+    .btn.primary{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#07131a;border:0}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.retro{border:2px solid currentColor;box-shadow:none;font-family:"Press Start 2P", monospace;font-size:12px;letter-spacing:.5px}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:18px;box-shadow:var(--shadow)}
+    .section{padding:36px 0}
+    .section h2{font-family:"Comfortaa",cursive;font-weight:700;margin:0 0 18px;font-size:clamp(22px,3.4vw,32px)}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .grid-3{display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:22px}
+    @media (max-width:900px){.grid-2{grid-template-columns:1fr}}
+    .about{padding:22px}
+    .about p{margin:.5rem 0 0}
+    .about img{width:100%;height:auto;border-radius:14px;display:block}
+    .gallery{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+    .pub{padding:16px}
+    .pub h3{margin:0 0 6px;font-size:18px}
+    .pub .meta{color:var(--muted);font-size:14px}
+    .talk iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:14px}
+    .talk .title{font-weight:600;margin:10px 0 0}
+    .games .game{overflow:hidden}
+    .games .thumb{border-bottom:1px solid rgba(255,255,255,.08)}
+    .games img{display:block;width:100%;height:auto}
+    .games .inner{padding:14px}
+    .games h3{margin:.2rem 0 .3rem;font-size:18px}
+    .games p{color:var(--muted);margin:0 0 10px}
+    .contact .item{padding:16px;display:flex;gap:12px;align-items:flex-start}
+    .item i{font-size:20px;opacity:.9}
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 0;color:var(--muted);font-size:14px}
+    .note{font-size:12px;color:var(--muted)}
+    .news{margin-top:14px; display:flex; flex-wrap:wrap; gap:8px}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:linear-gradient(135deg,rgba(142,202,230,.16),rgba(88,214,166,.14));border:1px solid rgba(255,255,255,.08);font-size:14px}
+    .chip i{opacity:.85}
+    .chip:hover{text-decoration:none;transform:translateY(-1px)}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);font-size:12px}
+    .status-idea{background:rgba(142,202,230,.12)}
+    .status-build{background:rgba(88,214,166,.12)}
+    .status-study{background:rgba(124,167,255,.12)}
+    .status-write{background:rgba(255,214,102,.12)}
+    details summary{cursor:pointer;font-weight:600}
+    details .bio{margin:.5rem 0 0;color:var(--muted)}
+    /* focus styles */
+    :focus{outline:2px solid var(--ring);outline-offset:2px}
+    @media (prefers-reduced-motion: reduce){*{animation:none;transition:none}}
+  
+    /* utility for compact buttons and lists */
+    .btn.sm{padding:6px 10px;border-radius:8px;font-size:14px}
+    .talk-list,.list{margin:0 0 18px 0;padding-left:1.2rem}
+    .talk-list li,.list li{margin:8px 0}
+</style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="container">
+      <nav aria-label="Primary">
+        <div class="brand"><span class="dot" aria-hidden="true"></span><a href="#home">Kseniia Harshina</a></div>
+        <button class="hamburger" aria-expanded="false" aria-controls="mobile"><i class="fa-solid fa-bars"></i><span class="sr-only">Menu</span></button>
+        <div class="menu">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#research">Selected Publications</a>
+          <a href="#games">Games</a>
+          <a href="#talks">Talks</a>
+          <a href="#teaching">Teaching</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+      <div id="mobile" class="mobile container" role="region" aria-label="Mobile menu">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#research">Selected Publications</a>
+        <a href="#games">Games</a>
+        <a href="#talks">Talks</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="container wrap">
+        <div>
+          <span class="tag">Вітаю • Welcome</span>
+          <h1>Games, research, and communities that care.</h1>
+          <p class="lead">I'm <strong>Kseniia Harshina</strong> — a PhD candidate in <em>Game Studies & Engineering</em> at the University of Klagenfurt. I study <strong>catharsis & empowerment in games</strong>, build inclusive communities, and make small, weird games with friends.</p>
+          <div class="cta">
+            <a class="btn primary" href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ" target="_blank" rel="noopener"> <i class="fa-solid fa-graduation-cap"></i> Google Scholar</a>
+            <a class="btn retro" href="https://kseniaharshina.itch.io/" target="_blank" rel="noopener"> <i class="fa-solid fa-gamepad"></i> Itch.io</a>
+          </div>
+          <p class="note">Last updated: 28 Sep 2025 • Based in Klagenfurt, Austria</p>
+          <!-- Updated News chips -->
+          <div class="news" role="status" aria-live="polite">
+            <a class="chip" href="https://videogamecultures.org/2025-abstracts-speaker-bios/" target="_blank" rel="noopener"><i class="fa-solid fa-microphone-lines"></i> Spoke at VGC 2025 (Prague) — Abstract</a>
+            <a class="chip" href="https://gamesintersectional.github.io/gi-symposium25/" target="_blank" rel="noopener"><i class="fa-solid fa-globe"></i> GI Symposium 2025 website live</a>
+            <a class="chip" href="https://www.sidestone.com/books/exploring-new-horizons-in-video-game-cultures" target="_blank" rel="noopener"><i class="fa-solid fa-book"></i> Book chapter out in November</a>
+          </div>
+        </div>
+        <figure class="card about">
+          <img src="wids.jpg" alt="Kseniia speaking on stage at Women in Data Science Villach." />
+          <figcaption class="note">Women in Data Science Villach keynote, 2023</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="container">
+    <article class="card about">
+      <h2>About</h2>
+      <p>I'm <strong>Kseniia Harshina</strong> (she/they) — a PhD candidate in <em>Game Studies & Engineering</em> at the University of Klagenfurt.</p>
+
+      <p>My work explores how games can support <strong>catharsis</strong>, <strong>empowerment</strong>, and <strong>community healing</strong>, especially in relation to <strong>trauma</strong>, <strong>migration</strong>, and <strong>neurodiversity</strong>.</p>
+
+      <p>I combine <strong>participatory methods</strong>, <strong>intersectional design</strong>, and a good amount of weird, cozy experimentation — creating small games and community rituals along the way.</p>
+
+      <details>
+        <summary class="note">Research keywords</summary>
+        <p class="note">catharsis, empowerment, trauma-aware design, participatory game jams, queer & neurodivergent play</p>
+      </details>
+
+      <div style="max-width: 300px; margin: 0 auto; text-align: center;">
+        <img src="poster3.png" alt="Poster preview on participatory game research" style="max-width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);" />
+        <p class="note">Research poster: Game pipeline for catharsis & empowerment, focused on forced migration narratives</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- GAMES INTERSECTIONAL -->
+<section id="community" class="section">
+  <div class="container">
+    <article class="card about">
+      <span class="tag">🎮 Community Work</span>
+      <h2>Games Intersectional</h2>
+      <p><strong>Games Intersectional</strong> is a grassroots community I started in 2023 to support marginalized people in games — especially in academia and indie development spaces.</p>
+
+      <p>We host online and local <strong>roundtables</strong>, run <strong>inclusive game jams</strong>, share <strong>resources</strong>, and brainstorm kinder ways to study, teach, and create games together.</p>
+
+      <p>If you're a marginalized game scholar, developer, student, or ally: welcome. This space is for you. 🌱</p>
+
+      <div style="max-width: 300px; margin: 0 auto; text-align: center;">
+        <img src="gurt2.PNG" alt="Screenshot from a Games Intersectional Roundtable event" style="max-width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);" />
+        <p class="note">Games Intersectional Roundtable — community event, 2024</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+    
+    <!-- PROJECTS (grouped by type) -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2>Projects</h2>
+        <div class="grid-3">
+          
+          <article class="card pub">
+            <h3>🎮 Games &amp; Prototypes</h3>
+            <ul class="talk-list">
+              <li><strong>One Spell Fits All</strong> <span class="pill status-build"><i class="fa-solid fa-hammer"></i> building</span> — AI‑native, collaborative. <a class="btn sm" href="https://kseniaharshina.itch.io/" target="_blank" rel="noopener">Itch.io</a></li>
+              <li><strong>Who’s a Wise Boy?</strong> — pixel‑art shiba with olfactory trails prototype.</li>
+            </ul>
+          </article>
+
+          <article class="card pub">
+            <h3>🧪 Research Projects</h3>
+            <ul class="talk-list">
+              <li><strong>Silent Hill 2 Catharsis Study</strong> — full paper in revision.</li>
+              <li><strong>Autoethnography of Marginalized Researchers</strong> — collaborative reflection study (CHI 2026 planned).</li>
+              <li><strong>Participatory Game Jam</strong> <span class="pill status-idea"><i class="fa-regular fa-lightbulb"></i> in design</span> — FM story‑based.</li>
+              <li><strong>Story Seeds Pipeline</strong> <span class="pill status-build"><i class="fa-solid fa-gears"></i> building</span> — interviewer chatbot → anonymized seeds → prototype → reflections.</li>
+              <li><strong>Cards &amp; Community (FaB)</strong> <span class="pill status-write"><i class="fa-regular fa-pen-to-square"></i> writing</span> — qualitative study on social connection.</li>
+            </ul>
+          </article>
+
+          <article class="card pub">
+            <h3>🧵 Community Work</h3>
+            <ul class="talk-list">
+              <li><a href="https://gamesintersectional.github.io/gi-symposium25/" target="_blank" rel="noopener">Games Intersectional Symposium</a></li>
+              <li>Proposal Writing Workshop</li>
+              <li>Intersectional Teaching Resources</li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- RESEARCH -->
+    <section id="research" class="section">
+      <div class="container">
+        <h2>Selected Publications</h2>
+
+        <h3>Participatory & Care</h3>
+        <div class="grid-2">
+          <article class="card pub">
+            <h3>For Empowerment’s Sake: Rethinking Video Game Adaptations of Real‑Life Experiences</h3>
+            <div class="meta">2023 • Essay / Position</div>
+            <p><a href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ" target="_blank" rel="noopener">View on Google Scholar</a></p>
+          </article>
+          <article class="card pub">
+            <h3>Experiencing Forced Migration: A Participatory Approach to Developing Games</h3>
+            <div class="meta">GALA 2024 • Short paper</div>
+            <p><a href="https://www.springerprofessional.de/en/experiencing-forced-migration-a-participatory-approach-to-develo/50364804" target="_blank" rel="noopener">Read on SpringerProfessional</a></p>
+          </article>
+          <article class="card pub">
+            <h3>Developing a Virtual‑Reality Game for Empathy Enhancement & Perspective‑Taking</h3>
+            <div class="meta">CHI PLAY 2024 Companion</div>
+            <p><a href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ" target="_blank" rel="noopener">View on Google Scholar</a></p>
+          </article>
+        </div>
+
+        <h3>Culture & Communities</h3>
+        <div class="grid-2">
+          <article class="card pub">
+            <h3>Behind the Screens: Gamer Types & Identities in Game Jams</h3>
+            <div class="meta">CHI PLAY 2023 Companion • ACM</div>
+            <p><a href="ACM_BehindTheScreens.pdf" target="_blank" rel="noopener">Read the paper (PDF)</a></p>
+          </article>
+          <article class="card pub">
+            <h3>In the Ring & on the Runway: Drag & Wrestling Masculinities</h3>
+            <div class="meta">Play/Write, 2024 • Journal</div>
+            <p><a href="PlayWrite_4.pdf" target="_blank" rel="noopener">Read the paper</a></p>
+          </article>
+          <article class="card pub">
+            <h3>Exploring New Horizons in Video Game Cultures (book chapter)</h3>
+            <div class="meta">Sidestone Press • Forthcoming November</div>
+            <p><a href="https://www.sidestone.com/books/exploring-new-horizons-in-video-game-cultures" target="_blank" rel="noopener">Book page</a></p>
+          </article>
+        </div>
+
+        <h3>AI / Agents & Systems</h3>
+        <div class="grid-2">
+          <article class="card pub">
+            <h3>Reinforcement Learning‑based Countermeasures against Attacking UAV Swarms</h3>
+            <div class="meta">IEEE 2023</div>
+            <p><a href="Reinforcement_Learning-Based_Countermeasures_Against_Attacking_UAV_Swarms.pdf" target="_blank" rel="noopener">Read the paper (PDF)</a></p>
+          </article>
+          <article class="card pub">
+            <h3>Agent‑based Modeling in the Edge Continuum using Swarm Intelligence</h3>
+            <div class="meta">ADAPTIVE 2024 • Best Paper</div>
+            <p><a href="adaptive_2024_1_10_50002 (3).pdf" target="_blank" rel="noopener">Read the paper</a> · <a href="https://www.iaria.org/conferences2024/awardsADAPTIVE24/adaptive2024_a3.pdf" target="_blank" rel="noopener">Award</a></p>
+          </article>
+          <article class="card pub">
+            <h3>One Spell Fits All: A Generative AI Game as a Tool for Research in AI Creativity & Sustainable Design</h3>
+            <div class="meta">2024 • Workshop/Proceedings (EXAG)</div>
+            <p><a href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ" target="_blank" rel="noopener">View on Google Scholar</a></p>
+          </article>
+        </div>
+
+        <p class="note">Full records on <a href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
+      </div>
+    </section>
+
+    <!-- GAMES -->
+    <section id="games" class="section games">
+      <div class="container">
+        <h2>Games</h2>
+        <div class="grid-3">
+          <article class="card game">
+            <div class="thumb"><img src="mm.png" alt="Monster Match cover art" loading="lazy" /></div>
+            <div class="inner">
+              <h3>Monster Match</h3>
+              <p>Speed‑date your way out of a pub crawling with flesh‑eating monsters.</p>
+              <a class="btn" href="https://rachelgo.itch.io/monstermatch" target="_blank" rel="noopener">Play</a>
+            </div>
+          </article>
+          <article class="card game">
+            <div class="thumb"><img src="cotn2.png" alt="Curse of the Narrator cover" loading="lazy" /></div>
+            <div class="inner">
+              <h3>Curse of the Narrator</h3>
+              <p>Create an outstanding story to satisfy the narrator.</p>
+              <a class="btn" href="https://vulvarine.itch.io/the-curse-of-the-narrator" target="_blank" rel="noopener">Play</a>
+            </div>
+          </article>
+          <article class="card game">
+            <div class="thumb"><img src="uic.png" alt="UI & Chill cover" loading="lazy" /></div>
+            <div class="inner">
+              <h3>UI & Chill</h3>
+              <p>Cozy game designed to help you calm down and de‑stress... right?</p>
+              <a class="btn" href="https://rachelgo.itch.io/u-i-chill" target="_blank" rel="noopener">Play</a>
+            </div>
+          </article>
+          <article class="card game">
+            <div class="thumb"><img src="slay2.png" alt="Slay Princess cover" loading="lazy" /></div>
+            <div class="inner">
+              <h3>Slay Princess</h3>
+              <p>Character creator, narrative‑driven extravaganza.</p>
+              <a class="btn" href="https://yenrye.itch.io/slay-princess" target="_blank" rel="noopener">Play</a>
+            </div>
+          </article>
+          <article class="card game">
+            <div class="thumb"><img src="potoybik.png" alt="Potoybik cover" loading="lazy" /></div>
+            <div class="inner">
+              <h3>Potoybik</h3>
+              <p>Small experimental project.</p>
+              <a class="btn" href="https://kseniaharshina.itch.io/potoybik" target="_blank" rel="noopener">Play</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    
+    <!-- TALKS & MEDIA (grouped) -->
+    <section id="talks" class="section">
+      <div class="container">
+        <h2>Talks &amp; Media</h2>
+
+        <h3>🎮 Game‑Focused Talks</h3>
+        <ul class="talk-list">
+          <li>
+            <strong>FROG 2024:</strong> <em>Colonial, Imperial, and Authoritarian Narratives in Games</em>
+            <a class="btn sm" href="https://www.youtube.com/watch?v=DcqM1dnY1zI" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> Watch on YouTube</a>
+          </li>
+          <li>
+            <strong>Games &amp; Language Conference 2023:</strong> <em>Using AI to Free Player Agency from Predefined Language</em>
+            <a class="btn sm" href="https://www.youtube.com/watch?v=OX_e3UXyLTs" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> Watch on YouTube</a>
+          </li>
+        </ul>
+
+        <h3>📊 Tech &amp; Interdisciplinary Talks</h3>
+        <ul class="talk-list">
+          <li>
+            <strong>WiDS Villach 2023:</strong> <em>Data Analytics in Game Development</em>
+            <a class="btn sm" href="https://www.youtube.com/watch?v=37-sqVJrMoY" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> Watch on YouTube</a>
+          </li>
+        </ul>
+
+        <h3>🗣️ Podcasts &amp; Interviews</h3>
+        <ul class="talk-list">
+          <li>
+            <strong>Youniversity Podcast:</strong> <em>Vielfalt feiern, Respekt leben – Neurodiversität in der Lehre</em>
+            <a class="btn sm" href="https://www.aau.at/universitaet/organisation/interessensvertretungen-beauftragte/arbeitskreis-fuer-gleichbehandlungsfragen/youniversity-vielfaltfeiern-respektleben/" target="_blank" rel="noopener"><i class="fa-solid fa-headphones"></i> Listen here</a>
+          </li>
+          <li>
+            <strong>University Feature:</strong> <em>Empathy &amp; Empowerment with Videogames</em>
+            <a class="btn sm" href="https://www.aau.at/en/blog/empathie-und-empowerment-mit-videogames-zu-fluchterfahrungen-foerdern/" target="_blank" rel="noopener"><i class="fa-solid fa-book-open"></i> Read the interview</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- TEACHING -->
+    <section id="teaching" class="section">
+      <div class="container">
+        <h2>Teaching</h2>
+        <div class="grid-2">
+          <article class="card pub">
+            <h3>Representation & Configuration in Games: Perspectives</h3>
+            <p>Seminar exploring point‑of‑view in games, queerness, weird games, and accessibility, with UDL principles and interactive Slido prompts.</p>
+            <ul>
+              <li>Session examples: <em>Weird Games: From Camp to Horror</em>; <em>Games & Companionship</em>; <em>Games & Communities</em></li>
+              <li>Exercises: accessibility feature analyses; community reflection prompts</li>
+            </ul>
+          </article>
+          <article class="card pub">
+            <h3>Modeling Sustainability in Board Games</h3>
+            <p>Large‑enrollment course with jam‑based learning (May/June), co‑taught with colleagues; students prototype systems thinking via analog game design.</p>
+            <ul>
+              <li>Two game jams with mentorship and critique</li>
+              <li>Focus: systems, feedback loops, and player experience</li>
+            </ul>
+          </article>
+          <article class="card talk">
+            <iframe src="https://www.youtube.com/embed/ZI8pF9EceF8" title="Course podcast: Modeling Sustainability in Board Games" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+            <p class="title"><i class="fa-solid fa-podcast"></i> Podcast: Modeling Sustainability in Board Games (course)</p>
+          </article>
+          </div>
+      </div>
+    </section>
+
+    
+
+    <!-- CONTACT -->
+    <section id="contact" class="section contact">
+      <div class="container grid-3">
+        <div class="card item"><i class="fa-regular fa-envelope" aria-hidden="true"></i> <div><strong>Email</strong><br><a href="mailto:Kseniia.Harshina@aau.at">Kseniia.Harshina@aau.at</a></div></div>
+        <div class="card item"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> <div><strong>LinkedIn</strong><br><a href="https://www.linkedin.com/in/ksenia-harshina-694a4a172" target="_blank" rel="noopener">Profile</a></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="year"></span> Kseniia Harshina — Crafted with accessible, lightweight HTML/CSS.</div>
+  </footer>
+
+  <script>
+    const btn=document.querySelector('.hamburger');
+    const mobile=document.getElementById('mobile');
+    btn?.addEventListener('click',()=>{const open=mobile.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));});
+    document.getElementById('year').textContent=new Date().getFullYear();
+  </script>
+</body>
+</html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kseniia Harshina — Games • Research • Community</title>
+  <meta name="description" content="PhD candidate in Game Studies & Engineering. Researching games, catharsis & empowerment; organizing inclusive game communities; making small, strange games." />
+  <meta name="theme-color" content="#171923" />
+  <meta property="og:title" content="Kseniia Harshina" />
+  <meta property="og:description" content="Games • Research • Community" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="wids.jpg" />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    /* =============================
+       THEME & ACCESSIBILITY LAYERS
+       ============================= */
+    :root{
+      /* Cozy queer-coded pastel palette (dark baseline) */
+      --bg:#0f1220;          /* midnight indigo */
+      --surface:#171923;     /* deep slate */
+      --card:#1c2030;        /* card panel */
+      --text:#e9f1fb;        /* near-white */
+      --muted:#a8b4cc;       /* cool grey */
+      --acc:#9ad1f4;         /* baby blue */
+      --acc2:#a3e7cf;        /* mint */
+      --acc3:#f7b0d6;        /* soft pink */
+      --link:#9ad1f4;
+      --ring:#7bc0ff;        /* focus ring */
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      --radius-lg:22px;
+      --border:1px solid rgba(255,255,255,.08);
+    }
+
+    /* Light theme (calmer contrast for long reads) */
+    body[data-theme="light"]{
+      --bg:#f7f9fc;
+      --surface:#ffffff;
+      --card:#ffffff;
+      --text:#141a2b;
+      --muted:#42536b;
+      --acc:#3c8ec4;
+      --acc2:#0f8c63;
+      --acc3:#d9669a;
+      --link:#2a6a97;
+      --ring:#2f80ed;
+      --shadow:0 10px 28px rgba(2,12,27,.08);
+      --border:1px solid rgba(2,12,27,.08);
+    }
+
+    html{scroll-behavior:smooth}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100%;background:
+      radial-gradient(1200px 600px at 8% -10%, rgba(154,209,244,.25), transparent 60%),
+      radial-gradient(900px 480px at 110% 10%, rgba(163,231,207,.20), transparent 55%),
+      linear-gradient(180deg, rgba(247,176,214,.08), transparent 40%),
+      var(--bg);
+      color:var(--text);
+      font-family:"Atkinson Hyperlegible", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      line-height:1.65;
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    }
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    :focus{outline:2px solid var(--ring);outline-offset:2px}
+    @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+    /* =============================
+       LAYOUT & GLOBAL UI
+       ============================= */
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+    header{position:sticky;top:0;z-index:50;background:color-mix(in oklab, var(--surface) 75%, transparent);backdrop-filter:blur(10px);border-bottom:var(--border)}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;gap:10px;align-items:center}
+    .brand .dot{width:12px;height:12px;border-radius:2px;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 0 0 2px rgba(0,0,0,.2);image-rendering:pixelated}
+    .brand a{font-family:"Comfortaa",cursive;font-weight:700;letter-spacing:.4px;color:var(--text)}
+
+    .menu{display:flex;gap:18px;align-items:center}
+    .menu a{font-weight:700;color:var(--text);opacity:.88}
+    .menu a:hover{opacity:1}
+    .header-controls{display:flex;gap:8px;align-items:center}
+    .chip-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;border:var(--border);background:var(--card);font-weight:600}
+    .chip-btn i{opacity:.9}
+    .chip-btn[aria-pressed="true"]{outline:2px dashed var(--acc3)}
+
+    .hamburger{display:none;background:transparent;border:0;color:var(--text);font-size:22px}
+    @media (max-width:800px){.menu{display:none}.hamburger{display:block}}
+    .mobile{display:none}
+    .mobile.open{display:block}
+    .mobile a{display:block;padding:12px 0;border-top:var(--border)}
+
+    /* =============================
+       GAME DIALOG + ZINE MOOD
+       ============================= */
+    .card{background:var(--card);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);transition:transform .15s ease}
+    .card:hover{transform:translateY(-2px)}
+
+    /* Dialog window style */
+    .dialog{position:relative;overflow:hidden}
+    .dialog::before{content:"";position:absolute;inset:0 0 auto 0;height:34px;background:linear-gradient(90deg,var(--acc) 0%, var(--acc3) 50%, var(--acc2) 100%);opacity:.18}
+    .dialog::after{content:"\25A0  \25A0  \25A0";position:absolute;top:6px;right:12px;font:12px/1 "Press Start 2P", monospace;color:color-mix(in srgb, var(--text) 70%, transparent)}
+
+    /* Paper/zine texture (very subtle) */
+    .zine{background-image:repeating-linear-gradient(0deg, transparent 0 10px, color-mix(in oklab, var(--surface) 96%, var(--text)) 10px 11px)}
+    .taped{position:relative}
+    .taped::before{content:"";position:absolute;top:-10px;left:18px;width:70px;height:22px;background:linear-gradient(135deg, var(--acc3), var(--acc));opacity:.28;transform:rotate(-6deg);clip-path:polygon(0 0,100% 0,92% 100%,8% 100%);border-radius:4px}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;border:var(--border);background:var(--card);color:var(--text);box-shadow:var(--shadow);font-weight:650}
+    .btn.primary{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#07131a;border:0}
+    .btn.retro{border:2px solid currentColor;box-shadow:none;font-family:"Press Start 2P", monospace;font-size:12px;letter-spacing:.5px}
+    .btn.sm{padding:6px 10px;border-radius:10px;font-size:14px}
+
+    /* Utilities */
+    .section{padding:42px 0}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .grid-3{display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:22px}
+    @media (max-width:900px){.grid-2{grid-template-columns:1fr}}
+
+    h1,h2{font-family:"Comfortaa",cursive}
+    h1{font-weight:700;font-size:clamp(28px,4.2vw,44px);margin:.2rem 0}
+    .section h2{font-weight:700;margin:0 0 18px;font-size:clamp(22px,3.4vw,32px)}
+
+    /* Hero */
+    .hero{padding:76px 0 36px}
+    .hero .wrap{display:grid;grid-template-columns:1.2fr .9fr;gap:28px;align-items:center}
+    @media (max-width:900px){.hero .wrap{grid-template-columns:1fr}}
+    .tag{display:inline-flex;gap:10px;align-items:center;padding:8px 12px;border-radius:999px;background:linear-gradient(135deg,rgba(154,209,244,.18),rgba(163,231,207,.16));border:var(--border);font-weight:700}
+    .lead{font-size:clamp(16px,1.8vw,18px);color:var(--muted)}
+    .note{font-size:12px;color:var(--muted)}
+
+    /* News chips */
+    .news{margin-top:14px; display:flex; flex-wrap:wrap; gap:8px}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:linear-gradient(135deg,rgba(154,209,244,.16),rgba(163,231,207,.14));border:var(--border);font-size:14px}
+    .chip i{opacity:.85}
+    .chip:hover{text-decoration:none;transform:translateY(-1px)}
+
+    /* About/Gallery */
+    .about{padding:22px}
+    .about p{margin:.5rem 0 0}
+    .about img{width:100%;height:auto;border-radius:14px;display:block}
+    .gallery{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+
+    /* Content lists */
+    .talk-list,.list{margin:0 0 18px 0;padding-left:1.2rem}
+    .talk-list li,.list li{margin:8px 0}
+
+    /* Games grid */
+    .games .game{overflow:hidden}
+    .games .thumb{border-bottom:var(--border)}
+    .games img{display:block;width:100%;height:auto}
+    .games .inner{padding:14px}
+    .games h3{margin:.2rem 0 .3rem;font-size:18px}
+    .games p{color:var(--muted);margin:0 0 10px}
+
+    /* Contact */
+    .contact .item{padding:16px;display:flex;gap:12px;align-items:flex-start}
+    .item i{font-size:20px;opacity:.9}
+
+    footer{border-top:var(--border);padding:28px 0;color:var(--muted);font-size:14px}
+
+    /* Cozy Mode tweaks (softer, more playful) */
+    body.cozy .card{border:2px dashed color-mix(in srgb, var(--acc3) 60%, var(--text)); box-shadow:none}
+    body.cozy .btn{border:2px solid color-mix(in srgb, var(--acc) 60%, var(--text)); box-shadow:none}
+    body.cozy .brand .dot{border-radius:0}
+    body.cozy .tag{border-style:dashed}
+    body.cozy .dialog::before{opacity:.28}
+  
+    /* =============================
+       (OLD) CHARACTER SHEET CARD STYLES — kept harmless
+       ============================= */
+    .sheet{position:relative}
+    .sheet .cols{display:grid;grid-template-columns:220px 1fr;gap:20px}
+    @media (max-width:800px){.sheet .cols{grid-template-columns:1fr}}
+    .sheet .avatar{border-radius:14px;border:var(--border);overflow:hidden}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;border:var(--border);background:var(--card);font-weight:650;font-size:14px;margin:6px 6px 0 0}
+    .meta{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+    .sheet h3{margin:.2rem 0 .3rem;font-size:20px}
+    .small{font-size:13px;color:var(--muted)}
+    .stats{margin-top:8px}
+    .stat{display:grid;grid-template-columns:140px 1fr min-content;gap:8px;align-items:center;margin:10px 0}
+    .stat .name{font-weight:700}
+    .bar{height:10px;background:rgba(255,255,255,.10);border-radius:999px;overflow:hidden;border:var(--border)}
+    body[data-theme="light"] .bar{background:rgba(0,0,0,.06)}
+    .bar span{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc3));width:var(--w,50%)}
+    .abilities,.inv,.favs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
+    .abilities ul,.favs ul{margin:0;padding-left:1.1rem}
+    .inv .chipset{display:flex;flex-wrap:wrap;gap:8px}
+    .chipset .chip-sm{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:linear-gradient(135deg,rgba(154,209,244,.16),rgba(163,231,207,.14));border:var(--border);font-size:13px}
+    .sheet .badge{position:absolute;top:-10px;right:12px;font:12px "Press Start 2P",monospace;color:color-mix(in srgb, var(--text) 70%, transparent)}
+
+    /* =============================
+       NEW CHARACTER SHEET (Frog Mode) — tiny green glow
+       ============================= */
+    .char{padding:16px}
+    .char .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+    .char .stat-list,.char .list{margin:0;padding-left:18px}
+    .char .stat-list li,.char .list li{margin:4px 0}
+    .char .label{font-weight:600}
+    .char .muted{color:var(--muted);font-size:12px}
+    #frog-toggle.btn{padding:6px 10px;border-radius:999px}
+    /* Glow when Frog Mode is on */
+    .char[data-frog="true"]{ 
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--acc2) 70%, transparent),
+                  0 12px 36px color-mix(in srgb, var(--acc2) 28%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in oklab, var(--acc2) 18%, transparent), transparent 30%),
+        var(--card);
+      border-color: color-mix(in srgb, var(--acc2) 55%, transparent);
+    }
+    #frog-toggle[aria-pressed="true"]{outline:2px dashed var(--acc2); box-shadow:0 0 0 2px color-mix(in srgb, var(--acc2) 40%, transparent) inset}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main" style="position:absolute;left:-9999px">Skip to content</a>
+  <header>
+    <div class="container">
+      <nav aria-label="Primary">
+        <div class="brand"><span class="dot" aria-hidden="true"></span><a href="#home">Kseniia Harshina</a></div>
+        <button class="hamburger" aria-expanded="false" aria-controls="mobile"><i class="fa-solid fa-bars"></i><span class="sr-only">Menu</span></button>
+        <div class="menu">
+          <a href="#about">About</a>
+          <a href="#character">Character</a>
+          <a href="#projects">Projects</a>
+          <a href="#research">Selected Publications</a>
+          <a href="#games">Games</a>
+          <a href="#talks">Talks</a>
+          <a href="#teaching">Teaching</a>
+          <a href="#contact">Contact</a>
+          <div class="header-controls">
+            <button id="themeToggle" class="chip-btn" aria-pressed="false" title="Toggle light mode"><i class="fa-solid fa-circle-half-stroke"></i> Theme</button>
+            <button id="cozyToggle" class="chip-btn" aria-pressed="false" title="Toggle cozy/zine mode"><i class="fa-solid fa-heart"></i> Cozy</button>
+          </div>
+        </div>
+      </nav>
+      <div id="mobile" class="mobile container" role="region" aria-label="Mobile menu">
+        <a href="#about">About</a>
+        <a href="#character">Character</a>
+        <a href="#projects">Projects</a>
+        <a href="#research">Selected Publications</a>
+        <a href="#games">Games</a>
+        <a href="#talks">Talks</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO as a dialog window for game-UI vibe -->
+    <section id="home" class="hero">
+      <div class="container wrap">
+        <div class="dialog card">
+          <div style="padding:22px 22px 18px">
+            <span class="tag">Вітаю • Welcome</span>
+            <h1>Games, research, and communities that care.</h1>
+            <p class="lead">I'm <strong>Kseniia Harshina</strong> — a PhD candidate in <em>Game Studies & Engineering</em> at the University of Klagenfurt. I study <strong>catharsis & empowerment in games</strong>, build inclusive communities, and make small, weird games with friends.</p>
+            <div class="cta" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:14px">
+              <a class="btn primary" href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ" target="_blank" rel="noopener"> <i class="fa-solid fa-graduation-cap"></i> Google Scholar</a>
+              <a class="btn retro" href="https://kseniaharshina.itch.io/" target="_blank" rel="noopener"> <i class="fa-solid fa-gamepad"></i> Itch.io</a>
+            </div>
+            <p class="note">Last updated: 28 Sep 2025 • Based in Klagenfurt, Austria</p>
+            <div class="news" role="status" aria-live="polite">
+              <a class="chip" href="https://videogamecultures.org/2025-abstracts-speaker-bios/" target="_blank" rel="noopener"><i class="fa-solid fa-microphone-lines"></i> Spoke at VGC 2025 (Prague) — Abstract</a>
+              <a class="chip" href="https://gamesintersectional.github.io/gi-symposium25/" target="_blank" rel="noopener"><i class="fa-solid fa-globe"></i> GI Symposium 2025 website live</a>
+              <a class="chip" href="https://www.sidestone.com/books/exploring-new-horizons-in-video-game-cultures" target="_blank" rel="noopener"><i class="fa-solid fa-book"></i> Book chapter out in November</a>
+            </div>
+          </div>
+        </div>
+        <figure class="card about taped">
+          <img src="wids.jpg" alt="Kseniia speaking on stage at Women in Data Science Villach." />
+          <figcaption class="note" style="padding:0 12px 12px">Women in Data Science Villach keynote, 2023</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ABOUT (cleaned: removed old embedded sheet) -->
+    <section id="about" class="section">
+      <div class="container">
+        <article class="card about zine">
+          <h2>About</h2>
+          <p>I'm <strong>Kseniia Harshina</strong> (she/they) — a PhD candidate in <em>Game Studies & Engineering</em> at the University of Klagenfurt.</p>
+          <p>My work explores how games can support <strong>catharsis</strong>, <strong>empowerment</strong>, and <strong>community healing</strong>, especially in relation to <strong>trauma</strong>, <strong>migration</strong>, and <strong>neurodiversity</strong>.</p>
+          <p>I combine <strong>participatory methods</strong>, <strong>intersectional design</strong>, and a good amount of weird, cozy experimentation — creating small games and community rituals along the way.</p>
+          <details>
+            <summary class="note">Research keywords</summary>
+            <p class="note">catharsis, empowerment, trauma-aware design, participatory game jams, queer & neurodivergent play</p>
+          </details>
+          <div style="max-width: 300px; margin: 8px auto 0; text-align: center;">
+            <img src="poster3.png" alt="Poster preview on participatory game research" style="max-width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);" />
+            <p class="note">Research poster: Game pipeline for catharsis & empowerment, focused on forced migration narratives</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CHARACTER SHEET (new) -->
+    <section id="character" class="section">
+      <div class="container">
+        <h2>Character Sheet</h2>
+        <div id="sheetcard" class="card char" data-frog="false">
+          <div class="toolbar">
+            <span class="pill">Class: support mage / community builder</span>
+            <button id="frog-toggle" class="btn" aria-pressed="false" type="button"><i class="fa-solid fa-frog"></i> Frog Mode: off</button>
+          </div>
+          <div class="grid-2">
+            <article>
+              <h3>Specialty</h3>
+              <p id="specialty">turning hard feelings into something playable (and discussable)</p>
+
+              <h3>Stats (out of 10, be real)</h3>
+              <ul id="stats" class="stat-list">
+                <li data-k="empathy"><span class="label">empathy</span> — <span class="value">9</span></li>
+                <li data-k="rigor"><span class="label">rigor</span> — <span class="value">8</span></li>
+                <li data-k="playfulness"><span class="label">playfulness</span> — <span class="value">8</span></li>
+                <li data-k="udl"><span class="label">access &amp; UDL</span> — <span class="value">8</span></li>
+                <li data-k="email"><span class="label">email response speed</span> — <span class="value">6</span> <span class="muted">(improving)</span></li>
+                <li data-k="spoons"><span class="label">spoons (today)</span> — <span class="value">d20</span></li>
+              </ul>
+
+              <h3>Resistances</h3>
+              <ul class="list">
+                <li>soul-draining bureaucracy</li>
+                <li>“innovation” panels with zero community input</li>
+                <li>Reviewer 2 pretending trauma isn’t a valid topic</li>
+              </ul>
+            </article>
+
+            <article>
+              <h3>Weaknesses</h3>
+              <ul class="list">
+                <li>gets emotionally attached to students’ game ideas</li>
+                <li>long email threads (mercy: use bullets)</li>
+                <li>noisy rooms + grant portals</li>
+              </ul>
+
+              <h3>Inventory</h3>
+              <ul id="inv" class="list">
+                <li>📎 half-written personal essays</li>
+                <li>🖼 research wall of string and vibes</li>
+                <li>🐸 a tiny frog token (focus charm)</li>
+                <li>🎧 noise-canceling headphones</li>
+                <li>🌌 a tattoo plan and 100 open tabs</li>
+              </ul>
+
+              <h3>Status</h3>
+              <ul id="status-lines" class="list"></ul>
+
+              <h3>Perks</h3>
+              <ul class="list">
+                <li>remembers what it’s like to feel left out; designs so others don’t</li>
+                <li>will pause for a stretch/water break and mean it</li>
+                <li>adds content notes and debriefs by default</li>
+              </ul>
+
+              <p class="note">Favorites, tiny window: dreaming of frogs, zines, and co‑authorships with friends.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMUNITY -->
+    <section id="community" class="section">
+      <div class="container">
+        <article class="card about">
+          <span class="tag">🎮 Community Work</span>
+          <h2>Games Intersectional</h2>
+          <p><strong>Games Intersectional</strong> is a grassroots community I started in 2023 to support marginalized people in games — especially in academia and indie development spaces.</p>
+          <p>We host online and local <strong>roundtables</strong>, run <strong>inclusive game jams</strong>, share <strong>resources</strong>, and brainstorm kinder ways to study, teach, and create games together.</p>
+          <p>If you're a marginalized game scholar, developer, student, or ally: welcome. This space is for you. 🌱</p>
+          <div style="max-width: 300px; margin: 0 auto; text-align: center;">
+            <img src="gurt2.PNG" alt="Screenshot from a Games Intersectional Roundtable event" style="max-width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);" />
+            <p class="note">Games Intersectional Roundtable — community event, 2024</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- PROJECTS (grouped by type) -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2>Projects</h2>
+        <div class="grid-3">
+          <article class="card pub">
+            <h3>🎮 Games &amp; Prototypes</h3>
+            <ul class="talk-list">
+              <li><strong>One Spell Fits All</strong> <span class="chip" style="margin-left:6px"><i class="fa-solid fa-hammer"></i> building</span> — AI‑native, collaborative. <a class="btn sm" href="https://kseniaharshina.itch.io/" target="_blank" rel="noopener">Itch.io</a></li>
+              <li><strong>Who’s a Wise Boy?</strong> — pixel‑art shiba with olfactory trails prototype.</li>
+            </ul>
+          </article>
+
+          <article class="card pub">
+            <h3>🧪 Research Projects</h3>
+            <ul class="talk-list">
+              <li><strong>Silent Hill 2 Catharsis Study</strong> — full paper in revision.</li>
+              <li><strong>Autoethnography of Marginalized Researchers</strong> — collaborative reflection study (CHI 2026 planned).</li>
+              <li><strong>Participatory Game Jam</strong> <span class="chip" style="margin-left:6px"><i class="fa-regular fa-lightbulb"></i> in design</span> — FM story‑based.</li>
+              <li><strong>Story Seeds Pipeline</strong> <span class="chip" style="margin-left:6px"><i class="fa-solid fa-gears"></i> building</span> — interviewer chatbot → anonymized seeds → prototype → reflections.</li>
+              <li><strong>Cards &amp; Community (FaB)</strong> <span class="chip" style="margin-left:6px"><i class="fa-regular fa-pen-to-square"></i> writing</span> — qualitative study on social connection.</li>
+            </ul>
+          </article>
+
+          <article class="card pub">
+            <h3>🧵 Community Work</h3>
+            <ul class="talk-list">
+              <li><a href="https://gamesintersectional.github.io/gi-symposium25/" target="_blank" rel="noopener">Games Intersectional Symposium</a></li>
+              <li>Proposal Writing Workshop</li>
+              <li>Intersectional Teaching Resources</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research" class="section">
+      <div class="container">
+        <h2>Selected Publications</h2>
+
+        <h3>Participatory & Care</h3>
+        <div class="grid-2">
+          <article class="card pub">
+            <h3>For Empowerment’s Sake: Rethinking Video Game Adaptations of Real‑Life Experiences</h3>
+            <div class="note">2023 • Essay / Position</div>
+            <p><a href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ" target="_blank" rel="noopener">View on Google Scholar</a></p>
+          </article>
+          <article class="card pub">
+            <h3>Experiencing Forced Migration: A Participatory Approach to Developing Games</h3>
+            <div class="note">GALA 2024 • Short paper</div>
+            <p><a href="https://www.springerprofessional.de/en/experiencing-forced-migration-a-participatory-approach-to-develo/50364804" target="_blank" rel="noopener">Read on SpringerProfessional</a></p>
+          </article>
+          <article class="card pub">
+            <h3>Developing a Virtual‑Reality Game for Empathy Enhancement & Perspective‑Taking</h3>
+            <div class="note">CHI PLAY 2024 Companion</div>
+            <p><a href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ" target="_blank" rel="noopener">View on Google Scholar</a></p>
+          </article>
+        </div>
+
+        <h3>Culture & Communities</h3>
+        <div class="grid-2">
+          <article class="card pub">
+            <h3>Behind the Screens: Gamer Types & Identities in Game Jams</h3>
+            <div class="note">CHI PLAY 2023 Companion • ACM</div>
+            <p><a href="ACM_BehindTheScreens.pdf" target="_blank" rel="noopener">Read the paper (PDF)</a></p>
+          </article>
+          <article class="card pub">
+            <h3>In the Ring & on the Runway: Drag & Wrestling Masculinities</h3>
+            <div class="note">Play/Write, 2024 • Journal</div>
+            <p><a href="PlayWrite_4.pdf" target="_blank" rel="noopener">Read the paper</a></p>
+          </article>
+          <article class="card pub">
+            <h3>Exploring New Horizons in Video Game Cultures (book chapter)</h3>
+            <div class="note">Sidestone Press • Forthcoming November</div>
+            <p><a href="https://www.sidestone.com/books/exploring-new-horizons-in-video-game-cultures" target="_blank" rel="noopener">Book page</a></p>
+          </article>
+        </div>
+
+        <h3>AI / Agents & Systems</h3>
+        <div class="grid-2">
+          <article class="card pub">
+            <h3>Reinforcement Learning‑based Countermeasures against Attacking UAV Swarms</h3>
+            <div class="note">IEEE 2023</div>
+            <p><a href="Reinforcement_Learning-Based_Countermeasures_Against_Attacking_UAV_Swarms.pdf" target="_blank" rel="noopener">Read the paper (PDF)</a></p>
+          </article>
+          <article class="card pub">
+            <h3>Agent‑based Modeling in the Edge Continuum using Swarm Intelligence</h3>
+            <div class="note">ADAPTIVE 2024 • Best Paper</div>
+            <p><a href="adaptive_2024_1_10_50002 (3).pdf" target="_blank" rel="noopener">Read the paper</a> · <a href="https://www.iaria.org/conferences2024/awardsADAPTIVE24/adaptive2024_a3.pdf" target="_blank" rel="noopener">Award</a></p>
+          </article>
+          <article class="card pub">
+            <h3>One Spell Fits All: A Generative AI Game as a Tool for Research in AI Creativity & Sustainable Design</h3>
+            <div class="note">2024 • Workshop/Proceedings (EXAG)</div>
+            <p><a href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ" target="_blank" rel="noopener">View on Google Scholar</a></p>
+          </article>
+        </div>
+        <p class="note">Full records on <a href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
+      </div>
+    </section>
+
+    <!-- GAMES -->
+    <section id="games" class="section games">
+      <div class="container">
+        <h2>Games</h2>
+        <div class="grid-3">
+          <article class="card game">
+            <div class="thumb"><img src="mm.png" alt="Monster Match cover art" loading="lazy" /></div>
+            <div class="inner">
+              <h3>Monster Match</h3>
+              <p>Speed‑date your way out of a pub crawling with flesh‑eating monsters.</p>
+              <a class="btn" href="https://rachelgo.itch.io/monstermatch" target="_blank" rel="noopener">Play</a>
+            </div>
+          </article>
+          <article class="card game">
+            <div class="thumb"><img src="cotn2.png" alt="Curse of the Narrator cover" loading="lazy" /></div>
+            <div class="inner">
+              <h3>Curse of the Narrator</h3>
+              <p>Create an outstanding story to satisfy the narrator.</p>
+              <a class="btn" href="https://vulvarine.itch.io/the-curse-of-the-narrator" target="_blank" rel="noopener">Play</a>
+            </div>
+          </article>
+          <article class="card game">
+            <div class="thumb"><img src="uic.png" alt="UI & Chill cover" loading="lazy" /></div>
+            <div class="inner">
+              <h3>UI & Chill</h3>
+              <p>Cozy game designed to help you calm down and de‑stress... right?</p>
+              <a class="btn" href="https://rachelgo.itch.io/u-i-chill" target="_blank" rel="noopener">Play</a>
+            </div>
+          </article>
+          <article class="card game">
+            <div class="thumb"><img src="slay2.png" alt="Slay Princess cover" loading="lazy" /></div>
+            <div class="inner">
+              <h3>Slay Princess</h3>
+              <p>Character creator, narrative‑driven extravaganza.</p>
+              <a class="btn" href="https://yenrye.itch.io/slay-princess" target="_blank" rel="noopener">Play</a>
+            </div>
+          </article>
+          <article class="card game">
+            <div class="thumb"><img src="potoybik.png" alt="Potoybik cover" loading="lazy" /></div>
+            <div class="inner">
+              <h3>Potoybik</h3>
+              <p>Small experimental project.</p>
+              <a class="btn" href="https://kseniaharshina.itch.io/potoybik" target="_blank" rel="noopener">Play</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TALKS & MEDIA (grouped) -->
+    <section id="talks" class="section">
+      <div class="container">
+        <h2>Talks &amp; Media</h2>
+
+        <h3>🎮 Game‑Focused Talks</h3>
+        <ul class="talk-list">
+          <li>
+            <strong>FROG 2024:</strong> <em>Colonial, Imperial, and Authoritarian Narratives in Games</em>
+            <a class="btn sm" href="https://www.youtube.com/watch?v=DcqM1dnY1zI" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> Watch on YouTube</a>
+          </li>
+          <li>
+            <strong>Games &amp; Language Conference 2023:</strong> <em>Using AI to Free Player Agency from Predefined Language</em>
+            <a class="btn sm" href="https://www.youtube.com/watch?v=OX_e3UXyLTs" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> Watch on YouTube</a>
+          </li>
+        </ul>
+
+        <h3>📊 Tech &amp; Interdisciplinary Talks</h3>
+        <ul class="talk-list">
+          <li>
+            <strong>WiDS Villach 2023:</strong> <em>Data Analytics in Game Development</em>
+            <a class="btn sm" href="https://www.youtube.com/watch?v=37-sqVJrMoY" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> Watch on YouTube</a>
+          </li>
+        </ul>
+
+        <h3>🗣️ Podcasts &amp; Interviews</h3>
+        <ul class="talk-list">
+          <li>
+            <strong>Youniversity Podcast:</strong> <em>Vielfalt feiern, Respekt leben – Neurodiversität in der Lehre</em>
+            <a class="btn sm" href="https://www.aau.at/universitaet/organisation/interessensvertretungen-beauftragte/arbeitskreis-fuer-gleichbehandlungsfragen/youniversity-vielfaltfeiern-respektleben/" target="_blank" rel="noopener"><i class="fa-solid fa-headphones"></i> Listen here</a>
+          </li>
+          <li>
+            <strong>University Feature:</strong> <em>Empathy &amp; Empowerment with Videogames</em>
+            <a class="btn sm" href="https://www.aau.at/en/blog/empathie-und-empowerment-mit-videogames-zu-fluchterfahrungen-foerdern/" target="_blank" rel="noopener"><i class="fa-solid fa-book-open"></i> Read the interview</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TEACHING -->
+    <section id="teaching" class="section">
+      <div class="container">
+        <h2>Teaching</h2>
+        <div class="grid-2">
+          <article class="card pub">
+            <h3>Representation & Configuration in Games: Perspectives</h3>
+            <p>Seminar exploring point‑of‑view in games, queerness, weird games, and accessibility, with UDL principles and interactive Slido prompts.</p>
+            <ul>
+              <li>Session examples: <em>Weird Games: From Camp to Horror</em>; <em>Games & Companionship</em>; <em>Games & Communities</em></li>
+              <li>Exercises: accessibility feature analyses; community reflection prompts</li>
+            </ul>
+          </article>
+          <article class="card pub">
+            <h3>Modeling Sustainability in Board Games</h3>
+            <p>Large‑enrollment course with jam‑based learning (May/June), co‑taught with colleagues; students prototype systems thinking via analog game design.</p>
+            <ul>
+              <li>Two game jams with mentorship and critique</li>
+              <li>Focus: systems, feedback loops, and player experience</li>
+            </ul>
+          </article>
+          <article class="card talk">
+            <iframe src="https://www.youtube.com/embed/ZI8pF9EceF8" title="Course podcast: Modeling Sustainability in Board Games" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+            <p class="title"><i class="fa-solid fa-podcast"></i> Podcast: Modeling Sustainability in Board Games (course)</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section contact">
+      <div class="container grid-3">
+        <div class="card item"><i class="fa-regular fa-envelope" aria-hidden="true"></i> <div><strong>Email</strong><br><a href="mailto:Kseniia.Harshina@aau.at">Kseniia.Harshina@aau.at</a></div></div>
+        <div class="card item"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> <div><strong>LinkedIn</strong><br><a href="https://www.linkedin.com/in/ksenia-harshina-694a4a172" target="_blank" rel="noopener">Profile</a></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="year"></span> Kseniia Harshina — Crafted with accessible, lightweight HTML/CSS.</div>
+  </footer>
+
+  <script>
+    const btn=document.querySelector('.hamburger');
+    const mobile=document.getElementById('mobile');
+    btn?.addEventListener('click',()=>{const open=mobile.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));});
+    document.getElementById('year').textContent=new Date().getFullYear();
+
+    // Theme & Cozy toggles
+    const themeToggle = document.getElementById('themeToggle');
+    const cozyToggle  = document.getElementById('cozyToggle');
+
+    // Persist choices
+    const savedTheme = localStorage.getItem('ks-theme');
+    const savedCozy  = localStorage.getItem('ks-cozy') === '1';
+    if(savedTheme==='light') document.body.setAttribute('data-theme','light');
+    if(savedCozy) { document.body.classList.add('cozy'); cozyToggle?.setAttribute('aria-pressed','true'); }
+
+    themeToggle?.addEventListener('click',()=>{
+      const isLight = document.body.getAttribute('data-theme')==='light';
+      document.body.setAttribute('data-theme', isLight ? 'dark' : 'light');
+      localStorage.setItem('ks-theme', isLight ? 'dark' : 'light');
+      themeToggle.setAttribute('aria-pressed', String(!isLight));
+    });
+    cozyToggle?.addEventListener('click',()=>{
+      const on = document.body.classList.toggle('cozy');
+      localStorage.setItem('ks-cozy', on ? '1' : '0');
+      cozyToggle.setAttribute('aria-pressed', String(on));
+    });
+  </script>
+
+  <!-- Character sheet logic: status randomizer & Frog Mode -->
+  <script>
+    (function(){
+      const statusPool=[
+        "fighting for better research ethics (with sparkle emojis)",
+        "preparing for a boss fight (paper deadline)",
+        "teaching brain: on",
+        "post-conference hibernation mode",
+        "building the story-seeds → prototype → reflection pipeline",
+        "rolling for executive function… success on a 12+"
+      ];
+      function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+      const statusEl=document.getElementById('status-lines');
+      if(statusEl){ statusEl.innerHTML = `<li>${pick(statusPool)}</li>`; }
+
+      const normal={
+        stats:{
+          empathy:["empathy","9",""],
+          rigor:["rigor","8",""],
+          playfulness:["playfulness","8",""],
+          udl:["access & UDL","8",""],
+          email:["email response speed","6","(improving)"],
+          spoons:["spoons (today)","d20",""]
+        },
+        inventory:[
+          "📎 half-written personal essays",
+          "🖼 research wall of string and vibes",
+          "🐸 a tiny frog token (focus charm)",
+          "🎧 noise-canceling headphones",
+          "🌌 a tattoo plan and 100 open tabs"
+        ]
+      };
+
+      const frog={
+        stats:{
+          empathy:["amphibian facts","7","knows 3 European species and 1 cryptid"],
+          rigor:["jump range","8",""],
+          playfulness:["pond serenades","9",""],
+          udl:["lily‑pad placement","8",""],
+          email:["fly‑catching accuracy","6",""],
+          spoons:["mud energy","variable",""]
+        },
+        inventory:["🍵 warm mug","🐸 lil’ ceramic frog","🪵 log to sit on"],
+        statusPlus:["chanting for rain, then writing the IRB"]
+      };
+
+      function renderMode(mode){
+        const data = mode==='frog'? frog : normal;
+        const list=document.getElementById('stats');
+        if(list){
+          [...list.querySelectorAll('li')].forEach(li=>{
+            const k=li.getAttribute('data-k');
+            const p=data.stats[k] || ["","",""];
+            li.querySelector('.label').textContent=p[0];
+            li.querySelector('.value').textContent=p[1];
+            li.querySelectorAll('.muted').forEach(m=>m.remove());
+            if(p[2]){ const m=document.createElement('span'); m.className='muted'; m.textContent=' '+p[2]; li.appendChild(m);}    
+          });
+        }
+        const inv=document.getElementById('inv');
+        if(inv){ inv.innerHTML=''; (data.inventory).forEach(item=>{ const li=document.createElement('li'); li.textContent=item; inv.appendChild(li); }); }
+        if(statusEl){ statusEl.innerHTML = `<li>${mode==='frog'? pick(frog.statusPlus): pick(statusPool)}</li>`; }
+        const card=document.getElementById('sheetcard'); if(card){ card.setAttribute('data-frog', mode==='frog'?'true':'false'); }
+        const btn=document.getElementById('frog-toggle'); if(btn){ btn.setAttribute('aria-pressed', mode==='frog'?'true':'false'); btn.innerHTML = `<i class="fa-solid fa-frog"></i> Frog Mode: ${mode==='frog'?'on':'off'}`; }
+      }
+
+      const btn=document.getElementById('frog-toggle');
+      if(btn){ btn.addEventListener('click',()=>{ const on = btn.getAttribute('aria-pressed')==='true'; renderMode(on? 'normal':'frog'); }); renderMode('normal'); }
+    })();
+  </script>
+</body>
+</html>
