@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Games Intersectional — Kseniia Harshina</title>
+  <meta name="description" content="Kseniia Harshina — games, research, and communities that care." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Comfortaa:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+<style>
+/* Page-scoped overrides (GI only) */
+#gi .artifact img,
+#gis .artifact img {
+  max-width: 300px;
+  max-height: 380px;
+  width: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+#gi figure,
+#gis figure {
+  margin: 0;
+}
+
+#gi figcaption,
+#gis figcaption {
+  margin-top: 10px;
+  font-size: 0.92rem;
+  color: var(--muted);
+  text-align: center;
+}
+</style>
+</head>
+<body data-theme="dark" data-page="gi">
+<a class="skip" href="#main">Skip to content</a>
+
+<div id="bgvideo" aria-hidden="true">
+  <!-- Put your background video file in the same folder as these HTML files:
+       bg.mp4 (and optionally bg.webm). -->
+  <video id="bgvideo-el" autoplay muted loop playsinline>
+    <source src="bg.webm" type="video/webm">
+    <source src="bg.mp4" type="video/mp4">
+  </video>
+</div>
+
+<header>
+  <div class="container topbar">
+    <div class="brand">
+      <span class="dot" aria-hidden="true"></span>
+      <a href="index.html">Kseniia Harshina</a>
+    </div>
+    <div class="controls">
+      <button id="themeToggle" class="chip-btn" type="button" aria-pressed="false" title="Toggle light/dark">
+        ☀️/🌙 <span class="sr-only">Toggle theme</span>
+      </button>
+      <button class="hamburger" type="button" aria-expanded="false" aria-controls="mobile" title="Menu">☰</button>
+    </div>
+  </div>
+  <nav class="tabs" aria-label="Primary">
+    <div class="container row">
+      <a href="index.html" data-page="home" data-sec="contact">🏠 Home</a>
+      <a href="phd.html" data-page="phd" data-sec="phd">🧠 PhD </a>
+      <a href="gi.html" data-page="gi" data-sec="gi">🌱 Games Intersectional</a>
+      <a href="games.html" data-page="games" data-sec="games">🎮 Games</a>
+      <a href="teaching.html" data-page="teach" data-sec="teach">🎓 Teaching</a>
+      <a href="talks.html" data-page="talks" data-sec="talks">🎤 Talks</a>
+    </div>
+    <div class="container mobile" id="mobile" role="menu">
+      <a href="index.html" data-page="home">🏠 Home</a>
+      <a href="phd.html" data-page="phd">🧠 PhD</a>
+      <a href="gi.html" data-page="gi">🌱 Games Intersectional</a>
+      <a href="games.html" data-page="games">🎮 Games</a>
+      <a href="teaching.html" data-page="teach">🎓 Teaching</a>
+      <a href="talks.html" data-page="talks">🎤 Talks</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+
+<section class="section" id="gi">
+  <div class="container">
+    <div class="kicker">
+      <div>
+        <h2>🌱 Games Intersectional</h2>
+        <p class="lead">
+          Games Intersectional (GI) is a community for marginalized people in games — especially students, researchers, and indie developers navigating academia and the game industry.
+        </p>
+      </div>
+      <div class="right">
+        <a class="btn" href="mailto:kseniia.harshina@aau.at">✉️ Contact</a>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card pad">
+        <h3>Where it started</h3>
+        <p class="muted">
+          GI began in 2023 at the University of Klagenfurt, when alumni of the Game Studies &amp; Engineering program wanted to extend the sense of support and belonging they had found during their studies.
+        </p>
+        <p class="muted">
+          Today, GI connects people locally and internationally through roundtables, workshops, and community events focused on inclusive futures for games.
+        </p>
+      </div>
+
+      <div class="card pad">
+        <h3>GI Poster</h3>
+        <figure class="artifact">
+          <img src="images/gi_roundtable.png" alt="Games Intersectional Roundtable poster." loading="lazy">
+          <figcaption>Roundtable poster (used for event announcements).</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="why">
+  <div class="container">
+    <div class="grid-2">
+      <div class="card pad">
+        <h3>Why this community exists</h3>
+        <p class="muted">
+          Welcoming diverse voices into games is only the first step. True inclusivity requires spaces where people feel safe, supported, and empowered to share their ideas and experiences.
+        </p>
+        <p class="muted">
+          Games Intersectional aims to create such a space — one built on collaboration, care, and mutual support.
+        </p>
+        <p class="muted"><em>“Community instead of competition.”</em></p>
+      </div>
+
+      <div class="card pad">
+        <h3>Community</h3>
+        <ul class="muted">
+          <li>🌱 Founded: <b>December 2023</b></li>
+          <li>👥 <b>50+</b> people on our Discord (with a smaller active core)</li>
+          <li>🎮 <b>10+</b> events including roundtables, workshops, and gatherings</li>
+          <li>🌍 Local community in Austria with international participation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="whatwedo">
+  <div class="container">
+    <h2>What we do</h2>
+    <p class="lead">Monthly meetups + community-led events that help people connect, share work, and learn from each other.</p>
+
+    <div class="grid-3">
+      <div class="card pad">
+        <h3>🗣 GIRT — Roundtables</h3>
+        <p class="muted">Our monthly roundtables bring together students, researchers, and developers to discuss projects, challenges, and ideas around games, academia, and creative work.</p>
+        <ul class="muted">
+          <li>sharing research + creative projects</li>
+          <li>career and industry discussions</li>
+          <li>community support and mentorship</li>
+        </ul>
+      </div>
+
+      <div class="card pad">
+        <h3>🛠 Workshops</h3>
+        <p class="muted">Skill-sharing sessions run by community members — from creative writing to coding basics and game-making tools.</p>
+        <p class="muted">Low-pressure, friendly, and practical.</p>
+      </div>
+
+      <div class="card pad">
+        <h3>📚 Discussions</h3>
+        <p class="muted">Informal discussions about books and games related to inclusivity, accessibility, and representation — plus “what are we learning lately?” catch-ups.</p>
+      </div>
+    </div>
+
+    <div class="card pad" style="margin-top:16px">
+      <h3>Who it’s for</h3>
+      <p class="muted">
+        If you’re a marginalized game scholar, developer, student, or ally: welcome 🌱
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="gis">
+  <div class="container">
+    <h2>✨ Games Intersectional Symposium (GIS)</h2>
+    <p class="lead">A GI conference — with talks, community reflection, and a zine of abstracts &amp; reflections.</p>
+
+    <div class="grid-2">
+      <div class="card pad">
+        <h3>GIS 2025 zine</h3>
+        <p class="muted">Community-led reflections and abstracts from the symposium.</p>
+        <a class="btn sm" href="https://www.canva.com/design/DAG1UCS6JZM/2xIakTkQnT5q7exdjXs5Nw/watch" target="_blank" rel="noopener">📄 Zine link</a>
+
+        <figure class="artifact">
+          <img src="images/gis25.jpg" alt="Games Intersectional Symposium 2025 zine cover." loading="lazy">
+          <figcaption>GIS 2025 zine cover (abstracts & reflections).</figcaption>
+        </figure>
+      </div>
+
+      <div class="card pad">
+        <h3>Want to contribute?</h3>
+        <p class="muted">
+          GIS grows out of the roundtables — if you’d like to propose a session, share a resource, or collaborate on future events, feel free to reach out.
+        </p>
+        <a class="btn" href="mailto:kseniia.harshina@aau.at">✉️ Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div>© <span id="year"></span> Kseniia Harshina • GitHub Pages.</div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<style> 
+
+.game-item .thumb{
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(0,0,0,.08);
+  background:rgba(255,255,255,.6);
+  aspect-ratio: 16 / 9;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.game-item .thumb img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+</style>
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Games — Kseniia Harshina</title>
+  <meta name="description" content="Kseniia Harshina — games, research, and communities that care." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Comfortaa:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+<style>
+    /* Page-scoped tweaks (Games only) — avoids touching global styles.css */
+    .games-grid{display:grid;gap:16px;}
+    @media (min-width: 900px){.games-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    .game-item{display:grid;gap:12px;}
+    .game-item .thumb{border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.6);}
+    /* Make thumbs consistent so images don't dominate text */
+    .game-item .thumb img{width:100%;height:220px;object-fit:cover;display:block;}
+    .game-item .meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+    .game-item p{margin:0;}
+    .section-title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .section-title-row h3{margin:0;}
+    .smallnote{font-size:.95rem;}
+
+    /* Tiny filter row */
+    .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+    .filter-btn{border:1px solid rgba(0,0,0,.12);background:rgba(255,255,255,.65);padding:8px 10px;border-radius:999px;cursor:pointer;font:inherit;}
+    [data-theme="dark"] .filter-btn{background:rgba(30,30,30,.55);border-color:rgba(255,255,255,.14);}
+    .filter-btn[aria-pressed="true"]{box-shadow:0 0 0 3px rgba(0,0,0,.06) inset;}
+    [data-theme="dark"] .filter-btn[aria-pressed="true"]{box-shadow:0 0 0 3px rgba(255,255,255,.08) inset;}
+
+    /* Micro callout */
+    .mini-callout{display:grid;gap:10px;}
+    @media (min-width: 900px){.mini-callout{grid-template-columns:repeat(3,minmax(0,1fr));}}
+    .mini{border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.55);border-radius:18px;padding:14px;}
+    [data-theme="dark"] .mini{background:rgba(30,30,30,.45);border-color:rgba(255,255,255,.12);}
+    </style>
+</head>
+<body data-theme="dark" data-page="games">
+<a class="skip" href="#main">Skip to content</a>
+
+<div id="bgvideo" aria-hidden="true">
+  <!-- Put your background video file in the same folder as these HTML files:
+       bg.mp4 (and optionally bg.webm). -->
+  <video id="bgvideo-el" autoplay muted loop playsinline>
+    <source src="bg.webm" type="video/webm">
+    <source src="bg.mp4" type="video/mp4">
+  </video>
+</div>
+
+<header>
+  <div class="container topbar">
+    <div class="brand">
+      <span class="dot" aria-hidden="true"></span>
+      <a href="index.html">Kseniia Harshina</a>
+    </div>
+    <div class="controls">
+      <button id="themeToggle" class="chip-btn" type="button" aria-pressed="false" title="Toggle light/dark">
+        ☀️/🌙 <span class="sr-only">Toggle theme</span>
+      </button>
+      <button class="hamburger" type="button" aria-expanded="false" aria-controls="mobile" title="Menu">☰</button>
+    </div>
+  </div>
+  <nav class="tabs" aria-label="Primary">
+    <div class="container row">
+      <a href="index.html" data-page="home" data-sec="contact">🏠 Home</a>
+      <a href="phd.html" data-page="phd" data-sec="phd">🧠 PhD</a>
+      <a href="gi.html" data-page="gi" data-sec="gi">🌱 Games Intersectional</a>
+      <a href="games.html" data-page="games" data-sec="games">🎮 Games</a>
+      <a href="teaching.html" data-page="teach" data-sec="teach">🎓 Teaching</a>
+      <a href="talks.html" data-page="talks" data-sec="talks">🎤 Talks</a>
+    </div>
+    <div class="container mobile" id="mobile" role="menu">
+      <a href="index.html" data-page="home">🏠 Home</a>
+      <a href="phd.html" data-page="phd">🧠 PhD</a>
+      <a href="gi.html" data-page="gi">🌱 Games Intersectional</a>
+      <a href="games.html" data-page="games">🎮 Games</a>
+      <a href="teaching.html" data-page="teach">🎓 Teaching</a>
+      <a href="talks.html" data-page="talks">🎤 Talks</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+
+<section class="section">
+  <div class="container">
+    <div class="kicker">
+      <div>
+        <h2>🎮 Games</h2>
+        <p class="lead"> Game Jam games plus research prototypes.</p>
+      </div>
+      <div class="right">
+        <a class="btn primary" href="https://kseniaharshina.itch.io/" target="_blank" rel="noopener">More on Itch.io</a>
+      </div>
+    </div>
+
+    <div class="card pad">
+      <div class="section-title-row">
+        <h3>✨ Game jam projects</h3>
+        <div class="smallnote muted">Small scope, playful mechanics, fast iteration.</div>
+      </div>
+
+
+      <div class="games-grid" aria-label="Game jam projects" style="margin-top:14px">
+        <article class="card pad game-item" data-cat="jam">
+          <div class="thumb"><img src="images/game_monster_match.png" alt="Monster Match cover image" loading="lazy"></div>
+          <div>
+            <h4 style="margin:0 0 6px 0">Monster Match</h4>
+            <div class="chips" aria-label="Tags">
+              <span class="chip">jam</span><span class="chip">dating sim</span><span class="chip">horror comedy</span>
+            </div>
+            <p class="muted" style="margin-top:10px">Speed-date your way out of a pub crawling with flesh-eating monsters.</p>
+            <div class="meta" style="margin-top:12px">
+              <a class="btn sm" href="https://rachelgo.itch.io/monstermatch" target="_blank" rel="noopener">Play</a>
+              <span class="muted" aria-hidden="true"> • 16k+ views • 9k+ browser plays on Itch.io</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card pad game-item" data-cat="jam">
+          <div class="thumb"><img src="images/game_ui_chill.png" alt="UI &amp; Chill cover image" loading="lazy"></div>
+          <div>
+            <h4 style="margin:0 0 6px 0">UI &amp; Chill</h4>
+            <div class="chips" aria-label="Tags">
+              <span class="chip">jam</span><span class="chip">cozy</span><span class="chip">UI experiment</span>
+            </div>
+            <p class="muted" style="margin-top:10px">Cozy game designed to help you calm down and de-stress… right?</p>
+            <div class="meta" style="margin-top:12px">
+              <a class="btn sm" href="https://rachelgo.itch.io/u-i-chill" target="_blank" rel="noopener">Play</a>
+              <span class="muted" aria-hidden="true">•</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card pad game-item" data-cat="jam">
+          <div class="thumb"><img src="images/game_curse.png" alt="Curse of the Narrator cover image" loading="lazy"></div>
+          <div>
+            <h4 style="margin:0 0 6px 0">Curse of the Narrator</h4>
+            <div class="chips" aria-label="Tags">
+              <span class="chip">jam</span><span class="chip">writing tools</span><span class="chip">narrative</span>
+            </div>
+            <p class="muted" style="margin-top:10px">Create an outstanding story to satisfy the narrator.</p>
+            <div class="meta" style="margin-top:12px">
+              <a class="btn sm" href="https://vulvarine.itch.io/the-curse-of-the-narrator" target="_blank" rel="noopener">Play</a>
+              <span class="muted" aria-hidden="true">•</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card pad game-item" data-cat="jam">
+          <div class="thumb"><img src="images/game_slay_princess.png" alt="Slay Princess cover image" loading="lazy"></div>
+          <div>
+            <h4 style="margin:0 0 6px 0">Slay Princess</h4>
+            <div class="chips" aria-label="Tags">
+              <span class="chip">jam</span><span class="chip">character creator</span><span class="chip">narrative</span>
+            </div>
+            <p class="muted" style="margin-top:10px">Character creator, narrative-driven extravaganza.</p>
+            <div class="meta" style="margin-top:12px">
+              <a class="btn sm" href="https://yenrye.itch.io/slay-princess" target="_blank" rel="noopener">Play</a>
+              <span class="muted" aria-hidden="true">•</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card pad game-item" data-cat="jam">
+          <div class="thumb"><img src="images/game_resistance.png" alt="Resistance cover image" loading="lazy"></div>
+          <div>
+            <h4 style="margin:0 0 6px 0">Resistance</h4>
+            <div class="chips" aria-label="Tags">
+              <span class="chip">jam</span><span class="chip">Ren'Py</span><span class="chip">narrative</span>
+            </div>
+            <p class="muted" style="margin-top:10px">Jam game (2025) — now on Itch.io.</p>
+            <div class="meta" style="margin-top:12px">
+              <a class="btn sm" href="https://kseniaharshina.itch.io/resistance" target="_blank" rel="noopener">Play on Itch.io</a>
+            </div>
+          </div>
+        </article>
+		
+<article class="card pad game-item" data-cat="jam">
+  <div class="thumb">
+    <img src="images/potoybik.png"
+         alt="Potoybik: Vila's Wings cover image"
+         loading="lazy">
+  </div>
+
+  <div>
+    <h4 style="margin:0 0 6px 0">Potoybik: Vila's Wings</h4>
+
+    <div class="chips" aria-label="Tags">
+      <span class="chip"> Inspired by Ukrainian folklore</span>
+      <span class="chip">EN / UKR</span>
+    </div>
+
+    <p class="muted" style="margin-top:10px">
+      Short visual narrative about a lost Vila guided by the spirit Berehynia, rescuing trapped mythical creatures and restoring the magic of her wings.
+    </p>
+
+    <div class="meta" style="margin-top:12px">
+      <a class="btn sm"
+         href="https://kseniaharshina.itch.io/potoybik"
+         target="_blank"
+         rel="noopener">
+        Play on Itch.io
+      </a>
+    </div>
+  </div>
+</article>
+		
+      </div>
+	  
+    </div>
+
+    <div class="card pad" style="margin-top:16px">
+      <div class="section-title-row">
+        <h3>🧪 Research prototypes</h3>
+        <div class="smallnote muted">Systems + methods explored through playable artifacts.</div>
+      </div>
+
+      <div class="games-grid" aria-label="Research prototypes" style="margin-top:14px">
+        <article class="card pad game-item" data-cat="research">
+          <div class="thumb"><img src="images/fdg_demo.jpg" alt="Kseniia demoing One Spell Fits All at a conference." loading="lazy"></div>
+          <div>
+            <h4 style="margin:0 0 6px 0">One Spell Fits All</h4>
+            <div class="chips" aria-label="Tags">
+              <span class="chip">research</span><span class="chip">AI systems</span><span class="chip">co-design</span>
+            </div>
+            <p class="muted" style="margin-top:10px">A research-driven prototype exploring generative systems and “all-or-nothing” collective outcomes in a village swarm.</p>
+            <div class="meta" style="margin-top:12px">
+              <a class="btn sm" href="#" target="_blank" rel="noopener">Project link</a>
+              <span class="muted" aria-hidden="true">•</span>
+              <a class="btn sm" href="#" target="_blank" rel="noopener">Read paper (PDF)</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="card pad" style="margin-top:18px">
+      <h3>How I like to make games</h3>
+      <div class="mini-callout" style="margin-top:10px">
+        <div class="mini">
+          <strong>🌱 Small scope</strong>
+          <div class="muted" style="margin-top:6px">I prototype fast, then keep the best ideas and polish gently.</div>
+        </div>
+        <div class="mini">
+          <strong>🫶 Care-first design</strong>
+          <div class="muted" style="margin-top:6px">I like mechanics that respect boundaries and invite reflection.</div>
+        </div>
+        <div class="mini">
+          <strong>🧰 Experimental tools</strong>
+          <div class="muted" style="margin-top:6px">Twine / Ren’Py / playful UI systems — whatever fits the story.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div>© <span id="year"></span> Kseniia Harshina • GitHub Pages.</div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+  // Simple page-only filter (doesn't touch other pages)
+  (function(){
+    const btns = Array.from(document.querySelectorAll('.filter-btn'));
+    const items = Array.from(document.querySelectorAll('[data-cat]'));
+    if(!btns.length || !items.length) return;
+
+    const jamCard = Array.from(document.querySelectorAll('.card')).find(c => c.querySelector('h3')?.textContent?.includes('Game jam projects'));
+    const resCard = Array.from(document.querySelectorAll('.card')).find(c => c.querySelector('h3')?.textContent?.includes('Research prototypes'));
+
+    function setFilter(val){
+      btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === val)));
+      items.forEach(el => {
+        const ok = (val === 'all') || (el.dataset.cat === val);
+        el.style.display = ok ? '' : 'none';
+      });
+      if(jamCard && resCard){
+        if(val === 'jam'){ resCard.style.display = 'none'; jamCard.style.display = ''; }
+        else if(val === 'research'){ jamCard.style.display = 'none'; resCard.style.display = ''; }
+        else { jamCard.style.display = ''; resCard.style.display = ''; }
+      }
+    }
+
+    btns.forEach(b => b.addEventListener('click', () => setFilter(b.dataset.filter)));
+  })();
+</script>
+</body>
+</html>
