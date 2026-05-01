@@ -134,7 +134,7 @@
     .theme-barbie .img-frame { border: 4px solid #ff69b4; box-shadow: 0 0 15px #00ffff; }
 
     /* =========================================
-       THEME 2: THE SIMS 2 (PhD)
+       THEME 2: THE SIMS 2 (Research)
        ========================================= */
     .theme-sims2 { background: #2A5A9B; border-color: #1A3E70; font-family: "Atkinson Hyperlegible", sans-serif; }
     .theme-sims2 .title-bar { background: #1A3E70; border-bottom-color: #112A4F; color: #fff; font-family: "Atkinson Hyperlegible", sans-serif; font-weight: bold; letter-spacing: 1px;}
@@ -144,8 +144,16 @@
     .theme-sims2 .inner-box { background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
     .theme-sims2 .btn { background: linear-gradient(180deg, #5185CA, #2A5A9B); color: #fff; border: 2px solid #fff; border-radius: 20px; padding: 6px 16px; font-weight: bold; font-family: "Atkinson Hyperlegible", sans-serif; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); box-shadow: 0 4px 6px rgba(0,0,0,0.3); text-decoration: none; display: inline-block; transition: all 0.1s;}
     .theme-sims2 .btn:hover { background: linear-gradient(180deg, #6398DF, #3B6EB2); transform: translateY(-2px); box-shadow: 0 6px 8px rgba(0,0,0,0.3); color: #fff;}
-    .theme-sims2 .plumbob { position: absolute; font-size: 32px; animation: floatSpin 3s ease-in-out infinite; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)); }
-    @keyframes floatSpin { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(10deg); } }
+    .theme-sims2 .plumbob { position: relative; font-size: 16px; animation: floatSpin 3s ease-in-out infinite; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
+    @keyframes floatSpin { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(10deg); } }
+    
+    .aspiration-points {
+      position: absolute; top: 15px; right: 25px; z-index: 10;
+      display: flex; align-items: center; gap: 8px; 
+      background: rgba(0,0,0,0.3); padding: 5px 12px; 
+      border-radius: 15px; border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    }
 
     /* =========================================
        THEME 3: SLAY THE SPIRE (Games/Inventory)
@@ -393,7 +401,7 @@
     </div>
 
     <!-- =========================================
-         APP 2: SIMS 2 (PhD)
+         APP 2: SIMS 2 (Research)
          ========================================= -->
     <div id="phd" class="os-window theme-sims2">
       <div class="title-bar">
@@ -401,79 +409,93 @@
         <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
       </div>
       <div class="app-content">
-        <div class="plumbob" style="top: 15px; right: 25px; z-index: 10;">💎</div>
+        
+        <div class="aspiration-points">
+           <span style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #fff;">15,000</span>
+           <div class="plumbob">💎</div>
+        </div>
         
         <div class="grid-2" style="align-items: center;">
           <div>
             <h2>Aspiration: Knowledge & Research</h2>
             <p>Designing games as tools for emotional reflection, empowerment, and community care.</p>
           </div>
-          <div class="img-frame" style="border: 3px solid #1A3E70;">
+          <div class="img-frame" style="border: 6px solid #fff; border-bottom-width: 20px; box-shadow: 2px 4px 10px rgba(0,0,0,0.4); transform: rotate(2deg);">
             <img src="images/phd_talk.jpg" alt="Presenting research" onerror="this.style.display='none'">
           </div>
         </div>
 
         <h3 style="margin-top: 25px; margin-bottom: 15px;">Exploring how games can:</h3>
-        <div class="grid-2">
-          <div class="inner-box" style="margin-bottom: 0;">
-            <h3 style="margin-top: 0;">✦ Focus: Storytelling</h3>
-            <p style="margin-bottom: 0;">Support people in telling their own stories (participatory design & migration).</p>
+        <div class="grid-2" style="align-items: start;">
+          
+          <!-- Focus 1 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 📖 Focus: Storytelling</h3>
+            <p style="margin-bottom: 15px;">Support people in telling their own stories (participatory design & migration).</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-story')">
+              <span>Publications</span> <span id="icon-pubs-story" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-story" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;">
+              <div style="margin-bottom: 8px;"><strong>Experiencing Forced Migration: A Participatory Approach to Developing Games</strong> (GALA 2024) <a href="https://link.springer.com/chapter/10.1007/978-3-031-78269-5_40" target="_blank" style="text-decoration: underline; font-weight: bold;">[Read]</a></div>
+              <div style="margin-bottom: 8px;"><strong>Tell Your Story Through Games (TYS): Preliminary Guidelines for Mixed-Migrant Participatory Game Jams</strong> (3GGS 2026 • <em>Forthcoming</em>)</div>
+            </div>
           </div>
-          <div class="inner-box" style="margin-bottom: 0;">
-            <h3 style="margin-top: 0;">✦ Focus: Catharsis</h3>
-            <p style="margin-bottom: 0;">Create space for emotional reflection and catharsis.</p>
+
+          <!-- Focus 2 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 🎭 Focus: Catharsis</h3>
+            <p style="margin-bottom: 15px;">Create space for emotional reflection and catharsis.</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-catharsis')">
+              <span>Publications</span> <span id="icon-pubs-catharsis" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-catharsis" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;">
+              <div style="margin-bottom: 8px;"><strong>For Empowerment’s Sake: Rethinking Video Game Adaptations of Real-Life Experiences</strong> (ICGaN 2025 • <em>Extended Abstract</em>)</div>
+            </div>
           </div>
-          <div class="inner-box" style="grid-column: 1 / -1; margin-bottom: 0;">
-            <h3 style="margin-top: 0;">✦ Focus: Ethical Tech</h3>
-            <p style="margin-bottom: 0;">Use AI in ethical, local, and human-centered ways.</p>
+
+          <!-- Focus 3 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 🤖 Focus: Ethical Tech</h3>
+            <p style="margin-bottom: 15px;">Use AI in ethical, local, and human-centered ways.</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-ai')">
+              <span>Publications</span> <span id="icon-pubs-ai" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-ai" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;">
+              <div style="margin-bottom: 8px;"><strong>One Spell Fits All: A Generative AI Game as a Tool for Research in AI Creativity and Sustainable Design</strong> (EXAG@AIIDE 2024) <a href="https://ceur-ws.org/Vol-3926/paper11.pdf" target="_blank" style="text-decoration: underline; font-weight: bold;">[Read]</a></div>
+              <div style="margin-bottom: 8px;"><strong>Dynamic Participatory Game Design with Local AI: From Interviews to Trauma-Aware Interactive Narratives</strong> (Text2Story Workshop 2026 • <em>Forthcoming</em>)</div>
+            </div>
           </div>
+
+          <!-- Focus 4 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 👾 Focus: Critical Studies</h3>
+            <p style="margin-bottom: 15px;">Analyze ideologies, safe spaces, and representation in game cultures.</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-crit')">
+              <span>Publications</span> <span id="icon-pubs-crit" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-crit" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;">
+              <div style="margin-bottom: 8px;"><strong>The Slow Apocalypse: Cute Video Game Aesthetics as Ideological Tools in Normalizing Colonialism and Authoritarianism</strong> (2025) <a href="https://doi.org/10.48341/ccmd-a102" target="_blank" style="text-decoration: underline; font-weight: bold;">[Read]</a></div>
+              <div style="margin-bottom: 8px;"><strong>Video Games as Safe Spaces: A Walking Perspective</strong> (Exploring New Horizons in Video Game Cultures, 2025) <a href="https://doi.org/10.59641/i1l7f8g9h0" target="_blank" style="text-decoration: underline; font-weight: bold;">[Read]</a></div>
+              <div style="margin-bottom: 8px;"><strong>In the Ring and on the Runway: Masculinities of Drag and Wrestling from TV to Video Games</strong> (Play/Write Student Journal, 2025) <a href="https://doi.org/10.48415/001.2024.04.5" target="_blank" style="text-decoration: underline; font-weight: bold;">[Read]</a></div>
+              <div style="margin-bottom: 8px;"><strong>Pleasure Not For Everyone: Epistemic Injustice Towards Ukrainian Game Studies</strong> (DiGRA 2026 • <em>Accepted Short Paper</em>)</div>
+            </div>
+          </div>
+          
         </div>
 
         <div class="inner-box" style="background: rgba(76, 175, 80, 0.3); border-color: #4CAF50; margin-top: 20px;">
-          <h2>Community Event (Go to Lot)</h2>
-          <p>A participatory game jam/workshop about migration, identity, and belonging. Participants create small games inspired by lived experiences.</p>
-          <a class="btn" href="https://www.itec.aau.at/~kseniia/gamejam/" target="_blank">Travel to Lot</a>
+          <h2>🏡 Community Event (Past Lot)</h2>
+          <div class="grid-2" style="align-items: center;">
+            <div>
+              <p>The <strong>Tell Your Story Through Games</strong> jam was a creative workshop about migration, identity, and belonging. Participants created small games inspired by lived experiences.</p>
+              <p style="margin-bottom: 15px;"><em>(Event concluded — stay tuned for future lots!)</em></p>
+            </div>
+            <div class="img-frame poster-frame" style="border: 3px solid #4CAF50;">
+              <img src="images/tys_.png" alt="Tell Your Story Poster" onerror="this.style.display='none'">
+            </div>
+          </div>
         </div>
 
-        <h2 onclick="togglePublications()" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-top: 25px; user-select: none;" title="Click to expand">
-          <span>Career Rewards (Publications)</span>
-          <span id="pub-icon" style="font-size: 24px;">+</span>
-        </h2>
-        
-        <div id="publications-content" style="display: none;">
-          <div class="inner-box">
-            <strong>Experiencing Forced Migration: A Participatory Approach to Developing Games</strong> (GALA 2024)
-            <a class="btn" href="https://link.springer.com/chapter/10.1007/978-3-031-78269-5_40" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
-          </div>
-          <div class="inner-box">
-            <strong>One Spell Fits All: A Generative AI Game as a Tool for Research in AI Creativity and Sustainable Design</strong> (EXAG@AIIDE 2024)
-            <a class="btn" href="https://ceur-ws.org/Vol-3926/paper11.pdf" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
-          </div>
-          <div class="inner-box">
-            <strong>The Slow Apocalypse: Cute Video Game Aesthetics as Ideological Tools in Normalizing Colonialism and Authoritarianism</strong> (2025)
-            <a class="btn" href="https://doi.org/10.48341/ccmd-a102" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
-          </div>
-          <div class="inner-box">
-            <strong>Video Games as Safe Spaces: A Walking Perspective</strong> (Exploring New Horizons in Video Game Cultures, 2025)
-            <a class="btn" href="https://doi.org/10.59641/i1l7f8g9h0" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
-          </div>
-          <div class="inner-box">
-            <strong>In the Ring and on the Runway: Masculinities of Drag and Wrestling from TV to Video Games</strong> (Play/Write Student Journal, 2025)
-            <a class="btn" href="https://doi.org/10.48415/001.2024.04.5" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
-          </div>
-          <div class="inner-box">
-            <strong>Dynamic Participatory Game Design with Local AI: From Interviews to Trauma-Aware Interactive Narratives</strong> (Text2Story Workshop 2026 • <em>Forthcoming</em>)
-          </div>
-          <div class="inner-box">
-            <strong>Tell Your Story Through Games (TYS): Preliminary Guidelines for Mixed-Migrant Participatory Game Jams</strong> (3GGS 2026 • <em>Forthcoming</em>)
-          </div>
-          <div class="inner-box">
-            <strong>Pleasure Not For Everyone: Epistemic Injustice Towards Ukrainian Game Studies</strong> (DiGRA 2026 • <em>Accepted Short Paper</em>)
-          </div>
-          <div class="inner-box">
-            <strong>For Empowerment’s Sake: Rethinking Video Game Adaptations of Real-Life Experiences</strong> (ICGaN 2025 • <em>Extended Abstract</em>)
-          </div>
-        </div>
       </div>
     </div>
 
@@ -737,9 +759,9 @@
       }
     }
 
-    function togglePublications() {
-      const content = document.getElementById('publications-content');
-      const icon = document.getElementById('pub-icon');
+    function toggleFocus(id) {
+      const content = document.getElementById(id);
+      const icon = document.getElementById('icon-' + id);
       if (content.style.display === 'none' || content.style.display === '') {
         content.style.display = 'block';
         icon.innerText = '-';
