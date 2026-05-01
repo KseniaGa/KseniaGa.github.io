@@ -45,16 +45,23 @@
       overflow-x: hidden; cursor: crosshair; transition: background 0.8s ease;
     }
 
-    /* CRT / Fog Overlay */
-    body::after {
+    /* Horror Vignette Overlay (Stays on top of everything) */
+    body::before {
       content: ""; position: fixed; inset: 0; z-index: 999; pointer-events: none;
+      background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.8) 100%);
+      opacity: 0; transition: opacity 0.8s ease;
+    }
+    [data-theme="horror"] body::before { opacity: 1; }
+
+    /* CRT Scanlines (Pushed to background behind the windows) */
+    body::after {
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
       background-size: 100% 4px; opacity: 0.8; transition: all 0.8s ease;
     }
     [data-theme="horror"] body::after {
-      background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.8) 100%),
-                  linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
-      background-size: 100% 100%, 100% 4px;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+      background-size: 100% 4px;
     }
 
     .pixel-font { font-family: "Press Start 2P", monospace; text-transform: uppercase; line-height: 1.4; }
@@ -116,9 +123,9 @@
     .img-frame img { width: 100%; height: auto; display: block; filter: contrast(1.1); transition: transform 0.2s;}
     .img-frame:hover img { transform: scale(1.05); }
     
-    /* Clean, unfiltered display for posters */
-    .poster-frame { position: relative; z-index: 1000; }
-    .poster-frame img { filter: none !important; }
+    /* Clean, unfiltered display for posters/photos */
+    .poster-frame { position: relative; z-index: 10; }
+    .poster-frame img { filter: brightness(1.05) !important; }
 
     /* =========================================
        THEME 1: BARBIE SECRET AGENT (Home)
@@ -420,7 +427,7 @@
             <h2>Aspiration: Knowledge & Research</h2>
             <p>Designing games as tools for emotional reflection, empowerment, and community care.</p>
           </div>
-          <div class="img-frame" style="border: 6px solid #fff; border-bottom-width: 20px; box-shadow: 2px 4px 10px rgba(0,0,0,0.4); transform: rotate(2deg);">
+          <div class="img-frame poster-frame" style="border: 6px solid #fff; border-bottom-width: 20px; box-shadow: 2px 4px 10px rgba(0,0,0,0.4); transform: rotate(2deg);">
             <img src="images/phd_talk.jpg" alt="Presenting research" onerror="this.style.display='none'">
           </div>
         </div>
@@ -644,7 +651,7 @@
           </div>
           
           <div class="inner-box" style="display: flex; align-items: center; justify-content: center; padding: 10px;">
-            <div class="img-frame" style="border: 2px solid #fff; width: 100%;">
+            <div class="img-frame poster-frame" style="border: 2px solid #fff; width: 100%;">
               <img src="images/teaching.jpg" alt="Teaching about Camp" onerror="this.style.display='none'">
             </div>
           </div>
