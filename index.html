@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kseniia_OS | Multi-Game Desktop</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <meta name="description" content="Kseniia Harshina — games, research, and communities that care." />
   
   <!-- Fonts -->
@@ -114,6 +115,10 @@
     .img-frame { border-radius: 8px; overflow: hidden; cursor: pointer; }
     .img-frame img { width: 100%; height: auto; display: block; filter: contrast(1.1); transition: transform 0.2s;}
     .img-frame:hover img { transform: scale(1.05); }
+    
+    /* Clean, unfiltered display for posters */
+    .poster-frame { position: relative; z-index: 1000; }
+    .poster-frame img { filter: none !important; }
 
     /* =========================================
        THEME 1: BARBIE SECRET AGENT (Home)
@@ -372,10 +377,15 @@
             </div>
             
             <div class="inner-box">
-              <h3>[ TROPHIES ]</h3>
-              <ul class="ach-list" id="achievement-list">
-                <!-- Javascript will populate this -->
-              </ul>
+              <h3 onclick="toggleTrophies()" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin: 0; user-select: none;" title="Click to expand">
+                <span>[ TROPHIES ]</span> 
+                <span id="trophy-icon" style="font-size: 18px;">+</span>
+              </h3>
+              <div id="trophies-content" style="display: none; margin-top: 15px;">
+                <ul class="ach-list" id="achievement-list">
+                  <!-- Javascript will populate this -->
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -391,9 +401,17 @@
         <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
       </div>
       <div class="app-content">
-        <div class="plumbob" style="top: 15px; right: 25px;">💎</div>
-        <h2>Aspiration: Knowledge & Research</h2>
-        <p>Designing participatory games for catharsis, empowerment, and community healing — with a focus on migration and displacement.</p>
+        <div class="plumbob" style="top: 15px; right: 25px; z-index: 10;">💎</div>
+        
+        <div class="grid-2" style="align-items: center;">
+          <div>
+            <h2>Aspiration: Knowledge & Research</h2>
+            <p>Designing participatory games for catharsis, empowerment, and community healing — with a focus on migration and displacement.</p>
+          </div>
+          <div class="img-frame" style="border: 3px solid #1A3E70;">
+            <img src="images/phd_talk.jpg" alt="Presenting research" onerror="this.style.display='none'">
+          </div>
+        </div>
         
         <div class="grid-2" style="margin-top: 20px;">
           <div class="inner-box">
@@ -412,14 +430,44 @@
           <a class="btn" href="https://www.itec.aau.at/~kseniia/gamejam/" target="_blank">Travel to Lot</a>
         </div>
 
-        <h2 style="margin-top: 25px;">Career Rewards (Publications)</h2>
-        <div class="inner-box">
-          <strong>Experiencing Forced Migration</strong> (GALA 2024 • Short Paper)
-          <a class="btn" href="https://link.springer.com/chapter/10.1007/978-3-031-78269-5_40" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
-        </div>
-        <div class="inner-box">
-          <strong>VR Game for Empathy Enhancement</strong> (CHI PLAY 2024 • DC)
-          <a class="btn" href="https://dl.acm.org/doi/abs/10.1145/3665463.3678858" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
+        <h2 onclick="togglePublications()" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-top: 25px; user-select: none;" title="Click to expand">
+          <span>Career Rewards (Publications)</span>
+          <span id="pub-icon" style="font-size: 24px;">+</span>
+        </h2>
+        
+        <div id="publications-content" style="display: none;">
+          <div class="inner-box">
+            <strong>Experiencing Forced Migration: A Participatory Approach to Developing Games</strong> (GALA 2024)
+            <a class="btn" href="https://link.springer.com/chapter/10.1007/978-3-031-78269-5_40" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
+          </div>
+          <div class="inner-box">
+            <strong>One Spell Fits All: A Generative AI Game as a Tool for Research in AI Creativity and Sustainable Design</strong> (EXAG@AIIDE 2024)
+            <a class="btn" href="https://ceur-ws.org/Vol-3926/paper11.pdf" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
+          </div>
+          <div class="inner-box">
+            <strong>The Slow Apocalypse: Cute Video Game Aesthetics as Ideological Tools in Normalizing Colonialism and Authoritarianism</strong> (2025)
+            <a class="btn" href="https://doi.org/10.48341/ccmd-a102" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
+          </div>
+          <div class="inner-box">
+            <strong>Video Games as Safe Spaces: A Walking Perspective</strong> (Exploring New Horizons in Video Game Cultures, 2025)
+            <a class="btn" href="https://doi.org/10.59641/i1l7f8g9h0" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
+          </div>
+          <div class="inner-box">
+            <strong>In the Ring and on the Runway: Masculinities of Drag and Wrestling from TV to Video Games</strong> (Play/Write Student Journal, 2025)
+            <a class="btn" href="https://doi.org/10.48415/001.2024.04.5" target="_blank" style="float: right; font-size: 12px; padding: 4px 10px;">Read</a>
+          </div>
+          <div class="inner-box">
+            <strong>Dynamic Participatory Game Design with Local AI: From Interviews to Trauma-Aware Interactive Narratives</strong> (Text2Story Workshop 2026 • <em>Forthcoming</em>)
+          </div>
+          <div class="inner-box">
+            <strong>Tell Your Story Through Games (TYS): Preliminary Guidelines for Mixed-Migrant Participatory Game Jams</strong> (3GGS 2026 • <em>Forthcoming</em>)
+          </div>
+          <div class="inner-box">
+            <strong>Pleasure Not For Everyone: Epistemic Injustice Towards Ukrainian Game Studies</strong> (DiGRA 2026 • <em>Accepted Short Paper</em>)
+          </div>
+          <div class="inner-box">
+            <strong>For Empowerment’s Sake: Rethinking Video Game Adaptations of Real-Life Experiences</strong> (ICGaN 2025 • <em>Extended Abstract</em>)
+          </div>
         </div>
       </div>
     </div>
@@ -473,6 +521,15 @@
             <p style="font-size: 12px;">Create an outstanding story to satisfy the narrator.</p>
             <a class="btn" href="https://vulvarine.itch.io/the-curse-of-the-narrator" target="_blank">PLAY CARD</a>
           </div>
+          <!-- Card 5 -->
+          <div class="card-item">
+            <div class="card-cost">3</div>
+            <div class="img-frame"><img src="images/game_resistance.jpg" alt="Welcome to the Resistance" onerror="this.src='images/game_resistance.png'; this.onerror=null;"></div>
+            <h3>RESISTANCE</h3>
+            <div class="tags"><span>JAM</span><span>NARRATIVE</span></div>
+            <p style="font-size: 12px;">Gather your allies and organize a resistance in this narrative game.</p>
+            <a class="btn" href="https://kseniaharshina.itch.io/resistance" target="_blank">PLAY CARD</a>
+          </div>
         </div>
       </div>
     </div>
@@ -515,6 +572,11 @@
           <div class="bulletin-pin">📌</div>
           <h3 style="margin-top: 5px;">GIS SYMPOSIUM</h3>
           <p>A GIRT conference with talks, reflections, and a digital zine.</p>
+          
+          <div class="img-frame" style="max-width: 250px; margin: 15px auto; border: 3px solid #8D6E63; transform: rotate(2deg); box-shadow: 2px 2px 8px rgba(0,0,0,0.2);">
+            <img src="images/gis25.jpg" alt="GIS 2025 Zine Cover" onerror="this.style.display='none'">
+          </div>
+          
           <a class="btn" href="https://www.canva.com/design/DAG1UCS6JZM/2xIakTkQnT5q7exdjXs5Nw/watch" target="_blank">Read Zine 📖</a>
         </div>
       </div>
@@ -537,6 +599,9 @@
             <h3>* Rep & Config.</h3>
             <div class="tags"><span>WINTER 24-25</span></div>
             <p>Exploring perspectives, identity, accessibility, and experimental game design.</p>
+            <div class="img-frame" style="border: 2px solid #fff; margin: 10px auto; max-width: 220px;">
+              <img src="images/teaching.jpg" alt="Teaching about Camp" onerror="this.style.display='none'">
+            </div>
             <a class="btn">♥ ACT</a>
           </div>
 
@@ -585,6 +650,9 @@
             <a class="btn" href="https://www.aau.at/universitaet/organisation/interessensvertretungen-beauftragte/arbeitskreis-fuer-gleichbehandlungsfragen/youniversity-vielfaltfeiern-respektleben/" target="_blank">Listen closely</a>
             <br><br>
             <p><strong>Data Analytics in Game Dev</strong><br>WiDS Villach 2023</p>
+            <div class="img-frame" style="border: 2px solid #5c1414; margin: 10px auto; max-width: 220px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+              <img src="images/wids_talk.jpg" alt="WiDS Talk" onerror="this.style.display='none'">
+            </div>
             <a class="btn" href="https://www.youtube.com/watch?v=DcqM1dnY1zI" target="_blank">Inspect Tape</a>
           </div>
         </div>
@@ -601,7 +669,7 @@
     </button>
     <button class="dock-icon" onclick="switchView('phd')">
       <div class="dock-art">💎</div>
-      <span>SKILLS</span>
+      <span>RESEARCH</span>
     </button>
     <button class="dock-icon" onclick="switchView('games')">
       <div class="dock-art">🗡️</div>
@@ -652,6 +720,30 @@
       tama_friend: { title: "Tama Caretaker 💖", desc: "Interacted with your desktop pet.", unlocked: false },
       level_5: { title: "Dedicated Grinder 🌟", desc: "Reached Level 5.", unlocked: false }
     };
+
+    function toggleTrophies() {
+      const content = document.getElementById('trophies-content');
+      const icon = document.getElementById('trophy-icon');
+      if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+        icon.innerText = '-';
+      } else {
+        content.style.display = 'none';
+        icon.innerText = '+';
+      }
+    }
+
+    function togglePublications() {
+      const content = document.getElementById('publications-content');
+      const icon = document.getElementById('pub-icon');
+      if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+        icon.innerText = '-';
+      } else {
+        content.style.display = 'none';
+        icon.innerText = '+';
+      }
+    }
 
     function unlockAchievement(id) {
       if (achievements[id] && !achievements[id].unlocked) {
