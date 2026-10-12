@@ -102,6 +102,7 @@ window.SITE_CONTENT = {
   "teachingImageAlt": "Teaching about Camp",
   "guild": {
     "title": "Games Intersectional Roundtables",
+    "founderStatement": "I founded GIRT and coordinate the community, organise events, facilitate discussions, and maintain its website.",
     "description": "GIRT brings together marginalised people and allies across game studies, game making, art, and academia. Based in Austria and open internationally, we learn, share work, and play together.",
     "boardTitle": "Community Board",
     "boardDescription": "A community built around intersectional perspectives, mutual support, and accessible participation. You do not need an academic title or a finished portfolio to take part.",
@@ -313,7 +314,7 @@ window.SITE_CONTENT = {
         "POINT & CLICK",
         "10–20 MIN"
       ],
-      "description": "A short, reflective adventure about love, everyday pleasures, and moving on. Made with a team for Games Intersectional Jam 2026.",
+      "description": "A short, reflective adventure about love, everyday pleasures, and moving on. Made with a team for Games Intersectional Jam 2026. My role: programming and game design.",
       "image": "images/game-1.png",
       "imageAlt": "Before I Grow Roots: At Eternities Doorstep title screen, showing a sunlit room filled with plants.",
       "imageFallback": "",
@@ -328,7 +329,7 @@ window.SITE_CONTENT = {
         "JAM",
         "DATING SIM"
       ],
-      "description": "Speed-date your way out of a pub crawling with flesh-eating monsters.",
+      "description": "Speed-date your way out of a pub crawling with flesh-eating monsters. My role: writing and programming.",
       "image": "images/game_monster_match.png",
       "imageAlt": "Monster Match",
       "imageFallback": "",
@@ -340,7 +341,7 @@ window.SITE_CONTENT = {
         "COZY",
         "UI EXP"
       ],
-      "description": "Cozy game designed to help you calm down and de-stress… right?",
+      "description": "Cozy game designed to help you calm down and de-stress… right? My role: programming.",
       "image": "images/game_ui_chill.png",
       "imageAlt": "UI & Chill",
       "imageFallback": "",
@@ -352,7 +353,7 @@ window.SITE_CONTENT = {
         "FOLKLORE",
         "EN/UKR"
       ],
-      "description": "Short visual narrative about a lost Vila guided by the spirit Berehynia.",
+      "description": "Short visual narrative about a lost Vila guided by the spirit Berehynia. My role: writing and game design.",
       "image": "images/potoybik.png",
       "imageAlt": "Potoybik",
       "imageFallback": "",
@@ -364,7 +365,7 @@ window.SITE_CONTENT = {
         "JAM",
         "NARRATIVE"
       ],
-      "description": "Create an outstanding story to satisfy the narrator.",
+      "description": "Create an outstanding story to satisfy the narrator. My role: writing and programming.",
       "image": "images/game_curse.png",
       "imageAlt": "Curse of the Narrator",
       "imageFallback": "",
@@ -376,7 +377,7 @@ window.SITE_CONTENT = {
         "JAM",
         "NARRATIVE"
       ],
-      "description": "Gather your allies and organize a resistance in this narrative game.",
+      "description": "Gather your allies and organize a resistance in this narrative game. My role: writing and game design.",
       "image": "images/game_resistance.jpg",
       "imageAlt": "Welcome to the Resistance",
       "imageFallback": "images/game_resistance.png",
