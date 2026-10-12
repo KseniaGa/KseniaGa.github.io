@@ -29,15 +29,14 @@
   }
   const list = document.getElementById('publication-list');
   const filters = document.getElementById('publication-filters');
+  const computingTopic = 'ML & Swarm Intelligence';
+  const publications = [...data.publications, ...data.additionalPublications.map(p => ({...p, topics: [computingTopic]}))];
   let expanded = false;
   let currentTopic = 'All';
   const expand = document.getElementById('publication-expand');
   function render(topic) {
     currentTopic = topic;
-    const otherResearch = document.querySelector('.additional-publications');
-    otherResearch.hidden = topic !== 'All';
-    if (topic !== 'All') otherResearch.open = false;
-    const entries = data.publications.filter(p => topic === 'All' || p.topics.includes(topic)).sort((a,b) => b.year-a.year);
+    const entries = publications.filter(p => topic === 'All' || p.topics.includes(topic)).sort((a,b) => b.year-a.year);
     const shown = expanded ? entries : entries.slice(0, 5);
     list.replaceChildren();
     for (const year of [...new Set(shown.map(p => p.year))]) {
@@ -53,7 +52,7 @@
     document.getElementById('publication-count').textContent = 'Showing ' + shown.length + ' of ' + entries.length + ' publications · ' + topic;
   }
   expand.addEventListener('click', () => { expanded = !expanded; render(currentTopic); });
-  for (const topic of ['All', ...data.research.themes.map(t => t.title)]) {
+  for (const topic of ['All', ...data.research.themes.map(t => t.title), computingTopic]) {
     const button = make('button', topic, 'journal-tab');
     button.type = 'button';
     button.addEventListener('click', () => render(topic));
@@ -61,5 +60,4 @@
   }
   render('All');
   document.getElementById('tys-publications').replaceChildren(...data.publications.filter(p => p.featuredTys).map(row));
-  document.getElementById('additional-publications').replaceChildren(...[...data.additionalPublications].sort((a,b) => b.year-a.year).map(row));
 })();
