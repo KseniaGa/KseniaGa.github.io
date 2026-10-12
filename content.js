@@ -101,8 +101,8 @@ window.SITE_CONTENT = {
   "teachingImage": "images/teaching.jpg",
   "teachingImageAlt": "Teaching about Camp",
   "guild": {
-    "title": "Town Hall: GIRT",
-    "description": "Games Intersectional Roundtables brings together marginalised people and allies across game studies, game making, art, and academia. Based in Austria and open internationally, we learn, share work, and play together.",
+    "title": "Games Intersectional Roundtables",
+    "description": "GIRT brings together marginalised people and allies across game studies, game making, art, and academia. Based in Austria and open internationally, we learn, share work, and play together.",
     "contactLabel": "Send Mail ✈️",
     "contactLink": "mailto:gamesintersectional@gmail.com",
     "boardTitle": "Community Board",
@@ -127,6 +127,7 @@ window.SITE_CONTENT = {
       "description": "Our two-day online symposium on 19–20 September 2025 brought together talks, play, and shared perspectives.",
       "image": "images/gis25.jpg",
       "imageAlt": "GIS 2025 Zine Cover",
+      "zineLink": "https://www.canva.com/design/DAG1UCS6JZM/2xIakTkQnT5q7exdjXs5Nw/watch",
       "link": "https://gamesintersectional.github.io/gi-symposium25/",
       "buttonLabel": "Explore the symposium archive ↗"
     },
@@ -310,7 +311,6 @@ window.SITE_CONTENT = {
   "games": [
     {
       "title": "BEFORE I GROW ROOTS: AT ETERNITIES DOORSTEP",
-      "cost": "",
       "tags": [
         "POINT & CLICK",
         "10–20 MIN"
@@ -326,7 +326,6 @@ window.SITE_CONTENT = {
     },
     {
       "title": "MONSTER MATCH",
-      "cost": "1",
       "tags": [
         "JAM",
         "DATING SIM"
@@ -339,7 +338,6 @@ window.SITE_CONTENT = {
     },
     {
       "title": "UI & CHILL",
-      "cost": "0",
       "tags": [
         "COZY",
         "UI EXP"
@@ -352,7 +350,6 @@ window.SITE_CONTENT = {
     },
     {
       "title": "POTOYBIK: VILA'S WINGS",
-      "cost": "2",
       "tags": [
         "FOLKLORE",
         "EN/UKR"
@@ -365,7 +362,6 @@ window.SITE_CONTENT = {
     },
     {
       "title": "CURSE OF NARRATOR",
-      "cost": "X",
       "tags": [
         "JAM",
         "NARRATIVE"
@@ -378,7 +374,6 @@ window.SITE_CONTENT = {
     },
     {
       "title": "RESISTANCE",
-      "cost": "3",
       "tags": [
         "JAM",
         "NARRATIVE"

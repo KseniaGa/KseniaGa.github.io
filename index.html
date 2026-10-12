@@ -63,9 +63,9 @@
           </div>
         </section>
         <div class="agent-message"><span class="agent-message-icon" aria-hidden="true">✦</span><div><span class="agent-message-label">INCOMING MESSAGE</span><p id="typewriter-text" class="profile-greeting"></p></div><span class="agent-message-light" aria-hidden="true"></span></div>
-        <section class="field-journal home-journal" aria-labelledby="latest-notes-title"><div class="section-heading"><div><p class="eyebrow">FROM MY DESK</p><h2 id="latest-notes-title">Field notes</h2></div><a class="archive-button" href="#field-notes">View archive →</a></div><div id="latest-field-notes"></div></section>
-        <section class="selected-projects" aria-labelledby="selected-title">
-          <h2 id="selected-title" class="research-highlight-label">Current research highlight</h2>
+        <section class="field-journal home-journal" aria-labelledby="latest-notes-title"><div class="section-heading"><div><h2 id="latest-notes-title">Latest activities</h2><p>Papers, talks, games, and community updates.</p></div></div><div id="latest-field-notes"></div><div class="journal-footer"><a class="archive-button" href="#field-notes">View all activities · Archive →</a></div></section>
+        <section class="selected-projects" aria-label="Branch Beetle">
+          
           <div id="featured-projects" class="project-grid"></div>
         </section>
 
@@ -153,14 +153,14 @@
         
         
 
-        <section class="inner-box guild-jam"><span class="bulletin-pin" aria-hidden="true">📌</span><h3 data-content="guild.jam.title"></h3><p data-content="guild.jam.date"></p><p data-content="guild.jam.description"></p><figure class="jam-submissions"><a href="images/girtjam_submissions.png" target="_blank" rel="noopener" aria-label="View full-size game jam submissions image"><img src="images/girtjam_submissions.png" alt="The five jam submissions: Before I Grow Roots, A Family Reunion, We Shall Not Despair, To live in darkness, and Taking Care."></a><figcaption>Five games made during the jam · <a href="images/girtjam_submissions.png" target="_blank" rel="noopener">View image at full size ↗</a></figcaption></figure><a class="btn" data-content-href="guild.jam.link" data-content="guild.jam.buttonLabel" target="_blank" rel="noopener"></a></section>
+        <section class="inner-box guild-jam"><span class="bulletin-pin" aria-hidden="true">📌</span><h3 data-content="guild.jam.title"></h3><p data-content="guild.jam.date"></p><p data-content="guild.jam.description"></p><figure class="jam-submissions"><a href="https://itch.io/jam/games-intersectional-jam-2026/entries" target="_blank" rel="noopener" aria-label="Play the game jam submissions on itch.io"><img src="images/girtjam_submissions.png" alt="The five jam submissions: Before I Grow Roots, A Family Reunion, We Shall Not Despair, To live in darkness, and Taking Care."></a><figcaption>Five games made during the jam · <a href="images/girtjam_submissions.png" target="_blank" rel="noopener">View image at full size ↗</a></figcaption></figure><a class="btn" data-content-href="guild.jam.link" data-content="guild.jam.buttonLabel" target="_blank" rel="noopener"></a></section>
         <div class="inner-box" style="text-align: center;">
           <div class="bulletin-pin">📌</div>
           <h3 style="margin-top: 5px;" data-content="guild.event.title"></h3>
           <p data-content="guild.event.description"></p>
           
           <div class="img-frame" style="max-width: 250px; margin: 15px auto; border: 3px solid #8D6E63; transform: rotate(2deg); box-shadow: 2px 2px 8px rgba(0,0,0,0.2);">
-            <img onerror="this.style.display='none'" data-content-src="guild.event.image" data-content-alt="guild.event.imageAlt" style="display: none;">
+            <a data-content-href="guild.event.zineLink" target="_blank" rel="noopener" aria-label="Open the GIS 2025 zine"><img onerror="this.style.display='none'" data-content-src="guild.event.image" data-content-alt="guild.event.imageAlt" style="display: none;"></a>
           </div>
           
           <a class="btn" target="_blank" data-content-href="guild.event.link" data-content="guild.event.buttonLabel"></a>
@@ -227,12 +227,12 @@
   </nav>
 
   <template id="game-card-template"><div class="card-item">
-            <div class="card-cost"></div>
+            
             <div class="img-frame"><img alt="" onerror="this.style.display='none';"></div>
             <h3></h3>
             <div class="tags"></div>
             <p class="game-description"></p>
-            <a class="btn" target="_blank">PLAY CARD</a>
+            <a class="btn" target="_blank">Play</a>
           </div></template><template id="course-card-template"><div class="inner-box">
             <h3></h3>
             <div class="tags"></div>

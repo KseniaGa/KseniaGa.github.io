@@ -176,8 +176,6 @@
     if (item.id) card.id = 'project-' + item.id;
     card.querySelector('h3').textContent = item.title;
     if (item.ribbon) { const ribbon = document.createElement('span'); ribbon.className = 'release-ribbon'; ribbon.textContent = item.ribbon; card.prepend(ribbon); }
-    card.querySelector('.card-cost').textContent = item.cost;
-    if (!item.cost) card.querySelector('.card-cost').remove();
     tags(card.querySelector('.tags'), item.tags);
     card.querySelector('p').textContent = item.description;
     const image = card.querySelector('img');
@@ -201,7 +199,8 @@
     };
     if (item.image) image.src = item.image;
     else hideImage();
-    const link = card.querySelector('a');
+    if (item.link) { const coverLink = document.createElement('a'); coverLink.href = item.link; coverLink.target = '_blank'; coverLink.rel = 'noopener'; coverLink.className = 'game-image-link'; coverLink.setAttribute('aria-label', 'Play ' + item.title); const frame = card.querySelector('.img-frame'); frame.replaceWith(coverLink); coverLink.append(frame); }
+    const link = card.querySelector('a.btn');
     if (item.link) {link.href = item.link; link.rel = 'noopener'; if (item.buttonLabel) link.textContent = item.buttonLabel;}
     else { link.remove(); const note = document.createElement('p'); note.className = 'game-availability'; note.textContent = 'Research prototype · playable version not yet available here'; card.append(note); }
     return card;
@@ -338,6 +337,8 @@ let isHorror = false;
 
     function toggleTheme() {
       isHorror = !isHorror;
+      document.querySelector('.corrupt-btn').textContent = isHorror ? 'uncorrupt' : 'corrupt.exe';
+      document.querySelector('.corrupt-btn').setAttribute('aria-pressed', String(isHorror));
       document.body.setAttribute('data-theme', isHorror ? 'horror' : 'light');
       
       const newLines = isHorror ? dialogLinesHorror : dialogLinesLight;
@@ -409,6 +410,10 @@ let isHorror = false;
     
     document.addEventListener('click', function(e) {
       if (!effectsEnabled || e.target.closest('#effects-toggle')) return;
+      if (e.target.closest('#project-branch-beetle, #home .selected-projects')) {
+        spawnParticle(e.clientX + 34, e.clientY, '🪲');
+        return;
+      }
       if (e.target.closest('.btn') || e.target.closest('.dock-icon') || e.target.closest('.window-controls') || e.target.closest('#avatar-frame') || e.target.closest('.tama-widget')) return;
 
       const texts = isHorror ? ['ERROR', '0xDEAD', 'glitch', '???'] : ['✨ +10', '🐸 +10', '🎀 +10', '💎 +10', '🗡️ +10'];
@@ -468,7 +473,8 @@ let isHorror = false;
       particle.className = 'click-particle';
       particle.style.position = 'fixed';
       particle.style.fontFamily = '"Press Start 2P", monospace';
-      particle.style.fontSize = '10px';
+      particle.style.fontSize = text === '🪲' ? '26px' : '10px';
+      particle.setAttribute('aria-hidden', 'true');
       particle.style.pointerEvents = 'none';
       particle.style.zIndex = '1000';
       particle.style.animation = 'floatUp 1s forwards linear';

@@ -741,3 +741,52 @@ body, .img-frame { cursor: auto; }
 #community-event, #research-experiments { scroll-margin-top: 95px; }
 .research-return { text-align: right; font-size: 14px; margin: 18px 0; }
 @media(max-width:600px) { .agent-message { padding: 16px; gap: 12px; } .agent-message-light { display: none; } .research-menu a { flex: 1 1 120px; text-align: center; } }
+
+/* Clear separation between page navigation and in-page reading links. */
+.research-menu { display: block; border: 0; border-left: 3px solid #8dafce; border-radius: 0; background: transparent; padding: 4px 0 4px 18px; }
+.research-menu > span { display: block; margin-bottom: 6px; }
+.research-menu a { display: inline-block; padding: 7px 0; margin-right: 22px; border: 0; border-radius: 0; background: transparent; text-decoration: underline; text-underline-offset: 4px; font-size: 16px; text-align: left; }
+.research-menu a::before { content: '↓ '; }
+.research-menu a:hover { background: transparent; color: #16395a; }
+.journal-footer { margin-top: 24px; padding-top: 22px; border-top: 1px solid #e8a9d0; text-align: center; }
+.game-image-link { display: block; }
+.game-image-link:focus-visible { outline: 3px solid #ffe084; outline-offset: 4px; }
+.dock-icon { min-width: 88px; min-height: 62px; padding: 10px 12px; font: bold 13px 'Atkinson Hyperlegible', sans-serif; }
+.dock-art { font-size: 23px; }
+.top-bar { z-index: 1100; }
+[data-theme="horror"] .top-bar { background: #202822; color: #f2eedf; border-bottom-color: #b6c9b9; }
+[data-theme="horror"] .top-bar .corrupt-btn { color: #fff4bd; border: 1px solid #b6c9b9; border-radius: 5px; padding: 10px; background: #354539; }
+.corrupt-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.desktop-area { margin-bottom: 150px; }
+@media(max-width:600px) {
+  .dock-icon { min-width: 0; min-height: 58px; padding: 7px 3px; font-size: 12px; }
+  .dock-art { font-size: 22px; }
+  .desktop-area { margin-bottom: 190px; }
+  .research-menu a { display: block; margin-right: 0; text-align: left; }
+}
+
+/* Keep the reading menu available without covering section headings. */
+#phd { overflow: clip; }
+#research-menu { position: sticky; top: 62px; z-index: 30; background: #f3f8ff; padding: 10px 16px; box-shadow: 0 3px 8px #244d741a; }
+#research-menu > span { margin: 0; }
+#research-menu a { margin-right: 18px; padding: 5px 0; }
+#community-event, #project-branch-beetle, #publications, #research-experiments { scroll-margin-top: 180px; }
+@media(max-width:600px) {
+  #research-menu { top: 58px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 12px; padding: 8px 12px; }
+  #research-menu > span { grid-column: 1 / -1; }
+  #research-menu a { font-size: 14px; margin: 0; line-height: 1.4; }
+  #community-event, #project-branch-beetle, #publications, #research-experiments { scroll-margin-top: 200px; }
+}
+
+/* A compact Sims-inspired control panel for the research page. */
+#research-menu { border: 2px solid #789cc7; border-radius: 22px 22px 12px 12px; background: linear-gradient(180deg, #f5fbff 0%, #daeaff 50%, #c3d9f5 100%); box-shadow: inset 0 2px 0 #fff, 0 3px 0 #829ebc, 0 5px 12px #25456926; padding: 10px 18px; }
+#research-menu > span { display: flex; align-items: center; gap: 10px; color: #315781; font-weight: bold; margin-bottom: 4px; }
+#research-menu > span::before { content: ''; width: 13px; height: 23px; background: linear-gradient(110deg, #c5ff99 0%, #77d342 48%, #328429 50%, #a5ed6d 100%); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+#research-menu a { display: inline-block; padding: 6px 12px; margin: 2px 5px 2px 0; border: 1px solid #8cafd5; border-radius: 14px 14px 7px 7px; background: linear-gradient(#ffffffb3, #d3e5fb); box-shadow: inset 0 1px 0 #fff; text-decoration: none; color: #244e7a; }
+#research-menu a::before { content: none; }
+#research-menu a:hover, #research-menu a:focus-visible { background: #f6ffe9; border-color: #79a64c; color: #285827; }
+.activity-icon { display: inline-block; font-size: 21px; vertical-align: middle; margin-right: 3px; }
+@media(max-width:600px) {
+  #research-menu { padding: 8px 10px; gap: 2px 6px; }
+  #research-menu a { margin: 0; padding: 6px; font-size: 13px; }
+}

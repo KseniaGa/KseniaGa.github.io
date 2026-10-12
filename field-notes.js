@@ -23,6 +23,8 @@
     const meta = make('p', 'field-note-meta');
     const time = make(note.date ? 'time' : 'span', '', dateLabel(note));
     if (note.date) time.dateTime = note.date;
+    const icons = {'Talk': '🗣', 'Game jam': '🎮', 'Game': '🎮', 'Paper': '✍️', 'Publication': '✍️', 'Community': '🤝', 'Event': '🤝', 'Workshop': '🛠️'};
+    if (compact && icons[note.category]) { const icon = make('span', 'activity-icon', icons[note.category]); icon.setAttribute('aria-hidden', 'true'); meta.append(icon, ' '); }
     meta.append(time, ' · ', note.category);
     article.append(meta, make(compact ? 'h3' : 'h4', '', note.title), make('p', 'field-note-description', note.description));
     if (note.link) {
