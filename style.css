@@ -727,3 +727,17 @@ body, .img-frame { cursor: auto; }
 #home #featured-projects .btn:hover { background: #c7ffff; }
 #home #featured-projects .project-body > a:last-child { color: #7f285f; }
 @media(max-width:700px) { #home .home-journal .section-heading { flex-wrap: wrap; gap: 16px; } #community-event .featured-paper { padding: 18px; } }
+#home .research-highlight-label { font: bold 17px/1.5 'Atkinson Hyperlegible',sans-serif; letter-spacing: .5px; color: #7f285f; margin: 0 0 16px; }
+.agent-message { display: flex; align-items: center; gap: 16px; margin: 26px 0; padding: 18px 22px; border: 2px solid #75c8d5; border-radius: 5px 22px 22px 22px; background: linear-gradient(110deg,#dcffff,#fff7fd); box-shadow: 4px 4px 0 #e5a5ce; }
+.agent-message-icon { display: grid; place-items: center; flex: 0 0 44px; height: 44px; border-radius: 50%; background: #df77b4; color: white; font-size: 28px; border: 2px solid white; }
+.agent-message-label { font: bold 11px/1.4 'Atkinson Hyperlegible',sans-serif; letter-spacing: 1.6px; color: #286271; }
+#home .agent-message .profile-greeting { font-size: 17px; line-height: 1.5; color: #682856; margin: 5px 0 0; padding: 0; border: 0; min-height: 26px; }
+.agent-message-light { flex: 0 0 9px; height: 9px; border-radius: 50%; background: #31899a; box-shadow: 0 0 0 4px #a0eeee; margin-left: auto; }
+.research-menu { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; background: #f5faff; border: 1px solid #a8c8e7; border-radius: 14px; padding: 14px; margin-bottom: 24px; scroll-margin-top: 95px; }
+.research-menu > span { width: 100%; font-size: 13px; font-weight: bold; color: #466681; }
+.research-menu a { padding: 10px 14px; border: 1px solid #9fbede; background: #dfedfc; color: #244d74; font-size: 15px; font-weight: bold; text-decoration: none; border-radius: 9px; }
+.research-menu a:hover { background: #c5def8; }
+.research-menu a:focus-visible, .research-return a:focus-visible { outline: 3px solid #326a9e; outline-offset: 3px; }
+#community-event, #research-experiments { scroll-margin-top: 95px; }
+.research-return { text-align: right; font-size: 14px; margin: 18px 0; }
+@media(max-width:600px) { .agent-message { padding: 16px; gap: 12px; } .agent-message-light { display: none; } .research-menu a { flex: 1 1 120px; text-align: center; } }

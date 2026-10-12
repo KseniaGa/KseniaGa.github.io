@@ -50,9 +50,7 @@ window.SITE_CONTENT = {
       "The fog is rolling in over the desktop...",
       "A familiar chill runs down your spine."
     ],
-    "role": "PhD researcher in HCI & game studies",
-    "selectedTitle": "Meet Branch Beetle",
-    "selectedDescription": "A storytelling tool growing out of my PhD research."
+    "role": "PhD researcher in HCI & game studies"
   },
   "research": {
     "title": "Game-making, authorship & lived experience",

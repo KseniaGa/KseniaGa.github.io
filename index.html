@@ -62,10 +62,10 @@
             <div class="img-frame" id="avatar-frame" onclick="boopAvatar(event)"><img id="main-avatar-img" data-content-src="profile.image" data-content-alt="profile.imageAlt" onerror="this.style.display='none'"></div>
           </div>
         </section>
-        <p id="typewriter-text" class="profile-greeting"></p>
+        <div class="agent-message"><span class="agent-message-icon" aria-hidden="true">✦</span><div><span class="agent-message-label">INCOMING MESSAGE</span><p id="typewriter-text" class="profile-greeting"></p></div><span class="agent-message-light" aria-hidden="true"></span></div>
         <section class="field-journal home-journal" aria-labelledby="latest-notes-title"><div class="section-heading"><div><p class="eyebrow">FROM MY DESK</p><h2 id="latest-notes-title">Field notes</h2></div><a class="archive-button" href="#field-notes">View archive →</a></div><div id="latest-field-notes"></div></section>
         <section class="selected-projects" aria-labelledby="selected-title">
-          <div class="section-heading"><div><h2 id="selected-title" data-content="profile.selectedTitle"></h2><p data-content="profile.selectedDescription"></p></div><a href="#phd">Research behind the project →</a></div>
+          <h2 id="selected-title" class="research-highlight-label">Current research highlight</h2>
           <div id="featured-projects" class="project-grid"></div>
         </section>
 
@@ -86,7 +86,7 @@
         
         
         
-        <div class="research-hero">
+        <nav id="research-menu" class="research-menu" aria-label="Research sections"><span>On this page</span><a href="#community-event">TYS workshop</a><a href="#project-branch-beetle">Branch Beetle</a><a href="#publications">Publications</a><a href="#research-experiments">Prototypes &amp; experiments</a></nav><div class="research-hero">
           <div class="research-intro">
             <p class="eyebrow" data-content="research.eyebrow"></p><span class="sims-plumbob" aria-hidden="true"></span><h2 data-content="research.title"></h2><p class="research-context" data-content="research.context"></p>
             <p data-content="research.description"></p><p class="research-methods" data-content="research.methods"></p>
@@ -115,7 +115,7 @@
       
       <section class="research-making" aria-label="Research tools and prototypes"><div id="project-spotlight"></div></section>
         <section class="research-bibliography" id="publications" aria-labelledby="publication-heading"><h3 id="publication-heading">Selected publications</h3><p>Work in game studies, HCI, and game-making. Papers can connect more than one theme.</p><p class="bibliography-profiles"><a href="https://orcid.org/0009-0001-4491-4619" target="_blank" rel="noopener">ORCID ↗</a> · <a href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a></p><div id="publication-filters" class="journal-tabs" role="group" aria-label="Filter publications by topic"></div><p id="publication-count" role="status"></p><div id="publication-list"></div><button id="publication-expand" class="btn" type="button" aria-expanded="false" aria-controls="publication-list">Show all publications</button><details class="additional-publications"><summary>Other computing research</summary><p>Work on swarm intelligence, simulation, and optimisation.</p><div id="additional-publications"></div></details></section>
-      <section class="research-experiments"><h3>Prototypes &amp; playful experiments</h3><div id="research-prototypes" class="project-grid"></div></section><p class="theme-credit">Interface inspiration: The Sims 2</p></div>
+      <p class="research-return"><a href="#research-menu">↑ Research section menu</a></p><section id="research-experiments" class="research-experiments"><h3>Prototypes &amp; playful experiments</h3><div id="research-prototypes" class="project-grid"></div></section><p class="research-return"><a href="#research-menu">↑ Research section menu</a></p><p class="theme-credit">Interface inspiration: The Sims 2</p></div>
     </div>
 
     <!-- =========================================
