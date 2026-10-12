@@ -41,8 +41,7 @@ window.SITE_CONTENT = {
     ],
     "dialogue": [
       "Вітаю! Welcome! I'm Kseniia (she/they).",
-      "I research games, reflection, and community-building.",
-      "Sul sul! 🦙 Don't forget to save your progress."
+      "Sul sul! 🦙"
     ],
     "horrorDialogue": [
       "Would you kindly check your active quests?",
