@@ -103,8 +103,6 @@ window.SITE_CONTENT = {
   "guild": {
     "title": "Games Intersectional Roundtables",
     "description": "GIRT brings together marginalised people and allies across game studies, game making, art, and academia. Based in Austria and open internationally, we learn, share work, and play together.",
-    "contactLabel": "Send Mail ✈️",
-    "contactLink": "mailto:gamesintersectional@gmail.com",
     "boardTitle": "Community Board",
     "boardDescription": "A community built around intersectional perspectives, mutual support, and accessible participation. You do not need an academic title or a finished portfolio to take part.",
     "activitiesTitle": "Town Activities",

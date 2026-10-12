@@ -536,3 +536,15 @@ function navigateToHash() {
 window.addEventListener('hashchange', navigateToHash);
 applyEffectsPreference();
 navigateToHash();
+
+// Reserve the dock's actual footprint, including wrapping and enlarged text.
+const dock = document.querySelector('.taskbar');
+function updateDockClearance() {
+  const bottom = parseFloat(getComputedStyle(dock).bottom) || 0;
+  document.documentElement.style.setProperty('--dock-clearance', `${Math.ceil(dock.getBoundingClientRect().height + bottom + 32)}px`);
+}
+if (dock) {
+  updateDockClearance();
+  window.addEventListener('resize', updateDockClearance);
+  if ('ResizeObserver' in window) new ResizeObserver(updateDockClearance).observe(dock);
+}

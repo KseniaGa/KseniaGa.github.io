@@ -790,3 +790,76 @@ body, .img-frame { cursor: auto; }
   #research-menu { padding: 8px 10px; gap: 2px 6px; }
   #research-menu a { margin: 0; padding: 6px; font-size: 13px; }
 }
+
+/* Shared layout rhythm; theme fonts, colours and decorative frames stay local. */
+:root {
+  --content-width: 1120px;
+  --page-padding: clamp(18px, 3vw, 32px);
+  --section-gap: 32px;
+  --card-gap: 24px;
+  --card-padding: 24px;
+  --dock-clearance: 200px;
+}
+html { scroll-padding-bottom: var(--dock-clearance); }
+.desktop-area {
+  max-width: var(--content-width);
+  padding-inline: clamp(10px, 2vw, 24px);
+  padding-bottom: var(--dock-clearance);
+  margin-bottom: 0;
+}
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window > .app-content { padding: var(--page-padding); }
+.os-window .app-content > section,
+.os-window .app-content > .research-bibliography,
+.os-window .app-content > .inner-box { margin-block: var(--section-gap); }
+.os-window .app-content > :first-child { margin-top: 0; }
+.os-window .app-content > :last-child { margin-bottom: 0; }
+.os-window .grid-2,
+.os-window .project-grid,
+.os-window .research-theme-grid { gap: var(--card-gap); }
+.os-window .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.os-window .inner-box,
+.os-window .project-body,
+.os-window .research-theme { padding: var(--card-padding); min-width: 0; }
+.os-window .grid-2 > .inner-box { margin-block: 0; }
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content h2 { font-size: clamp(26px, 3vw, 32px); line-height: 1.35; margin-block: 0 16px; }
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content h3 { font-size: 24px; line-height: 1.35; margin-block: 0 12px; }
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content h4 { font-size: 20px; line-height: 1.4; margin-block: 0 12px; }
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content .collection-heading,
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content .previous-courses-heading { margin-top: var(--section-gap); }
+/* Pixel fonts need a smaller size to occupy the same visual heading tier. */
+#games .app-content > h2, #academy .app-content > h2 { font-size: clamp(18px, 2.2vw, 24px); line-height: 1.6; }
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content .btn,
+.os-window .archive-button,
+.os-window .journal-tab {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 10px 16px; line-height: 1.5;
+  max-width: 100%; white-space: normal; text-align: center;
+}
+.os-window .btn:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+.os-window .theme-credit { margin-top: var(--section-gap); }
+
+/* Parchment, rose and brass remain readable against the Vampire palette. */
+#chronicles .app-content { color: #e6d8c5; }
+#chronicles .inner-box { background: #180e10; border-color: #a77770; }
+#chronicles .app-content h2, #chronicles .app-content h3 { color: #efb0a6; border-bottom-color: #a77770; }
+#chronicles .broadcast-entry { border-color: #a77770; padding-block: var(--card-padding); }
+#chronicles .broadcast-entry h4 { color: #f0c99f; font-size: 24px; }
+#chronicles .field-note-meta, #chronicles .theme-credit { color: #d9c3aa; opacity: 1; }
+#chronicles .field-note-description { color: #e6d8c5; }
+#chronicles .btn { background: #10090b; color: #f0c99f; border: 1px solid #c0957d; }
+#chronicles .btn:hover, #chronicles .btn:focus-visible { background: #54242d; color: #fff0d8; border-color: #f0c99f; }
+#chronicles .btn:focus-visible { outline: 3px solid #ffe0a6; outline-offset: 4px; }
+/* Keep the optional horror vignette behind the readable broadcast content. */
+[data-theme="horror"]:has(#chronicles.active) body::before { z-index: 1; }
+
+/* Compact, uncropped cover areas keep the title and description close at hand. */
+#game-list .img-frame { height: clamp(140px, 18vw, 190px); aspect-ratio: auto; flex: none; }
+#game-list .img-frame img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+#game-list .card-item { padding: 16px; min-width: 0; }
+#game-list .game-description { overflow: visible; max-height: none; margin-block: 12px 20px; }
+#game-list .btn { margin-top: auto; }
+@media (max-width: 700px) {
+  :root { --section-gap: 24px; --card-gap: 20px; --card-padding: 20px; }
+  .os-window .grid-2 { grid-template-columns: minmax(0, 1fr); }
+  #game-list .img-frame { height: clamp(140px, 40vw, 180px); }
+}
