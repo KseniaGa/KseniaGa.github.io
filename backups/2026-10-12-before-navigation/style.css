@@ -1,0 +1,865 @@
+/* =========================================
+       OS DESKTOP ENVIRONMENT VARIABLES
+       ========================================= */
+    :root {
+      --bg-sky-top: #8b6ccf;
+      --bg-sky-mid: #c988c8;
+      --bg-sky-low: #f4a2b9;
+      --bg-sun: #fad4b3;
+      --text-main: #4a4a4a;
+      --shadow-color: rgba(0,0,0,0.2);
+    }
+
+    /* HORROR OVERRIDE: Silent Hill / Bioshock Vibe */
+    [data-theme="horror"] {
+      --bg-sky-top: #101211; 
+      --bg-sky-mid: #252b28; 
+      --bg-sky-low: #3c403a; 
+      --bg-sun: #050505;
+      --text-main: #d1cbb8; 
+      --shadow-color: rgba(0, 0, 0, 0.8);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0; min-height: 100vh;
+      background: linear-gradient(180deg, var(--bg-sky-top) 0%, var(--bg-sky-mid) 40%, var(--bg-sky-low) 70%, var(--bg-sun) 100%);
+      background-attachment: fixed; color: var(--text-main);
+      font-family: "Atkinson Hyperlegible", sans-serif; line-height: 1.6;
+      overflow-x: hidden; cursor: crosshair; transition: background 0.8s ease;
+    }
+
+    /* Horror Vignette Overlay (Stays on top of everything) */
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 999; pointer-events: none;
+      background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.8) 100%);
+      opacity: 0; transition: opacity 0.8s ease;
+    }
+    [data-theme="horror"] body::before { opacity: 1; }
+
+    /* CRT Scanlines (Pushed to background behind the windows) */
+    body::after {
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+      background-size: 100% 4px; opacity: 0.8; transition: all 0.8s ease;
+    }
+    [data-theme="horror"] body::after {
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+      background-size: 100% 4px;
+    }
+
+    .pixel-font { font-family: "Press Start 2P", monospace; text-transform: uppercase; line-height: 1.4; }
+    a { color: inherit; text-decoration: underline; font-weight: bold; cursor: pointer; }
+    
+    /* =========================================
+       TOP OS BAR
+       ========================================= */
+    .top-bar {
+      position: sticky; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(4px);
+      border-bottom: 2px solid var(--text-main); padding: 6px 12px;
+      display: flex; justify-content: space-between; align-items: center; font-size: 8px;
+      transition: all 0.5s ease;
+    }
+    [data-theme="horror"] .top-bar { background: rgba(20,20,20,0.9); border-bottom-color: #5c2c22; color: #8b3a2b; }
+    
+    .stats-container { display: flex; gap: 15px; align-items: center; }
+    .bar-bg { width: 60px; height: 10px; background: rgba(0,0,0,0.1); border: 2px solid var(--text-main); }
+    [data-theme="horror"] .bar-bg { border-color: #5c2c22; }
+    .bar-fg.hp { width: 100%; height: 100%; background: #ff8ca3; }
+    .bar-fg.xp { width: 15%; height: 100%; background: #8cd6ff; transition: width 0.3s; }
+    [data-theme="horror"] .bar-fg.hp { background: #5c2c22; }
+    [data-theme="horror"] .bar-fg.xp { background: #8b3a2b; }
+
+    .corrupt-btn { background: transparent; border: none; font-family: "Press Start 2P"; font-size: 8px; cursor: pointer; color: var(--text-main); }
+    .corrupt-btn:hover { color: red; text-decoration: underline; }
+    [data-theme="horror"] .corrupt-btn { color: #8b3a2b; }
+
+    /* =========================================
+       BASE OS WINDOWS
+       ========================================= */
+    .desktop-area { max-width: 900px; margin: 40px auto 120px auto; padding: 0 15px; position: relative; z-index: 10; }
+
+    .os-window {
+      border-radius: 12px; margin-bottom: 30px; overflow: hidden;
+      animation: openApp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: none; box-shadow: 8px 8px 0px var(--shadow-color);
+      border: 4px solid #000; 
+      transition: filter 0.8s ease;
+    }
+    .os-window.active { display: block; }
+    @keyframes openApp { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+    .title-bar {
+      padding: 8px 12px; display: flex; justify-content: space-between; align-items: center;
+      font-size: 10px; font-family: "Press Start 2P"; border-bottom: 4px solid #000;
+    }
+    .window-controls { display: flex; gap: 6px; }
+    .win-btn {
+      width: 14px; height: 14px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 6px; font-family: monospace; font-weight: bold;
+    }
+
+    .app-content { padding: 24px; position: relative; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+    .img-frame { border-radius: 8px; overflow: hidden; cursor: pointer; }
+    .img-frame img { width: 100%; height: auto; display: block; filter: contrast(1.1); transition: transform 0.2s;}
+    .img-frame:hover img { transform: scale(1.05); }
+    
+    /* Clean, unfiltered display for posters/photos */
+    .poster-frame { position: relative; z-index: 10; }
+    .poster-frame img { filter: brightness(1.05) !important; }
+
+    /* =========================================
+       THEME 1: BARBIE SECRET AGENT (Home)
+       ========================================= */
+    .theme-barbie { background: #ffe4f2; border-color: #00ffff; }
+    .theme-barbie .title-bar { background: linear-gradient(90deg, #ff1493, #ff69b4); border-bottom-color: #00ffff; color: #fff; text-shadow: 2px 2px 0 #ff00ff; }
+    .theme-barbie .win-btn { background: #fff; border: 2px solid #00ffff; color: #00ffff; }
+    .theme-barbie .app-content { color: #8b008b; }
+    .theme-barbie h2, .theme-barbie h3 { color: #ff1493; text-shadow: 1px 1px 0 #00ffff; font-family: "Press Start 2P"; }
+    .theme-barbie .inner-box { background: rgba(255,255,255,0.8); border: 3px solid #00ffff; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: inset 0 0 10px rgba(255,20,147,0.2); }
+    .theme-barbie .btn { background: #ff69b4; color: #fff; border: 2px solid #00ffff; padding: 8px 12px; border-radius: 20px; font-family: "Press Start 2P"; font-size: 8px; display: inline-block; text-decoration: none; box-shadow: 2px 2px 0 #00ffff; margin: 4px; transition: all 0.1s; }
+    .theme-barbie .btn:hover { background: #ff1493; transform: translate(-2px, -2px); box-shadow: 4px 4px 0 #00ffff; }
+    .theme-barbie .img-frame { border: 4px solid #ff69b4; box-shadow: 0 0 15px #00ffff; }
+
+    /* =========================================
+       THEME 2: THE SIMS 2 (Research)
+       ========================================= */
+    .theme-sims2 { background: #2A5A9B; border-color: #1A3E70; font-family: "Atkinson Hyperlegible", sans-serif; }
+    .theme-sims2 .title-bar { background: #1A3E70; border-bottom-color: #112A4F; color: #fff; font-family: "Atkinson Hyperlegible", sans-serif; font-weight: bold; letter-spacing: 1px;}
+    .theme-sims2 .win-btn { background: #4CAF50; border: 2px solid #1A3E70; color: #fff; } 
+    .theme-sims2 .app-content { color: #fff; }
+    .theme-sims2 h2, .theme-sims2 h3 { color: #fff; font-family: "Atkinson Hyperlegible", sans-serif; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); border-bottom: none;}
+    .theme-sims2 .inner-box { background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+    .theme-sims2 .btn { background: linear-gradient(180deg, #5185CA, #2A5A9B); color: #fff; border: 2px solid #fff; border-radius: 20px; padding: 6px 16px; font-weight: bold; font-family: "Atkinson Hyperlegible", sans-serif; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); box-shadow: 0 4px 6px rgba(0,0,0,0.3); text-decoration: none; display: inline-block; transition: all 0.1s;}
+    .theme-sims2 .btn:hover { background: linear-gradient(180deg, #6398DF, #3B6EB2); transform: translateY(-2px); box-shadow: 0 6px 8px rgba(0,0,0,0.3); color: #fff;}
+    .theme-sims2 .plumbob { position: relative; font-size: 16px; animation: floatSpin 3s ease-in-out infinite; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
+    @keyframes floatSpin { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(10deg); } }
+    
+    .aspiration-points {
+      position: absolute; top: 15px; right: 25px; z-index: 10;
+      display: flex; align-items: center; gap: 8px; 
+      background: rgba(0,0,0,0.3); padding: 5px 12px; 
+      border-radius: 15px; border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    /* =========================================
+       THEME 3: SLAY THE SPIRE (Games/Inventory)
+       ========================================= */
+    .theme-spire { background: #2E282A; border-color: #4A0E17; }
+    .theme-spire .title-bar { background: #1C1819; border-bottom-color: #8B0000; color: #c4a482; }
+    .theme-spire .win-btn { background: #8B0000; border: 2px solid #c4a482; color: #c4a482; }
+    .theme-spire .app-content { color: #D3D3D3; }
+    .theme-spire h2 { color: #E5B13A; font-family: "Press Start 2P"; font-size: 12px; text-shadow: 2px 2px #000; }
+    .theme-spire .card-item { 
+      background: #c4a482; color: #1C1819; border: 4px solid #4A0E17; border-radius: 8px; 
+      padding: 10px; display: flex; flex-direction: column; position: relative;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 4px 4px 10px rgba(0,0,0,0.8);
+      transition: transform 0.2s;
+    }
+    .theme-spire .card-item:hover { transform: translateY(-10px) scale(1.05); z-index: 5; }
+    .theme-spire .card-cost { position: absolute; top: -10px; left: -10px; background: #8B0000; color: #fff; width: 30px; height: 30px; border-radius: 50%; border: 3px solid #E5B13A; display: flex; align-items: center; justify-content: center; font-family: "Press Start 2P"; font-size: 10px; }
+    .theme-spire .img-frame { border: 2px solid #1C1819; height: 150px; margin-bottom: 10px; }
+    .theme-spire .img-frame img { height: 100%; object-fit: cover; }
+    .theme-spire .card-item h3 { font-family: "Press Start 2P"; font-size: 10px; text-align: center; border-bottom: 2px solid #4A0E17; padding-bottom: 5px; margin: 0 0 10px 0;}
+    .theme-spire .tags span { background: #4A0E17; color: #fff; border: none; font-family: "Atkinson Hyperlegible"; font-size: 10px; font-weight: bold; border-radius: 10px; padding: 2px 8px; margin-right: 4px;}
+    .theme-spire .btn { background: #8B0000; color: #E5B13A; text-align: center; padding: 8px; font-family: "Press Start 2P"; font-size: 8px; border: 2px solid #E5B13A; text-decoration: none; margin-top: auto; transition: all 0.1s;}
+    .theme-spire .btn:hover { background: #4A0E17; }
+
+    /* =========================================
+       THEME 4: ANIMAL CROSSING (Guild)
+       ========================================= */
+    .theme-ac { background: #E8F5E9; border-color: #8D6E63; }
+    .theme-ac .title-bar { background: #A2D149; border-bottom-color: #8D6E63; color: #fff; text-shadow: 1px 1px 0 #558B2F; }
+    .theme-ac .win-btn { background: #fff; border: 2px solid #8D6E63; color: #8D6E63; }
+    .theme-ac .app-content { color: #5D4037; background-image: radial-gradient(#C8E6C9 2px, transparent 2px); background-size: 20px 20px; }
+    .theme-ac h2, .theme-ac h3 { color: #33691E; font-family: "Atkinson Hyperlegible", sans-serif; font-weight: bold; }
+    .theme-ac .inner-box { background: #FFF9C4; border: 3px dashed #FFCA28; border-radius: 16px; padding: 16px; margin-bottom: 16px; position: relative; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+    .theme-ac .bulletin-pin { position: absolute; top: 5px; left: 50%; transform: translateX(-50%); font-size: 20px; }
+    .theme-ac .btn { background: #FFCC80; color: #5D4037; border: 2px solid #EF6C00; border-radius: 20px; padding: 8px 16px; font-weight: bold; text-decoration: none; display: inline-block; transition: all 0.1s;}
+    .theme-ac .btn:hover { background: #EF6C00; color: #fff; transform: translateY(-2px);}
+
+    /* =========================================
+       THEME 5: UNDERTALE (Academy)
+       ========================================= */
+    .theme-ut { background: #000; border-color: #fff; border-radius: 0; border-width: 4px; border-style: solid; box-shadow: none; }
+    .theme-ut .title-bar { background: #000; border-bottom: 4px solid #fff; color: #fff; font-size: 10px; }
+    .theme-ut .win-btn { display: none; }
+    .theme-ut .app-content { color: #fff; font-family: "Press Start 2P", monospace; font-size: 10px; line-height: 1.8; }
+    .theme-ut h2, .theme-ut h3 { color: #fff; font-size: 12px; }
+    .theme-ut .inner-box { background: #000; border: 4px solid #fff; padding: 16px; margin-bottom: 16px; border-radius: 0; }
+    .theme-ut p::before { content: "* "; color: #fff; }
+    .theme-ut .tags span { background: #000; color: #fff; padding: 2px 4px; font-size: 8px; border: 1px solid #fff; }
+    .theme-ut .btn { background: #000; color: #fff; border: 2px solid #fff; padding: 6px 10px; font-family: "Press Start 2P"; font-size: 8px; text-decoration: none; display: inline-block; margin-top: 10px; transition: all 0.1s;}
+    .theme-ut .btn:hover { color: #ffff00; border-color: #ffff00; }
+
+    /* =========================================
+       THEME 6: VAMPIRE THE MASQUERADE (Chronicles)
+       ========================================= */
+    .theme-vtm { background: #130a0a; border-color: #5c1414; border-radius: 0; box-shadow: inset 0 0 50px #000; }
+    .theme-vtm .title-bar { background: #0a0505; border-bottom-color: #5c1414; color: #c09f6b; font-family: "EB Garamond", serif; font-size: 14px; font-style: italic; }
+    .theme-vtm .win-btn { background: #5c1414; border: 1px solid #c09f6b; color: #c09f6b; }
+    .theme-vtm .app-content { color: #d4c5b0; font-family: "EB Garamond", serif; font-size: 16px; }
+    .theme-vtm h2, .theme-vtm h3 { color: #a12020; font-family: "EB Garamond", serif; font-variant: small-caps; font-size: 20px; border-bottom: 1px solid #361010; padding-bottom: 4px;}
+    .theme-vtm .inner-box { background: rgba(0,0,0,0.6); border: 1px solid #361010; border-radius: 0; padding: 16px; margin-bottom: 16px; }
+    .theme-vtm .btn { background: #0a0505; color: #a12020; border: 1px solid #5c1414; padding: 4px 8px; font-family: "EB Garamond", serif; font-size: 14px; text-transform: uppercase; text-decoration: none; display: inline-block; transition: all 0.2s;}
+    .theme-vtm .btn:hover { background: #5c1414; color: #c09f6b; }
+
+    /* =========================================
+       HORROR MODE OVERRIDE (Silent Hill / BioShock)
+       ========================================= */
+    [data-theme="horror"] .os-window { 
+      filter: grayscale(0.5) sepia(0.3) brightness(0.9) contrast(1.2) hue-rotate(-10deg) !important; 
+      border-color: #2b2b2b !important;
+    }
+
+    /* =========================================
+       TASKBAR & DOCK
+       ========================================= */
+    .taskbar {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 16px;
+      display: flex; gap: 10px; padding: 10px; z-index: 100;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); flex-wrap: wrap; justify-content: center; max-width: 95%;
+      transition: all 0.5s ease;
+    }
+    [data-theme="horror"] .taskbar { background: rgba(15, 17, 16, 0.9); border-color: #383b38; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
+
+    .dock-icon {
+      background: #fff; border: 2px solid var(--text-main); border-radius: 8px;
+      padding: 8px; cursor: pointer; transition: all 0.2s;
+      font-family: "Press Start 2P"; font-size: 8px; color: var(--text-main);
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    [data-theme="horror"] .dock-icon { background: #1a1c1a; border-color: #5c2c22; color: #8b3a2b; }
+    .dock-icon:hover { transform: translateY(-5px); box-shadow: 0 4px 0 var(--text-main); }
+    .dock-icon.active { background: var(--text-main); color: #fff; transform: translateY(2px); box-shadow: none; }
+    [data-theme="horror"] .dock-icon.active { background: #5c2c22; color: #d1cbb8; }
+    .dock-art { font-size: 16px; line-height: 1; filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.2)); }
+    [data-theme="horror"] .dock-art { filter: grayscale(1) sepia(0.5) contrast(1.5); opacity: 0.7; }
+
+    /* =========================================
+       TAMAGOTCHI WIDGET
+       ========================================= */
+    .tama-widget {
+      position: fixed; bottom: 80px; right: 20px; 
+      width: 100px; height: 130px; 
+      background: linear-gradient(135deg, #ffc4d9 0%, #e09ab3 100%); border: 3px solid var(--text-main);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; box-shadow: 4px 4px 0px var(--shadow-color);
+      z-index: 90; display: flex; flex-direction: column; align-items: center; padding-top: 25px; transform: rotate(5deg);
+      transition: filter 0.8s ease, background 0.8s ease;
+    }
+    [data-theme="horror"] .tama-widget { background: #262927; border-color: #111; box-shadow: 4px 4px 0 rgba(0,0,0,0.8); }
+    
+    .tama-ring { position: absolute; top: -12px; width: 18px; height: 18px; border: 3px solid silver; border-radius: 50%; z-index: -1; box-shadow: inset 1px 1px 0 rgba(0,0,0,0.2), 2px 2px 0 rgba(0,0,0,0.2); }
+    [data-theme="horror"] .tama-ring { border-color: #333; box-shadow: none; }
+    
+    .tama-screen { 
+      width: 60px; height: 45px; background: #98bd93; border: 3px solid var(--text-main); border-radius: 6px; 
+      box-shadow: inset 2px 2px 0 rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; 
+      font-family: monospace; font-size: 12px; font-weight: bold; color: #2b3d27; margin-bottom: 12px; 
+    }
+    [data-theme="horror"] .tama-screen { background: #1c211e; color: #4a544d; border-color: #000; }
+    
+    .tama-buttons { display: flex; gap: 8px; }
+    .tama-btn { width: 12px; height: 12px; background: var(--bg-sun); border: 2px solid var(--text-main); border-radius: 50%; cursor: pointer; box-shadow: 1px 1px 0 var(--text-main); }
+    .tama-btn:active { transform: translate(1px, 1px); box-shadow: 0 0 0 var(--text-main); }
+    [data-theme="horror"] .tama-btn { background: #111; border-color: #000; box-shadow: 1px 1px 0 #000; }
+    @media (max-width: 900px) { .tama-widget { display: none; } }
+
+    /* SLEEK NOTIFICATIONS */
+    #level-up-msg { 
+      position: fixed; top: 80px; right: 20px; 
+      font-family: "Press Start 2P", monospace; font-size: 10px; 
+      color: #fff; background: var(--text-main); padding: 12px 16px; 
+      border: 2px solid #fff; box-shadow: 4px 4px 0 rgba(0,0,0,0.3); 
+      z-index: 2000; display: none; text-align: right; border-radius: 4px; 
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    #achievement-toast {
+      position: fixed; top: 130px; right: 20px; 
+      font-family: "Press Start 2P", monospace; font-size: 10px; 
+      color: #FFD700; background: #222; padding: 12px 16px; 
+      border: 2px solid #FFD700; box-shadow: 4px 4px 0 rgba(0,0,0,0.5); 
+      z-index: 2000; display: none; text-align: right; border-radius: 4px; 
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+    
+    [data-theme="horror"] #level-up-msg { background: #262927; border-color: #5c2c22; color: #8b3a2b; box-shadow: 4px 4px 0 rgba(0,0,0,0.8); }
+    [data-theme="horror"] #achievement-toast { background: #111; border-color: #5c1414; color: #a12020; box-shadow: 4px 4px 0 rgba(0,0,0,0.8); }
+
+    /* ACHIEVEMENT LIST STYLES */
+    .ach-list { list-style: none; padding: 0; margin: 0; font-family: "Press Start 2P", monospace; font-size: 8px; line-height: 1.8;}
+    .ach-item { margin-bottom: 10px; padding-left: 15px; position: relative; }
+    .ach-item::before { content: "-"; position: absolute; left: 0; color: #00ffff; }
+    .ach-locked { color: #ff69b4; opacity: 0.6; }
+    .ach-unlocked { color: #8b008b; }
+    .ach-title { font-weight: bold; font-size: 10px;}
+
+/* Profile: a readable introduction inside the playful desktop. */
+.desktop-area { max-width: 1120px; }
+#home { border-color: #d781ae; background: #fff5fa; }
+#home .title-bar { background: #f7cee2; color: #652747; border-color: #d781ae; text-shadow: none; }
+#home .app-content { padding: 36px; color: #493343; }
+#home h1, #home h2, #home h3 { font-family: 'Atkinson Hyperlegible', sans-serif; text-shadow: none; color: #682b50; }
+#home h1 { font-size: clamp(32px, 4vw, 48px); line-height: 1.08; margin: 10px 0 14px; letter-spacing: -1.5px; }
+#home h2 { font-size: 25px; line-height: 1.2; margin: 0 0 8px; }
+.profile-hero { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.eyebrow { font-size: 11px; font-weight: bold; letter-spacing: 2px; margin: 0 0 12px; }
+.profile-role { font-size: 19px; font-weight: bold; margin: 0 0 16px; }
+.profile-bio { font-size: 17px; line-height: 1.7; max-width: 52ch; }
+#home .btn { font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 14px; border: 1px solid #9b466f; background: transparent; color: #682b50; border-radius: 8px; box-shadow: none; margin: 0; padding: 10px 15px; }
+#home .btn:hover { background: #f7dfed; transform: none; box-shadow: none; }
+#home .primary-action { background: #82365f; color: white; }
+#home .primary-action:hover { background: #632246; }
+.profile-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.profile-links { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; }
+#home .profile-links .btn { padding: 4px 0; border: 0; border-radius: 0; font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+#home .profile-portrait .img-frame { border: 6px solid white; border-radius: 70px 70px 12px 12px; box-shadow: 7px 8px 0 #cfe9df; transform: rotate(2deg); }
+.profile-portrait img { height: 310px; object-fit: cover; object-position: center 35%; }
+.portrait-note { font-size: 12px; text-align: center; margin: 20px 0 0; color: #654658; }
+.profile-greeting { min-height: 26px; font-size: 13px; color: #765066; margin: 30px 0; border-bottom: 1px solid #ead3df; padding-bottom: 20px; }
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 22px; }
+.section-heading p { margin: 0; font-size: 15px; }
+.section-heading > a { font-size: 13px; white-space: nowrap; }
+.project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+#featured-projects { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.project-card { overflow: hidden; background: #fffdf9; color: #433a3a; border: 1px solid #d9cbd1; border-radius: 12px; display: flex; flex-direction: column; scroll-margin-top: 65px; }
+.project-cover { padding: 22px; min-height: 130px; display: flex; align-items: center; justify-content: space-between; gap: 16px; background: #ddebe6; color: #254940; }
+.project-cover > span:first-child { font-size: 42px; }
+.project-cover > span:last-child { max-width: 15ch; font-size: 12px; font-weight: bold; line-height: 1.4; text-align: right; }
+.project-insider .project-cover { background: #dce4f1; color: #344561; }
+.project-drafting .project-cover { background: #e8ddf1; color: #563575; }
+.project-terrarium .project-cover { background: #e6edd0; color: #455f2d; }
+.project-body { padding: 20px; flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
+.project-body h3, #home .project-body h3 { font: bold 21px/1.2 'Atkinson Hyperlegible', sans-serif; color: #433047; margin: 0 0 12px; }
+.project-body p { font-size: 15px; line-height: 1.6; margin: 0 0 18px; }
+.project-body .project-status { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #6c5b67; margin-bottom: 9px; }
+.project-body > a { margin-top: auto; font-size: 13px; }
+.project-body .project-availability { font-size: 12px; color: #65545e; border-top: 1px solid #dfd5db; padding-top: 12px; margin-top: auto; margin-bottom: 0; }
+.profile-current { margin-top: 32px; padding: 26px; background: #f3e9f0; border-radius: 12px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; }
+.profile-current ul { margin: 0; padding-left: 20px; font-size: 15px; }
+.profile-current li + li { margin-top: 8px; }
+.profile-achievements { margin-top: 24px; }
+.trophy-toggle { border: 0; background: transparent; color: #682b50; padding: 8px 0; font: inherit; cursor: pointer; display: flex; gap: 20px; }
+.collection-heading { margin: 30px 0 20px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid #168575; outline-offset: 4px; }
+.taskbar { width: max-content; flex-wrap: nowrap; }
+@media (max-width: 760px) {
+  .desktop-area { margin-top: 20px; }
+  #home .app-content { padding: 24px; }
+  .profile-hero { grid-template-columns: 1fr; gap: 28px; }
+  .profile-portrait { max-width: 270px; margin: 0 auto; }
+  .profile-portrait img { height: 240px; }
+  #featured-projects, .project-grid { grid-template-columns: 1fr; }
+  .section-heading { display: block; }
+  .section-heading > a { display: inline-block; margin-top: 14px; }
+  .profile-current { grid-template-columns: 1fr; gap: 12px; padding: 20px; }
+  .taskbar { width: calc(100% - 16px); max-width: 520px; bottom: 8px; display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 4px; padding: 6px; border-radius: 12px; }
+  .dock-icon { min-width: 0; padding: 8px 2px; font: bold 9px 'Atkinson Hyperlegible', sans-serif; }
+  .dock-art { font-size: 20px; }
+  .stats-container { gap: 7px; }
+  .stats-container > div:nth-child(2), .stats-container > div:nth-child(3) { display: none !important; }
+  .top-bar { font-size: 7px; }
+  .title-bar { font-size: 8px; }
+  #home h1 { letter-spacing: -1px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* Separate workshop, featured story tool, and named game-inspired interfaces. */
+#featured-projects { grid-template-columns: 1fr; }
+#featured-projects .project-card { display: grid; grid-template-columns: minmax(220px, .85fr) minmax(0, 1.4fr); border-color: #a7c7b9; }
+#featured-projects .project-cover { min-height: 260px; flex-direction: column; justify-content: center; gap: 14px; background: radial-gradient(ellipse at 20% 10%, #f0f6d7 0, transparent 65%), #d8e9df; border-right: 1px solid #bed3c8; }
+#featured-projects .project-cover > span:first-child { font-size: 90px; filter: drop-shadow(0 8px 0 #b7cebd); }
+#featured-projects .project-cover > span:last-child { max-width: none; text-align: center; letter-spacing: 1px; }
+#featured-projects .project-body { padding: 30px; }
+#home #featured-projects h3 { font-size: 32px; }
+#home #featured-projects .btn { background: #2d6652; border-color: #2d6652; color: #fff; margin: 0 0 16px; }
+#home #featured-projects .btn:hover { background: #204c3d; }
+#featured-projects .project-body > a:last-child { margin-top: 0; }
+.theme-workshop { background: #f6f1fc; border-color: #8971a5; }
+.theme-workshop .title-bar { background: #ded1ee; color: #40324f; border-color: #8971a5; }
+.theme-workshop .app-content { padding: 32px; color: #493954; }
+.theme-workshop h2 { font-size: 32px; line-height: 1.2; margin: 8px 0 16px; }
+.theme-workshop #project-list { margin-top: 28px; }
+.theme-workshop .btn { background: #624879; border-radius: 8px; padding: 10px 14px; color: white; text-decoration: none; }
+.theme-credit { font-size: 11px; font-family: 'Atkinson Hyperlegible', sans-serif; letter-spacing: .4px; padding-top: 22px; margin: 30px 0 0; border-top: 1px solid currentColor; opacity: .85; }
+/* A subtle agent dossier accent keeps Profile connected to its original theme. */
+#home .eyebrow { color: #8d3869; }
+#home .title-bar { background: linear-gradient(90deg, #f7cee2, #ffe3f0 70%, #c7f0ee); }
+#home .profile-hero { border-top: 3px solid #cae8e3; padding-top: 24px; }
+
+/* Knowledge aspiration: blue control panels, green plumbob, white inset cards. */
+#phd { background: #e5eefb; border-color: #28578e; border-radius: 22px 22px 16px 16px; }
+#phd .title-bar { background: linear-gradient(#568bcb, #28588e); border-color: #234c7c; padding: 12px 18px; }
+#phd .app-content { color: #213f62; padding: 32px; background: radial-gradient(ellipse at 100% 0, #c9e0fb 0, transparent 55%); }
+#phd h2, #phd h3 { color: #234e7c; text-shadow: none; }
+.research-hero { display: grid; grid-template-columns: minmax(0,1.3fr) minmax(0,1fr); align-items: center; gap: 34px; background: #f6faff; border: 2px solid #fff; box-shadow: 0 4px 0 #c3d4ed; border-radius: 18px; padding: 28px; }
+.research-intro { position: relative; padding-top: 12px; }
+#phd .research-hero h2 { font-size: clamp(30px,3.4vw,42px); line-height: 1.12; margin: 16px 0; max-width: 14ch; }
+.research-context { font-size: 12px; line-height: 1.5; color: #4c6583; max-width: 40ch; }
+.research-intro > p:last-child { font-size: 18px; line-height: 1.6; margin-bottom: 0; }
+.research-photo { border: 6px solid white; border-bottom-width: 22px; border-radius: 5px; transform: rotate(2deg); box-shadow: 0 3px 12px #244b7330; }
+.research-photo img { aspect-ratio: 4 / 3; object-fit: cover; filter: none; }
+.sims-plumbob { display: block; width: 24px; height: 43px; background: conic-gradient(from 30deg,#a7ef6a,#28824a,#75cf45,#d2ff88,#a7ef6a); clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%); position: absolute; right: 4px; top: 0; }
+#phd .research-section-heading { font-size: 25px; margin: 34px 0 6px; }
+.research-section-intro { margin: 0 0 22px; color: #4c6583; }
+.research-focus-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; align-items: start; }
+.research-focus { background: #fff; border: 2px solid #b7cce6; border-radius: 18px; padding: 22px; box-shadow: inset 0 3px 0 #f2f7fe, 0 3px 0 #c7d7ec; }
+.focus-number { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 26px; background: linear-gradient(#77a6df,#376ca6); color: #fff; font-size: 11px; font-weight: bold; border-radius: 14px; border: 1px solid #37669d; }
+#phd .research-focus h3 { font-size: 20px; margin: 12px 0 8px; }
+.research-focus > p { font-size: 16px; min-height: 52px; margin: 0 0 18px; }
+.publication-disclosure { border-top: 1px solid #d6e1ee; padding-top: 14px; }
+.publication-disclosure summary { cursor: pointer; color: #285b91; font-weight: bold; font-size: 14px; padding: 4px 0; }
+.publication-disclosure[open] summary { margin-bottom: 16px; }
+.publication-list { font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
+.publication-list > div { padding-bottom: 12px; }
+#phd .research-project { margin: 28px 0; padding: 24px; border-radius: 16px; border: 1px solid #a8c6dd; background: #d4e8e9; }
+#phd .research-project h3 { margin: 0; font-size: 25px; }
+#phd .research-project p:not(.eyebrow) { max-width: 65ch; }
+#phd .btn { border: 1px solid #285b91; background: linear-gradient(#fff,#e5effb); color: #234e7c; text-shadow: none; box-shadow: 0 2px 0 #a5bfdc; font-size: 14px; }
+#phd .btn:hover { background: #d6e7fb; color: #234e7c; }
+.research-event { background: #fff; border-radius: 18px; padding: 26px; border: 2px solid #b8d3b4; }
+#phd .research-event h2 { margin-top: 0; font-size: 25px; }
+.research-event .grid-2 { grid-template-columns: 1.4fr .6fr; align-items: center; }
+.event-poster { max-width: 210px; justify-self: center; border: 1px solid #ccdbce; }
+
+/* GIRT: a welcoming town sign and one unmistakable website destination. */
+.guild-welcome { display: grid; grid-template-columns: .55fr 1.45fr; gap: 30px; align-items: center; background: #fffdf1; border: 3px solid #b2ce84; border-radius: 28px; padding: 32px; box-shadow: 0 5px 0 #b9cd9c; margin-bottom: 30px; }
+.guild-sign { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: #dcebc4; color: #405a2d; min-height: 180px; border-radius: 50% 50% 18px 18px; font-size: 64px; border: 3px solid #819b5f; }
+.guild-sign span { font-size: 12px; letter-spacing: 2px; font-weight: bold; }
+#guild .guild-intro h2 { font-size: 36px; line-height: 1.2; margin: 8px 0 16px; }
+.guild-intro > p:not(.eyebrow) { font-size: 17px; }
+#guild .guild-website { display: block; width: fit-content; padding: 14px 24px; font-size: 18px; background: #41692f; border-color: #355625; color: #fff; box-shadow: 0 4px 0 #b0c19b; margin: 22px 0 16px; }
+#guild .guild-website:hover { background: #305320; }
+.guild-mail { display: inline-block; font-size: 13px; text-underline-offset: 4px; }
+.theme-vtm h2, .theme-vtm h3 { color: #d68d84; }
+.theme-vtm .btn { color: #e4b584; }
+@media (max-width: 760px) {
+  #featured-projects .project-card { grid-template-columns: 1fr; }
+  #featured-projects .project-cover { min-height: 180px; border-right: 0; border-bottom: 1px solid #bed3c8; }
+  #featured-projects .project-body { padding: 22px; }
+  .theme-workshop .app-content, #phd .app-content { padding: 20px; }
+  .research-hero, .research-focus-grid, .guild-welcome { grid-template-columns: 1fr; }
+  .research-hero { padding: 20px; gap: 24px; }
+  .research-photo { max-width: 340px; }
+  .research-focus > p { min-height: 0; }
+  .research-event { padding: 20px; }
+  .research-event .grid-2 { grid-template-columns: 1fr; }
+  .guild-welcome { padding: 22px; gap: 20px; }
+  .guild-sign { min-height: 120px; font-size: 44px; border-radius: 24px; }
+  #guild .guild-website { font-size: 16px; }
+  .taskbar { grid-template-columns: repeat(7,minmax(0,1fr)); }
+  .dock-icon { font-size: 8px; }
+}
+
+/* Research output should be visible and easy to scan, not an incidental footnote. */
+.research-focus-grid { grid-template-columns: 1fr; }
+.research-focus { display: grid; grid-template-columns: minmax(0,.75fr) minmax(0,1.25fr); column-gap: 32px; align-items: start; }
+.research-focus .focus-number, .research-focus > h3, .research-focus > p { grid-column: 1; }
+.research-focus .publication-disclosure { grid-column: 2; grid-row: 1 / span 4; border-top: 0; border-left: 1px solid #d6e1ee; padding: 0 0 0 28px; }
+.research-focus .publication-disclosure summary { font-size: 15px; padding: 8px 0; }
+.publication-entry + .publication-entry { border-top: 1px solid #e1e8f1; padding-top: 20px; margin-top: 20px; }
+.publication-entry h4 { font: bold 17px/1.55 'Atkinson Hyperlegible', sans-serif; color: #234e7c; margin: 0 0 8px; }
+.publication-entry .publication-meta { font-size: 14px; color: #4c6583; line-height: 1.6; margin: 0 0 10px; }
+.publication-link { display: inline-block; font-size: 14px; line-height: 1.5; text-underline-offset: 4px; padding: 4px 0; }
+.profile-bio { font-size: 16px; }
+/* Keep the Undertale frame and headings; use readable type for course information. */
+#academy .app-content > p:not(.theme-credit), #academy #course-list p { font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 17px; line-height: 1.65; }
+#academy #course-list .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+#academy #course-list .tags span { font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 12px; padding: 3px 8px; }
+#academy #course-list .btn { font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 15px; padding: 10px 14px; }
+#academy #current-course > .current-course { border-color: #fff3a1; }
+#academy #current-course > .current-course h3 { color: #fff3a1; }
+@media (max-width: 760px) {
+  .research-focus { display: block; }
+  .research-focus .publication-disclosure { border-left: 0; border-top: 1px solid #d6e1ee; padding: 14px 0 0; }
+}
+.theme-spire .game-cover-placeholder { display: flex; align-items: center; justify-content: center; background: radial-gradient(ellipse at top, #586441, #202f27); font-size: 64px; }
+.theme-ut .theme-credit::before { content: none; }
+
+/* Reading and interaction preferences. */
+body, .img-frame { cursor: auto; }
+#avatar-frame { cursor: pointer; }
+.game-description { font-size: 16px; line-height: 1.6; }
+#phd .research-methods { font-size: 16px; line-height: 1.65; }
+.effects-toggle { font: 12px 'Atkinson Hyperlegible', sans-serif; border: 1px solid currentColor; border-radius: 6px; background: transparent; color: inherit; padding: 6px 9px; cursor: pointer; min-height: 32px; white-space: nowrap; }
+[data-effects="off"] *, [data-effects="off"] *::before, [data-effects="off"] *::after { animation: none !important; transition: none !important; }
+[data-effects="off"] .img-frame:hover img { transform: none; }
+.tama-widget { width: 154px; height: 164px; padding-top: 28px; }
+.tama-buttons { gap: 2px; }
+.tama-btn { width: 44px; height: 44px; padding: 0; font: bold 16px monospace; color: #493343; }
+[data-theme="horror"] .tama-btn { color: #d1cbb8; }
+.project-cover.has-screenshot { position: relative; padding: 0 !important; }
+.project-cover.has-screenshot > span { display: none; }
+.project-screenshot { width: 100%; height: 100%; object-fit: contain; display: block; }
+@media (max-width: 760px) {
+  html { scroll-padding-bottom: 180px; }
+  .desktop-area { margin-bottom: calc(190px + env(safe-area-inset-bottom)); }
+  .taskbar { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 6px; padding: 8px; bottom: calc(8px + env(safe-area-inset-bottom)); }
+  .dock-icon { min-height: 54px; font: bold 11px 'Atkinson Hyperlegible', sans-serif; padding: 7px 3px; }
+  .top-bar { flex-wrap: wrap; gap: 6px; }
+  .stats-container { margin-left: auto; }
+  .effects-toggle { font-size: 12px; }
+  .project-card, .research-focus { scroll-margin-bottom: 180px; }
+}
+
+/* Real app screenshots stay uncropped and readable. */
+.project-cover.has-screenshot { background: #f6f1e0 !important; }
+.project-cover .project-screenshot { height: auto; max-height: 380px; object-fit: contain; }
+#featured-projects .project-cover .project-screenshot { max-height: 430px; }
+.project-gallery { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; padding: 0 20px 20px; }
+.project-gallery figure { margin: 0; min-width: 0; }
+.project-gallery a { display: block; background: #f6f1e0; border: 1px solid #d9cbd1; border-radius: 8px; overflow: hidden; }
+.project-gallery img { width: 100%; height: 230px; object-fit: contain; display: block; }
+.project-gallery figcaption { font-size: 13px; line-height: 1.5; margin-top: 8px; color: #65545e; }
+@media (max-width: 420px) { .project-gallery { grid-template-columns: 1fr; } }
+
+/* A paper-and-fabric workshop: decoration stays around readable content. */
+.theme-workshop { background: #f6efdf; border-color: #85765a; }
+.theme-workshop .title-bar { background: #b8d2c3; border-color: #85765a; color: #273e35; }
+.theme-workshop .app-content { color: #41392f; background-image: radial-gradient(#b7a88933 .7px, transparent .7px); background-size: 8px 8px; }
+.theme-workshop .btn { background: #345e50; }
+#project-spotlight { margin: 30px 0 38px; }
+#project-spotlight .project-card { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); border: 2px dashed #8f9d79; border-radius: 18px; outline: 6px solid #fffdf7; box-shadow: 0 8px 18px #594d3020; }
+#project-spotlight .project-cover { align-self: start; margin: 28px 0 0 24px; border: 10px solid #fff; box-shadow: 0 3px 10px #5b4b3326; }
+#project-spotlight .project-cover::before, #project-spotlight .project-cover::after { content: ''; position: absolute; width: 70px; height: 24px; background: #e6bd7499; top: -15px; transform: rotate(-12deg); pointer-events: none; }
+#project-spotlight .project-cover::before { left: -20px; }
+#project-spotlight .project-cover::after { right: -20px; transform: rotate(15deg); }
+#project-spotlight .project-body { padding: 28px; }
+#project-spotlight .project-body h3 { font-size: 34px; color: #294e40; }
+#project-spotlight .project-body h4 { font: bold 18px/1.4 'Atkinson Hyperlegible',sans-serif; margin: 4px 0 8px; }
+#project-spotlight .project-body p { font-size: 16px; }
+#project-spotlight .project-status { align-self: flex-start; background: #e7edcf; border-radius: 4px; padding: 8px 10px; font-size: 12px; letter-spacing: .3px; color: #3d512e; }
+#project-spotlight .project-gallery { grid-column: 1/-1; grid-template-columns: repeat(3,minmax(0,1fr)); padding: 12px 28px 28px; }
+#project-spotlight .project-gallery a { border: 8px solid white; border-radius: 0; box-shadow: 0 3px 8px #5b4b3320; }
+#project-spotlight .project-gallery figcaption { font-size: 15px; font-weight: bold; color: #514535; }
+.workshop-shelf-title { font: bold 24px/1.3 'Atkinson Hyperlegible',sans-serif; border-bottom: 2px dashed #b0a186; padding-bottom: 14px; }
+.theme-workshop #project-list { margin-top: 20px; }
+.theme-workshop #project-list .project-card { border: 1px dashed #aa9c83; }
+/* Field Notes has its own journal; #chronicles retains the vampire-inspired Talks page. */
+.theme-journal { background: #f8f2e7; color: #393b36; border-color: #8a826e; }
+.theme-journal .title-bar { background: #d7c7ab; color: #40382c; border-color: #8a826e; }
+.theme-journal .app-content { padding: 32px; }
+.theme-journal h2 { font: bold 38px/1.2 'Atkinson Hyperlegible',sans-serif; margin: 10px 0 16px; }
+.field-journal { background: #fffaf0; color: #393b36; border: 1px solid #d0c2a8; border-radius: 10px; padding: 26px; margin: 30px 0; box-shadow: 4px 4px 0 #d7c7ab66; }
+.field-journal a, .theme-journal a { color: #325d50; text-underline-offset: 4px; font-weight: bold; }
+#home .field-journal h2, #home .field-note h3 { color: #3c4e43; }
+#latest-field-notes { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 22px; }
+.field-note { padding: 22px 0; border-top: 1px solid #d8cbb4; scroll-margin-top: 80px; min-width: 0; }
+.field-note .field-note-meta { font: 14px/1.6 'Atkinson Hyperlegible',sans-serif; color: #665d4c; margin: 0 0 8px; }
+.field-note h3, .field-note h4, #home .field-note h3 { font: bold 22px/1.3 'Atkinson Hyperlegible',sans-serif; margin: 0 0 10px; }
+.field-note-description { font-size: 16px; line-height: 1.65; max-width: 75ch; margin: 0 0 12px; }
+.field-note-link { display: inline-block; padding: 8px 0; }
+.journal-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 12px; }
+.journal-tab { border: 1px solid #a7ab91; border-radius: 8px 8px 3px 3px; padding: 11px 16px; min-height: 44px; background: #e6ead8; color: #374335; font: bold 15px/1.4 'Atkinson Hyperlegible',sans-serif; cursor: pointer; }
+.journal-tab:nth-child(3n) { background: #ede0c9; }
+.journal-tab:nth-child(3n+1) { background: #dee6eb; }
+.journal-tab[aria-pressed=true] { background: #345e50; color: white; border-color: #345e50; }
+.journal-tab:focus-visible, .field-note a:focus-visible { outline: 3px solid #a05a24; outline-offset: 3px; }
+.journal-count { font-size: 14px; color: #665d4c; }
+.journal-year-heading { font: bold 26px/1.2 'Atkinson Hyperlegible',sans-serif; margin: 26px 0 10px; }
+@media(max-width:700px) {
+ #project-spotlight .project-card { grid-template-columns: 1fr; }
+ #project-spotlight .project-cover { margin: 24px 24px 0; }
+ #project-spotlight .project-gallery { grid-template-columns: 1fr; padding: 0 22px 24px; }
+ #project-spotlight .project-body { padding: 24px; }
+ .theme-workshop .app-content, .theme-journal .app-content { padding: 22px; }
+ #latest-field-notes { grid-template-columns: 1fr; gap: 0; }
+ .field-journal { padding: 20px; }
+}
+
+.theme-vtm .broadcast-entry { border-color: #542c2c; }
+.theme-vtm .broadcast-entry h4 { color: #e4b584; font-family: "EB Garamond",serif; font-size: 24px; }
+.theme-vtm .field-note-meta { color: #bca98e; }
+.theme-vtm .field-note-description { font-family: "Atkinson Hyperlegible",sans-serif; }
+.theme-vtm .broadcast-entry .btn { padding: 10px 14px; min-height: 44px; box-sizing: border-box; }
+
+/* Keep the spotlight introduction compact, with research context below both columns. */
+#project-spotlight .project-body { justify-content: center; }
+#project-spotlight .project-body > a { margin-top: 2px; }
+#project-spotlight .project-context { grid-column: 1/-1; padding: 26px 28px 12px; }
+#project-spotlight .project-context section { border-top: 1px solid #ded6c4; padding: 18px 0 4px; }
+#project-spotlight .project-context h4 { font: bold 19px/1.4 'Atkinson Hyperlegible',sans-serif; margin: 0 0 8px; color: #294e40; }
+#project-spotlight .project-context p { font-size: 16px; line-height: 1.65; margin: 0 0 12px; max-width: 85ch; }
+.theme-spire .card-item h3 { font: bold 22px/1.3 'Atkinson Hyperlegible',sans-serif; overflow-wrap: anywhere; }
+.selected-awards { margin: 30px 0; padding-top: 8px; }
+.selected-awards ul { list-style: none; padding: 0; }
+.selected-awards li { padding: 14px 0; border-top: 1px solid #dbc8d2; font-size: 16px; line-height: 1.6; }
+.selected-awards li strong { display: block; margin-bottom: 4px; }
+@media(max-width:700px) { #project-spotlight .project-context { padding: 12px 24px; } }
+
+/* Keep the game art whole, including on hover. */
+.theme-spire .img-frame { height: auto; aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; background: #211d1f; }
+.theme-spire .img-frame img { width: 100%; height: 100%; object-fit: contain; filter: none; }
+.theme-spire .img-frame:hover img { transform: none; }
+.theme-spire .card-item:hover { transform: translateY(-3px); }
+/* Undertale framing, with readable course content. */
+.theme-ut .app-content { font-family: 'Atkinson Hyperlegible',sans-serif; font-size: 17px; line-height: 1.65; }
+.theme-ut h2 { font-family: 'Press Start 2P',monospace; font-size: 20px; line-height: 1.5; }
+.theme-ut .inner-box h3 { font: bold 24px/1.3 'Atkinson Hyperlegible',sans-serif; margin: 0 0 18px; }
+.theme-ut .tags span { font: 13px/1.5 'Atkinson Hyperlegible',sans-serif; padding: 4px 8px; display: inline-block; }
+.theme-ut .btn { font: bold 16px/1.5 'Atkinson Hyperlegible',sans-serif; padding: 10px 14px; }
+.theme-ut #course-list { align-items: start; }
+.theme-ut .inner-box { min-width: 0; padding: 22px; }
+.theme-ut .theme-credit { font-size: 12px; }
+.theme-ut .poster-frame img { filter: none; }
+.research-theme-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.research-theme { background: #f7fbff; border: 1px solid #b9cfe5; border-radius: 14px; padding: 20px; }
+#phd .research-theme h4 { font-size: 20px; line-height: 1.3; color: #28527a; margin: 0 0 12px; }
+.research-theme p { margin: 0; font-size: 16px; line-height: 1.6; }
+.research-bibliography { margin-top: 32px; padding: 26px; border: 1px solid #b9cfe5; border-radius: 16px; background: #fff; scroll-margin-top: 85px; }
+#phd #publication-heading { font-size: 26px; margin: 0 0 12px; }
+#phd .publication-year-title { color: #28527a; font-size: 24px; margin: 24px 0 8px; }
+.research-bibliography .publication-entry { padding: 18px 0; border-top: 1px solid #dce6ef; }
+.research-bibliography .publication-entry h4 { max-width: 85ch; }
+#publication-filters .journal-tab { background: #e9f1fa; border-color: #b9cfe5; color: #28527a; }
+#publication-filters .journal-tab[aria-pressed=true] { background: #28527a; color: #fff; }
+.additional-publications { margin-top: 28px; border-top: 1px solid #b9cfe5; padding-top: 20px; }
+.additional-publications summary { font-size: 18px; font-weight: bold; cursor: pointer; padding: 10px 0; }
+.guild-jam { margin-top: 24px; }
+@media(max-width:700px) { .research-theme-grid { grid-template-columns: 1fr; } .research-bibliography { padding: 20px; } }
+/* Research projects share the Sims page; paper accents frame the prototype screenshots. */
+.research-making { margin: 30px 0; }
+.tys-publications { padding: 22px; background: #f8fbff; border: 1px solid #b9cfe5; border-radius: 12px; }
+#phd .tys-publications h3 { margin-top: 0; font-size: 22px; }
+#phd #project-spotlight .btn { background: #28527a; color: white; padding: 12px 16px; border-radius: 8px; text-decoration: none; }
+#research-prototypes .project-cover { display: none; }
+#research-prototypes .project-body { padding: 24px; }
+#research-prototypes .project-card { border-color: #b9cfe5; background: #edf5fd; }
+#publication-expand { margin-top: 18px; padding: 12px 16px; cursor: pointer; }
+#publication-expand[hidden] { display: none; }
+.teaching-tools { margin-top: 24px; }
+.theme-ut .teaching-tools > h3 { font-size: 24px; }
+#teaching-tools .project-cover { display: none; }
+#teaching-tools .project-card { background: #000; color: white; border: 3px solid white; border-radius: 0; }
+#teaching-tools .project-body h3, #teaching-tools .project-status { color: #fff6a0; }
+.playful-tools { margin-top: 36px; }
+#playful-tools .project-card { border: 2px dashed #8f9d79; background: #fffaf0; }
+#playful-tools .project-cover { min-height: 70px; }
+#playful-tools .btn { background: #345e50; color: white; font: bold 16px/1.5 'Atkinson Hyperlegible',sans-serif; }
+.archive-back { display: inline-block; padding: 8px 0 20px; }
+@media(max-width:700px) { .taskbar { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+/* Compact research overview, with detail available on request. */
+.project-more { grid-column: 1/-1; border-top: 1px solid #ded6c4; }
+.project-more > summary, .tys-publications > summary, .research-themes-disclosure > summary, .workshop-details > summary { cursor: pointer; font-weight: bold; padding: 14px 0; line-height: 1.5; }
+.project-more > summary { padding: 18px 28px; }
+.research-themes-disclosure { margin: 16px 0 24px; }
+.tys-publications { margin-top: 12px; padding: 8px 22px; }
+.workshop-details { margin-bottom: 12px; }
+#project-spotlight .project-cover .project-screenshot { max-height: 280px; }
+#project-spotlight .project-more .project-gallery { display: grid; }
+.theme-spire .game-cover-placeholder { font-size: 64px; background: #30272b; }
+.theme-spire .game-availability { border-top: 1px solid #795741; padding-top: 12px; font-size: 14px; }
+.guild-jam { padding-top: 30px !important; }
+#teaching-tools .project-cover.has-screenshot { display: block; }
+/* A clear course hierarchy inside the Undertale frame. */
+#current-course .current-course { border-color: #fff58b; margin-bottom: 26px; padding: 28px; }
+#current-course h3 { max-width: 40ch; font-size: 28px; }
+#current-course .tags { margin-bottom: 14px; }
+.theme-ut .previous-courses-heading, .theme-ut .supervision > h3 { font: bold 20px/1.5 'Atkinson Hyperlegible',sans-serif; }
+#course-list .inner-box { border-color: white; color: white; height: 100%; box-sizing: border-box; }
+#course-list .inner-box h3 { color: white; }
+#teaching-tools .project-card { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+#teaching-tools .project-cover.has-screenshot { padding: 14px !important; background: #15151d !important; display: flex; align-items: center; }
+#teaching-tools .project-screenshot { max-height: 420px; }
+#teaching-tools .project-body { justify-content: center; }
+#teaching-tools .project-body .project-status { display:none; }
+#teaching-tools .project-body > a { margin-top: 0; }
+.supervision { border-top: 2px solid white; margin-top: 30px; padding-top: 14px; }
+.supervision ul { padding-left: 20px; }
+.supervision li { margin-bottom: 12px; }
+.release-ribbon { position: absolute; top: 18px; right: -5px; z-index: 2; padding: 7px 14px; background: #f3cf72; color: #4a1720; border: 1px solid #754325; box-shadow: 2px 3px 0 #4a172044; font: bold 14px/1.4 'Atkinson Hyperlegible',sans-serif; }
+/* Secret-agent gadget details around ordinary, readable Home content. */
+#home { border: 3px solid #b54c8d; box-shadow: 7px 7px 0 #8b397344, 0 0 0 5px #f5c4df; }
+#home .title-bar { background: linear-gradient(100deg,#d953a1,#ed94c6 55%,#d5f4f2); color: #34112e; border-bottom: 2px solid #aa367b; }
+#home .app-content { background: radial-gradient(circle at 96% 3%,#a7eeef70,transparent 32%), repeating-linear-gradient(0deg,transparent 0 23px,#d0589620 24px),#fff2f9; }
+#home .profile-hero { position: relative; border-top: 0; padding: 24px; border: 2px solid #d77dad; border-radius: 22px 4px 22px 4px; background: #fff9fddd; box-shadow: 4px 4px 0 #b5e8e7; }
+#home .profile-portrait { position: relative; }
+#home .profile-portrait::after { content: '✦'; position: absolute; right: 0; top: 0; font-size: 40px; color: #a52a77; pointer-events: none; }
+#home .profile-links a { border: 1px solid #d37caa; border-radius: 20px; background: #ffedf7; padding: 7px 12px; }
+#home .home-journal { border: 2px solid #d67eaf; background: #fffafd; box-shadow: 5px 5px 0 #a9e4e4; border-radius: 4px 20px 4px 20px; position: relative; }
+#home .home-journal .section-heading { border-bottom: 2px solid #f0bdd8; padding-bottom: 14px; }
+#home .home-journal h2, #home .field-note h3 { color: #7f285f; }
+#home .field-note { border-color: #f0c5de; }
+#home .field-journal a { color: #7e2860; }
+#home .selected-projects { margin-top: 36px; }
+#home .selected-projects > .section-heading { border-left: 6px solid #da74af; padding-left: 16px; }
+.guild-logo { width: 280px; max-width: 100%; }
+.guild-logo img { width: 100%; display: block; }
+.jam-submissions { margin: 22px 0; padding: 12px; background: white; box-shadow: 3px 4px 0 #d8c763; transform: rotate(-.5deg); }
+.jam-submissions img { width: 100%; height: auto; display: block; }
+.jam-submissions figcaption { margin-top: 10px; font-size: 14px; }
+@media(max-width:700px) { #teaching-tools .project-card { grid-template-columns: 1fr; } #home .profile-hero { padding: 18px; } #current-course .current-course { padding: 22px; } .guild-logo { margin: auto; width: 100%; max-width: 340px; } }
+.supervision li strong { display: block; margin-bottom: 3px; }
+.guild-logo { overflow: hidden; aspect-ratio: 2 / 1; display: flex; align-items: center; }
+.guild-logo img { width: 180%; max-width: none; flex-shrink: 0; margin-left: -40%; }
+#featured-projects .project-cover.has-project-icon { padding: 28px !important; background: #f6f1e0 !important; }
+#featured-projects .has-project-icon .project-screenshot { width: min(100%, 230px); height: auto; max-height: 260px; object-fit: contain; }
+.featured-paper { padding: 24px; border-left: 5px solid #3f79ad; background: #f5fbff; }
+#phd .featured-paper h3 { font-size: 23px; margin: 6px 0 18px; }
+#phd .featured-paper .publication-entry h4 { font-size: 21px; line-height: 1.4; }
+.research-experiments { margin-top: 32px; }
+#phd .research-experiments > h3 { font-size: 24px; }
+#research-prototypes .project-cover.has-screenshot { display: flex; }
+#research-prototypes .project-screenshot { max-height: 240px; }
+/* Workshop and its featured paper are one research story. */
+#community-event .featured-paper { margin-top: 24px; padding: 20px 24px; border: 0; border-left: 4px solid #3f79ad; border-radius: 0 12px 12px 0; box-shadow: none; }
+#community-event .featured-paper .publication-entry { padding-bottom: 0; }
+#home .home-journal .archive-button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px 18px; box-sizing: border-box; background: #a0eeee; color: #174b60; border: 2px solid #398b9a; border-radius: 14px 4px 14px 4px; font-size: 17px; font-weight: bold; text-decoration: none; box-shadow: 3px 3px 0 #dca1c5; white-space: nowrap; }
+#home .home-journal .archive-button:hover { background: #c7ffff; box-shadow: 4px 4px 0 #dca1c5; }
+#home .archive-button:focus-visible { outline: 3px solid #832665; outline-offset: 4px; }
+#home #featured-projects .project-card { border: 2px solid #d67eaf; border-radius: 20px 4px 20px 4px; background: #fffafd; box-shadow: 5px 5px 0 #a9e4e4; }
+#home #featured-projects .project-cover.has-project-icon { background: radial-gradient(ellipse at center,#fffaff 0,#e0fafa 70%) !important; border-color: #abdcdc; }
+#home #featured-projects .project-body h3 { color: #7f285f; }
+#home #featured-projects .project-status { color: #7e4569; }
+#home #featured-projects .btn { background: #a0eeee; color: #174b60; border: 2px solid #398b9a; border-radius: 14px 4px 14px 4px; padding: 12px 18px; font: bold 16px/1.4 'Atkinson Hyperlegible',sans-serif; box-shadow: 3px 3px 0 #dca1c5; }
+#home #featured-projects .btn:hover { background: #c7ffff; }
+#home #featured-projects .project-body > a:last-child { color: #7f285f; }
+@media(max-width:700px) { #home .home-journal .section-heading { flex-wrap: wrap; gap: 16px; } #community-event .featured-paper { padding: 18px; } }
+#home .research-highlight-label { font: bold 17px/1.5 'Atkinson Hyperlegible',sans-serif; letter-spacing: .5px; color: #7f285f; margin: 0 0 16px; }
+.agent-message { display: flex; align-items: center; gap: 16px; margin: 26px 0; padding: 18px 22px; border: 2px solid #75c8d5; border-radius: 5px 22px 22px 22px; background: linear-gradient(110deg,#dcffff,#fff7fd); box-shadow: 4px 4px 0 #e5a5ce; }
+.agent-message-icon { display: grid; place-items: center; flex: 0 0 44px; height: 44px; border-radius: 50%; background: #df77b4; color: white; font-size: 28px; border: 2px solid white; }
+.agent-message-label { font: bold 11px/1.4 'Atkinson Hyperlegible',sans-serif; letter-spacing: 1.6px; color: #286271; }
+#home .agent-message .profile-greeting { font-size: 17px; line-height: 1.5; color: #682856; margin: 5px 0 0; padding: 0; border: 0; min-height: 26px; }
+.agent-message-light { flex: 0 0 9px; height: 9px; border-radius: 50%; background: #31899a; box-shadow: 0 0 0 4px #a0eeee; margin-left: auto; }
+.research-menu { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; background: #f5faff; border: 1px solid #a8c8e7; border-radius: 14px; padding: 14px; margin-bottom: 24px; scroll-margin-top: 95px; }
+.research-menu > span { width: 100%; font-size: 13px; font-weight: bold; color: #466681; }
+.research-menu a { padding: 10px 14px; border: 1px solid #9fbede; background: #dfedfc; color: #244d74; font-size: 15px; font-weight: bold; text-decoration: none; border-radius: 9px; }
+.research-menu a:hover { background: #c5def8; }
+.research-menu a:focus-visible, .research-return a:focus-visible { outline: 3px solid #326a9e; outline-offset: 3px; }
+#community-event, #research-experiments { scroll-margin-top: 95px; }
+.research-return { text-align: right; font-size: 14px; margin: 18px 0; }
+@media(max-width:600px) { .agent-message { padding: 16px; gap: 12px; } .agent-message-light { display: none; } .research-menu a { flex: 1 1 120px; text-align: center; } }
+
+/* Clear separation between page navigation and in-page reading links. */
+.research-menu { display: block; border: 0; border-left: 3px solid #8dafce; border-radius: 0; background: transparent; padding: 4px 0 4px 18px; }
+.research-menu > span { display: block; margin-bottom: 6px; }
+.research-menu a { display: inline-block; padding: 7px 0; margin-right: 22px; border: 0; border-radius: 0; background: transparent; text-decoration: underline; text-underline-offset: 4px; font-size: 16px; text-align: left; }
+.research-menu a::before { content: '↓ '; }
+.research-menu a:hover { background: transparent; color: #16395a; }
+.journal-footer { margin-top: 24px; padding-top: 22px; border-top: 1px solid #e8a9d0; text-align: center; }
+.game-image-link { display: block; }
+.game-image-link:focus-visible { outline: 3px solid #ffe084; outline-offset: 4px; }
+.dock-icon { min-width: 88px; min-height: 62px; padding: 10px 12px; font: bold 13px 'Atkinson Hyperlegible', sans-serif; }
+.dock-art { font-size: 23px; }
+.top-bar { z-index: 1100; }
+[data-theme="horror"] .top-bar { background: #202822; color: #f2eedf; border-bottom-color: #b6c9b9; }
+[data-theme="horror"] .top-bar .corrupt-btn { color: #fff4bd; border: 1px solid #b6c9b9; border-radius: 5px; padding: 10px; background: #354539; }
+.corrupt-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.desktop-area { margin-bottom: 150px; }
+@media(max-width:600px) {
+  .dock-icon { min-width: 0; min-height: 58px; padding: 7px 3px; font-size: 12px; }
+  .dock-art { font-size: 22px; }
+  .desktop-area { margin-bottom: 190px; }
+  .research-menu a { display: block; margin-right: 0; text-align: left; }
+}
+
+/* Keep the reading menu available without covering section headings. */
+#phd { overflow: clip; }
+#research-menu { position: sticky; top: 62px; z-index: 30; background: #f3f8ff; padding: 10px 16px; box-shadow: 0 3px 8px #244d741a; }
+#research-menu > span { margin: 0; }
+#research-menu a { margin-right: 18px; padding: 5px 0; }
+#community-event, #project-branch-beetle, #publications, #research-experiments { scroll-margin-top: 180px; }
+@media(max-width:600px) {
+  #research-menu { top: 58px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 12px; padding: 8px 12px; }
+  #research-menu > span { grid-column: 1 / -1; }
+  #research-menu a { font-size: 14px; margin: 0; line-height: 1.4; }
+  #community-event, #project-branch-beetle, #publications, #research-experiments { scroll-margin-top: 200px; }
+}
+
+/* A compact Sims-inspired control panel for the research page. */
+#research-menu { border: 2px solid #789cc7; border-radius: 22px 22px 12px 12px; background: linear-gradient(180deg, #f5fbff 0%, #daeaff 50%, #c3d9f5 100%); box-shadow: inset 0 2px 0 #fff, 0 3px 0 #829ebc, 0 5px 12px #25456926; padding: 10px 18px; }
+#research-menu > span { display: flex; align-items: center; gap: 10px; color: #315781; font-weight: bold; margin-bottom: 4px; }
+#research-menu > span::before { content: ''; width: 13px; height: 23px; background: linear-gradient(110deg, #c5ff99 0%, #77d342 48%, #328429 50%, #a5ed6d 100%); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+#research-menu a { display: inline-block; padding: 6px 12px; margin: 2px 5px 2px 0; border: 1px solid #8cafd5; border-radius: 14px 14px 7px 7px; background: linear-gradient(#ffffffb3, #d3e5fb); box-shadow: inset 0 1px 0 #fff; text-decoration: none; color: #244e7a; }
+#research-menu a::before { content: none; }
+#research-menu a:hover, #research-menu a:focus-visible { background: #f6ffe9; border-color: #79a64c; color: #285827; }
+.activity-icon { display: inline-block; font-size: 21px; vertical-align: middle; margin-right: 3px; }
+@media(max-width:600px) {
+  #research-menu { padding: 8px 10px; gap: 2px 6px; }
+  #research-menu a { margin: 0; padding: 6px; font-size: 13px; }
+}
+
+/* Shared layout rhythm; theme fonts, colours and decorative frames stay local. */
+:root {
+  --content-width: 1120px;
+  --page-padding: clamp(18px, 3vw, 32px);
+  --section-gap: 32px;
+  --card-gap: 24px;
+  --card-padding: 24px;
+  --dock-clearance: 200px;
+}
+html { scroll-padding-bottom: var(--dock-clearance); }
+.desktop-area {
+  max-width: var(--content-width);
+  padding-inline: clamp(10px, 2vw, 24px);
+  padding-bottom: var(--dock-clearance);
+  margin-bottom: 0;
+}
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window > .app-content { padding: var(--page-padding); }
+.os-window .app-content > section,
+.os-window .app-content > .research-bibliography,
+.os-window .app-content > .inner-box { margin-block: var(--section-gap); }
+.os-window .app-content > :first-child { margin-top: 0; }
+.os-window .app-content > :last-child { margin-bottom: 0; }
+.os-window .grid-2,
+.os-window .project-grid,
+.os-window .research-theme-grid { gap: var(--card-gap); }
+.os-window .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.os-window .inner-box,
+.os-window .project-body,
+.os-window .research-theme { padding: var(--card-padding); min-width: 0; }
+.os-window .grid-2 > .inner-box { margin-block: 0; }
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content h2 { font-size: clamp(26px, 3vw, 32px); line-height: 1.35; margin-block: 0 16px; }
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content h3 { font-size: 24px; line-height: 1.35; margin-block: 0 12px; }
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content h4 { font-size: 20px; line-height: 1.4; margin-block: 0 12px; }
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content .collection-heading,
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content .previous-courses-heading { margin-top: var(--section-gap); }
+/* Pixel fonts need a smaller size to occupy the same visual heading tier. */
+#games .app-content > h2, #academy .app-content > h2 { font-size: clamp(18px, 2.2vw, 24px); line-height: 1.6; }
+:is(#home, #phd, #guild, #academy, #games, #chronicles, #field-notes).os-window .app-content .btn,
+.os-window .archive-button,
+.os-window .journal-tab {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 10px 16px; line-height: 1.5;
+  max-width: 100%; white-space: normal; text-align: center;
+}
+.os-window .btn:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+.os-window .theme-credit { margin-top: var(--section-gap); }
+
+/* Parchment, rose and brass remain readable against the Vampire palette. */
+#chronicles .app-content { color: #e6d8c5; }
+#chronicles .inner-box { background: #180e10; border-color: #a77770; }
+#chronicles .app-content h2, #chronicles .app-content h3 { color: #efb0a6; border-bottom-color: #a77770; }
+#chronicles .broadcast-entry { border-color: #a77770; padding-block: var(--card-padding); }
+#chronicles .broadcast-entry h4 { color: #f0c99f; font-size: 24px; }
+#chronicles .field-note-meta, #chronicles .theme-credit { color: #d9c3aa; opacity: 1; }
+#chronicles .field-note-description { color: #e6d8c5; }
+#chronicles .btn { background: #10090b; color: #f0c99f; border: 1px solid #c0957d; }
+#chronicles .btn:hover, #chronicles .btn:focus-visible { background: #54242d; color: #fff0d8; border-color: #f0c99f; }
+#chronicles .btn:focus-visible { outline: 3px solid #ffe0a6; outline-offset: 4px; }
+/* Keep the optional horror vignette behind the readable broadcast content. */
+[data-theme="horror"]:has(#chronicles.active) body::before { z-index: 1; }
+
+/* Compact, uncropped cover areas keep the title and description close at hand. */
+#game-list .img-frame { height: clamp(140px, 18vw, 190px); aspect-ratio: auto; flex: none; }
+#game-list .img-frame img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+#game-list .card-item { padding: 16px; min-width: 0; }
+#game-list .game-description { overflow: visible; max-height: none; margin-block: 12px 20px; }
+#game-list .btn { margin-top: auto; }
+@media (max-width: 700px) {
+  :root { --section-gap: 24px; --card-gap: 20px; --card-padding: 20px; }
+  .os-window .grid-2 { grid-template-columns: minmax(0, 1fr); }
+  #game-list .img-frame { height: clamp(140px, 40vw, 180px); }
+}

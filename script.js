@@ -548,3 +548,73 @@ if (dock) {
   window.addEventListener('resize', updateDockClearance);
   if ('ResizeObserver' in window) new ResizeObserver(updateDockClearance).observe(dock);
 }
+
+// A disclosure, rather than an ARIA menu, preserves native link/Tab behaviour.
+const menuToggle = document.getElementById('dock-menu-toggle');
+const dockLinks = document.getElementById('dock-links');
+const mobileDock = matchMedia('(max-width: 800px)');
+function closeDockMenu(returnFocus = false) {
+  dock.classList.remove('menu-open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  if (returnFocus) menuToggle.focus();
+}
+menuToggle.addEventListener('click', () => {
+  const open = menuToggle.getAttribute('aria-expanded') !== 'true';
+  dock.classList.toggle('menu-open', open);
+  menuToggle.setAttribute('aria-expanded', String(open));
+  if (open) dockLinks.querySelector('a').focus();
+});
+dockLinks.addEventListener('click', event => {
+  const link = event.target.closest('a');
+  if (!link) return;
+  event.preventDefault();
+  location.hash = link.hash;
+  navigateToHash();
+  syncDockSection();
+  closeDockMenu(mobileDock.matches);
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && dock.classList.contains('menu-open')) {
+    event.preventDefault(); closeDockMenu(true);
+  }
+});
+document.addEventListener('click', event => {
+  if (!dock.contains(event.target)) closeDockMenu();
+});
+dock.addEventListener('focusout', () => {
+  requestAnimationFrame(() => { if (!dock.contains(document.activeElement)) closeDockMenu(); });
+});
+mobileDock.addEventListener('change', () => {
+  const focusInLinks = dockLinks.contains(document.activeElement);
+  closeDockMenu(mobileDock.matches && focusInLinks);
+});
+function syncDockSection() {
+  const active = document.querySelector('.os-window.active');
+  const current = active?.id === 'field-notes' ? 'home' : active?.id;
+  dockLinks.querySelectorAll('a').forEach(link => {
+    if (link.hash === '#' + current) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+  document.getElementById('current-section').textContent = active?.id === 'field-notes' ? 'Field notes' : dockLinks.querySelector('[aria-current]')?.lastElementChild.textContent || 'Profile';
+}
+window.addEventListener('hashchange', syncDockSection);
+syncDockSection();
+const pet = document.getElementById('tama-widget');
+const petToggle = document.getElementById('tama-toggle');
+let petExpandedPreference = null;
+function layoutPet() {
+  const roomy = (innerWidth - 1120) / 2 >= 178;
+  const expanded = petExpandedPreference ?? roomy;
+  pet.classList.toggle('is-compact', !expanded);
+  petToggle.setAttribute('aria-expanded', String(expanded));
+  petToggle.setAttribute('aria-label', expanded ? 'Minimise Tamagotchi' : 'Restore Tamagotchi');
+  petToggle.textContent = expanded ? '−' : '🐾';
+  document.body.classList.toggle('pet-has-room', roomy);
+  document.documentElement.style.setProperty('--pet-rail', (roomy ? 0 : expanded ? 178 : 76) + 'px');
+}
+petToggle.addEventListener('click', () => {
+  petExpandedPreference = petToggle.getAttribute('aria-expanded') !== 'true';
+  layoutPet();
+});
+window.addEventListener('resize', layoutPet);
+layoutPet();

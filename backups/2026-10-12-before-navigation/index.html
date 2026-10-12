@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-content="profile.pageTitle">Kseniia Harshina | Game Researcher</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <meta name="description" content="Kseniia Harshina is a PhD researcher in HCI and game studies at the University of Klagenfurt, researching games, reflection, community-building, migration, and displacement." data-content-content="profile.searchDescription">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Press+Start+2P&amp;family=EB+Garamond:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css"></head>
+<body>
+
+  <div id="level-up-msg">ACHIEVEMENT UNLOCKED: LEVEL UP!</div>
+  <div id="achievement-toast">🏆 NEW TROPHY:<br><span id="ach-title" style="color: #fff; margin-top: 5px; display: inline-block;"></span></div>
+
+  <!-- TAMAGOTCHI WIDGET -->
+  <div class="tama-widget" id="tama-widget">
+    <div class="tama-ring"></div>
+    <div class="tama-screen" id="tama-pet">(•ᴥ•)</div>
+    <div class="tama-buttons">
+      <button type="button" class="tama-btn" onclick="feedTama()" aria-label="Feed" title="Feed"><span aria-hidden="true">●</span></button>
+      <button type="button" class="tama-btn" onclick="playTama()" aria-label="Play" title="Play"><span aria-hidden="true">▶</span></button>
+      <button type="button" class="tama-btn" onclick="sleepTama()" aria-label="Sleep" title="Sleep"><span aria-hidden="true">☾</span></button>
+    </div>
+  </div>
+
+  <!-- TOP MENU BAR -->
+  <header class="top-bar pixel-font">
+    <div>Kseniia_OS v4.0 <span style="color: var(--text-muted);">| klagenfurt.loc</span></div>
+    <div class="stats-container">
+      <div>LVL <span id="player-lvl">1</span></div>
+      <div style="display: flex; align-items: center; gap: 5px;">HP <div class="bar-bg"><div class="bar-fg hp"></div></div></div>
+      <div style="display: flex; align-items: center; gap: 5px;">XP <div class="bar-bg"><div class="bar-fg xp" id="xp-bar"></div></div></div>
+      <button type="button" id="effects-toggle" class="effects-toggle" onclick="toggleEffects()" aria-pressed="true">Effects: on</button><button class="corrupt-btn" onclick="toggleTheme()">corrupt.exe</button>
+    </div>
+  </header>
+
+  <div class="desktop-area">
+    
+    <!-- =========================================
+         APP 1: BARBIE SECRET AGENT (Home)
+         ========================================= -->
+    <div id="home" class="os-window theme-barbie active">
+      <div class="title-bar">
+        <span>Secret_Agent_Profile.exe 🎀</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content">
+        <section class="profile-hero" aria-labelledby="profile-name">
+          <div class="profile-intro">
+            <h1 id="profile-name" data-content="profile.name"></h1>
+            <p class="profile-role" data-content="profile.role"></p>
+            <p class="profile-bio" data-content="profile.bio"></p>
+            <div class="profile-actions"><a class="btn primary-action" href="#phd">Explore my research</a><a class="btn" href="#project-branch-beetle">Try Branch Beetle</a></div>
+            <div id="profile-links" class="profile-links" aria-label="Contact and profiles"></div>
+          </div>
+          <div class="profile-portrait">
+            <div class="img-frame" id="avatar-frame" onclick="boopAvatar(event)"><img id="main-avatar-img" data-content-src="profile.image" data-content-alt="profile.imageAlt" onerror="this.style.display='none'"></div>
+          </div>
+        </section>
+        <div class="agent-message"><span class="agent-message-icon" aria-hidden="true">✦</span><div><span class="agent-message-label">INCOMING MESSAGE</span><p id="typewriter-text" class="profile-greeting"></p></div><span class="agent-message-light" aria-hidden="true"></span></div>
+        <section class="field-journal home-journal" aria-labelledby="latest-notes-title"><div class="section-heading"><div><h2 id="latest-notes-title">Latest activities</h2><p>Papers, talks, games, and community updates.</p></div></div><div id="latest-field-notes"></div><div class="journal-footer"><a class="archive-button" href="#field-notes">View all activities · Archive →</a></div></section>
+        <section class="selected-projects" aria-label="Branch Beetle">
+          
+          <div id="featured-projects" class="project-grid"></div>
+        </section>
+
+        
+        <div class="profile-achievements"><button class="trophy-toggle" onclick="toggleTrophies()" aria-expanded="false" aria-controls="trophies-content">Your discoveries <span id="trophy-icon">+</span></button><div id="trophies-content" style="display:none"><ul class="ach-list" id="achievement-list"></ul></div></div>
+      <p class="theme-credit">Interface inspiration: Barbie Secret Agent</p></div>
+    </div>
+
+    <!-- =========================================
+         APP 2: SIMS 2 (Research)
+         ========================================= -->
+    <div id="phd" class="os-window theme-sims2">
+      <div class="title-bar">
+        <span>Knowledge_Aspiration.exe 💎</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content">
+        
+        
+        
+        <nav id="research-menu" class="research-menu" aria-label="Research sections"><span>On this page</span><a href="#community-event">TYS workshop</a><a href="#project-branch-beetle">Branch Beetle</a><a href="#publications">Publications</a><a href="#research-experiments">Prototypes &amp; experiments</a></nav><div class="research-hero">
+          <div class="research-intro">
+            <p class="eyebrow" data-content="research.eyebrow"></p><span class="sims-plumbob" aria-hidden="true"></span><h2 data-content="research.title"></h2><p class="research-context" data-content="research.context"></p>
+            <p data-content="research.description"></p><p class="research-methods" data-content="research.methods"></p>
+          </div>
+          <div class="img-frame research-photo">
+            <img onerror="this.style.display='none'" data-content-src="research.image" data-content-alt="research.imageAlt" style="display: none;">
+          </div>
+        </div>
+
+        <details class="research-themes-disclosure"><summary>Explore my research themes</summary><div id="research-themes" class="research-theme-grid"></div></details>
+
+        <div class="research-event" id="community-event">
+          <h2 data-content="communityEvent.title"></h2>
+          <div class="grid-2">
+            <div>
+              <p data-content-rich="communityEvent.description"></p>
+              <p style="margin-bottom: 15px;"><em data-content="communityEvent.status"></em></p><a class="btn" data-content="communityEvent.buttonLabel" data-content-href="communityEvent.link" target="_blank" rel="noopener"></a>
+            </div>
+            <div class="img-frame event-poster">
+              <img onerror="this.style.display='none'" data-content-src="communityEvent.image" data-content-alt="communityEvent.imageAlt" style="display: none;">
+            </div>
+          </div>
+        <section class="tys-publications featured-paper" aria-labelledby="tys-paper-title"><p class="eyebrow">FEATURED PAPER · CHI PLAY 2026</p><h3 id="tys-paper-title">From the workshop to the research</h3><div id="tys-publications"></div></section>
+        </div>
+
+      
+      <section class="research-making" aria-label="Research tools and prototypes"><div id="project-spotlight"></div></section>
+        <section class="research-bibliography" id="publications" aria-labelledby="publication-heading"><h3 id="publication-heading">Selected publications</h3><p>Work in game studies, HCI, game-making, machine learning, and swarm intelligence. Papers can connect more than one theme.</p><p class="bibliography-profiles"><a href="https://orcid.org/0009-0001-4491-4619" target="_blank" rel="noopener">ORCID ↗</a> · <a href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a></p><div id="publication-filters" class="journal-tabs" role="group" aria-label="Filter publications by topic"></div><p id="publication-count" role="status"></p><div id="publication-list"></div><button id="publication-expand" class="btn" type="button" aria-expanded="false" aria-controls="publication-list">Show all publications</button></section>
+      <p class="research-return"><a href="#research-menu">↑ Research section menu</a></p><section id="research-experiments" class="research-experiments"><h3>Prototypes &amp; playful experiments</h3><div id="research-prototypes" class="project-grid"></div></section><p class="research-return"><a href="#research-menu">↑ Research section menu</a></p><p class="theme-credit">Interface inspiration: The Sims 2</p></div>
+    </div>
+
+    <!-- =========================================
+         APP 3: SLAY THE SPIRE (Games)
+         ========================================= -->
+    <div id="games" class="os-window theme-spire">
+      <div class="title-bar">
+        <span>Spire_Inventory.exe 🗡️</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content">
+        <h2>Your deck: games &amp; experiments</h2>
+        <p data-content="gamesIntro"></p>
+
+        <h3 class="collection-heading">Games &amp; jam experiments</h3><div class="grid-2" id="game-list">
+          <!-- Card 1 -->
+          <!-- Card 2 -->
+          <!-- Card 3 -->
+          <!-- Card 4 -->
+          <!-- Card 5 -->
+          </div>
+      <p class="theme-credit">Interface inspiration: Slay the Spire</p></div>
+    </div>
+
+    <!-- =========================================
+         APP 4: ANIMAL CROSSING (Guild)
+         ========================================= -->
+    <div id="guild" class="os-window theme-ac">
+      <div class="title-bar">
+        <span>Cozy_Guild.exe 🍃</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content"><section class="guild-welcome"><div class="guild-logo"><img src="images/girt_logo.png" alt="GIRT logo: a pink handheld game console"></div><div class="guild-intro"><p class="eyebrow">WELCOME TO THE COMMUNITY</p><h2 data-content="guild.title"></h2><p data-content="guild.description"></p><a class="btn guild-website" data-content="guild.websiteLabel" data-content-href="guild.website" target="_blank" rel="noopener"></a><a class="guild-mail" data-content="guild.contactLabel" data-content-href="guild.contactLink"></a></div></section>
+        
+        
+        
+
+        <section class="inner-box guild-jam"><span class="bulletin-pin" aria-hidden="true">📌</span><h3 data-content="guild.jam.title"></h3><p data-content="guild.jam.date"></p><p data-content="guild.jam.description"></p><figure class="jam-submissions"><a href="https://itch.io/jam/games-intersectional-jam-2026/entries" target="_blank" rel="noopener" aria-label="Play the game jam submissions on itch.io"><img src="images/girtjam_submissions.png" alt="The five jam submissions: Before I Grow Roots, A Family Reunion, We Shall Not Despair, To live in darkness, and Taking Care."></a><figcaption>Five games made during the jam · <a href="images/girtjam_submissions.png" target="_blank" rel="noopener">View image at full size ↗</a></figcaption></figure><a class="btn" data-content-href="guild.jam.link" data-content="guild.jam.buttonLabel" target="_blank" rel="noopener"></a></section>
+        <div class="inner-box" style="text-align: center;">
+          <div class="bulletin-pin">📌</div>
+          <h3 style="margin-top: 5px;" data-content="guild.event.title"></h3>
+          <p data-content="guild.event.description"></p>
+          
+          <div class="img-frame" style="max-width: 250px; margin: 15px auto; border: 3px solid #8D6E63; transform: rotate(2deg); box-shadow: 2px 2px 8px rgba(0,0,0,0.2);">
+            <a data-content-href="guild.event.zineLink" target="_blank" rel="noopener" aria-label="Open the GIS 2025 zine"><img onerror="this.style.display='none'" data-content-src="guild.event.image" data-content-alt="guild.event.imageAlt" style="display: none;"></a>
+          </div>
+          
+          <a class="btn" target="_blank" data-content-href="guild.event.link" data-content="guild.event.buttonLabel"></a>
+        </div>
+      <p class="theme-credit">Interface inspiration: Animal Crossing</p></div>
+    </div>
+
+    <!-- =========================================
+         APP 5: UNDERTALE (Academy)
+         ========================================= -->
+    <div id="academy" class="os-window theme-ut">
+      <div class="title-bar">
+        <span>* TEACHING.</span>
+        <div class="window-controls"></div>
+      </div>
+      <div class="app-content">
+        <h2>Teaching</h2>
+        <p data-content="teachingIntro"></p>
+
+        <div id="current-course"></div><h3 class="previous-courses-heading">Previous courses</h3><div class="grid-2" id="course-list"></div>
+      <section class="teaching-tools"><h3>Tools for learning</h3><div id="teaching-tools"></div></section><p class="theme-credit">Interface inspiration: Undertale</p></div>
+    </div>
+
+    <!-- =========================================
+         APP 6: VAMPIRE THE MASQUERADE (Chronicles)
+         ========================================= -->
+    <section id="chronicles" class="os-window theme-vtm"><div class="title-bar"><span>Chronicles_Log.exe 🦇</span><div class="window-controls" aria-hidden="true"><span class="win-btn"></span></div></div><div class="app-content"><h2>Watch & Listen</h2><p>Recorded talks and interviews to watch or listen to.</p><div class="grid-2" id="talk-list"></div><p class="theme-credit">Interface inspiration: Vampire: The Masquerade – Bloodlines</p></div></section>
+    <div id="field-notes" class="os-window theme-journal">
+      <div class="title-bar">
+        <span>Field_Notes.journal ✎</span>
+        <div class="window-controls"><span class="win-btn"></span></div>
+      </div>
+      <div class="app-content">
+        <a href="#home" class="archive-back">← Back to Profile</a><p class="eyebrow">THE DESKTOP JOURNAL</p><h2>Field notes</h2><p>Papers, talks, workshops, games, and things taking shape along the way.</p><div id="field-note-filters" class="journal-tabs" role="group" aria-label="Filter field notes by year"></div><p id="field-note-count" class="journal-count" role="status"></p><div id="field-note-archive"></div></div>
+    </div>
+
+  </div> <!-- End Desktop Area -->
+
+  <!-- BOTTOM TASKBAR (DOCK) -->
+  <nav class="taskbar">
+    <button class="dock-icon active" onclick="location.hash = 'home'">
+      <div class="dock-art">🎀</div>
+      <span>PROFILE</span>
+    </button>
+    <button class="dock-icon" onclick="location.hash = 'phd'">
+      <div class="dock-art">💎</div>
+      <span>RESEARCH</span>
+    </button>
+    
+    <button class="dock-icon" onclick="location.hash = 'guild'">
+      <div class="dock-art">🍃</div>
+      <span>GIRT</span>
+    </button>
+    <button class="dock-icon" onclick="location.hash = 'academy'">
+      <div class="dock-art">⚔️</div>
+      <span>TEACHING</span>
+    </button>
+    <button class="dock-icon" onclick="location.hash = 'games'">
+      <div class="dock-art">🗡️</div>
+      <span>GAMES</span>
+    </button>
+    <button class="dock-icon" onclick="location.hash = 'chronicles'"><div class="dock-art">🦇</div><span>WATCH / LISTEN</span></button>
+    
+  </nav>
+
+  <template id="game-card-template"><div class="card-item">
+            
+            <div class="img-frame"><img alt="" onerror="this.style.display='none';"></div>
+            <h3></h3>
+            <div class="tags"></div>
+            <p class="game-description"></p>
+            <a class="btn" target="_blank">Play</a>
+          </div></template><template id="course-card-template"><div class="inner-box">
+            <h3></h3>
+            <div class="tags"></div>
+            <p></p>
+            <a class="btn"></a>
+          </div></template><script src="content.js"></script><script src="field-notes.js"></script>
+  <script src="publications.js"></script><script src="script.js"></script>
+
+
+</body></html>

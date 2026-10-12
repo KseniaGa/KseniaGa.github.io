@@ -863,3 +863,43 @@ html { scroll-padding-bottom: var(--dock-clearance); }
   .os-window .grid-2 { grid-template-columns: minmax(0, 1fr); }
   #game-list .img-frame { height: clamp(140px, 40vw, 180px); }
 }
+
+/* Compact navigation: a single desktop row and a mobile disclosure panel. */
+.taskbar { padding: 5px 8px; gap: 0; bottom: calc(12px + env(safe-area-inset-bottom)); }
+.dock-links { display: flex; gap: 8px; }
+.dock-icon { min-height: 44px; min-width: 82px; padding: 4px 10px; gap: 2px; font-size: 12px; text-decoration: none; }
+.dock-art { font-size: 17px; }
+.mobile-dock-bar { display: none; }
+.dock-icon:focus-visible, #dock-menu-toggle:focus-visible { outline: 3px solid #168575; outline-offset: 2px; }
+@media (max-width: 800px) {
+  .taskbar { display: block; width: calc(100% - 24px); max-width: 520px; padding: 5px 8px; bottom: calc(8px + env(safe-area-inset-bottom)); background: #fff4fb; }
+  .mobile-dock-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  #current-section { font-weight: bold; padding-left: 8px; }
+  #dock-menu-toggle { min-height: 44px; padding: 8px 18px; border: 2px solid currentColor; border-radius: 8px; font: bold 16px 'Atkinson Hyperlegible', sans-serif; background: #fff; color: #493343; cursor: pointer; }
+  .dock-links { display: none; position: absolute; bottom: calc(100% + 8px); left: 0; right: 0; padding: 12px; border: 2px solid #9b466f; border-radius: 12px; background: #fff4fb; box-shadow: 0 4px 18px #0004; max-height: calc(100dvh - 150px); overflow-y: auto; }
+  .taskbar.menu-open .dock-links { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+  .dock-icon { flex-direction: row; gap: 8px; min-height: 48px; min-width: 0; padding: 8px; font-size: 14px; }
+  [data-theme="horror"] .dock-links { background: #202822; border-color: #b6c9b9; }
+  [data-theme="horror"] #current-section { color: #f2eedf; }
+}
+/* The pet owns a side rail whenever it cannot fit beside the centred window. */
+.tama-widget { right: 12px; bottom: var(--dock-clearance); transform: none; height: 194px; padding-top: 58px; }
+.tama-toggle { position: absolute; top: 8px; right: 18px; min-width: 44px; min-height: 44px; padding: 4px; border: 2px solid #493343; border-radius: 50%; background: #ffe5ef; color: #493343; font: bold 20px 'Atkinson Hyperlegible',sans-serif; cursor: pointer; }
+.tama-widget.is-compact { width: 52px; height: 52px; padding: 0; border-radius: 50%; }
+.tama-widget.is-compact .tama-toggle { inset: 1px; border: 0; background: transparent; }
+.tama-widget.is-compact .tama-screen, .tama-widget.is-compact .tama-buttons, .tama-widget.is-compact .tama-ring { display: none; }
+@media (min-width: 901px) {
+  .desktop-area { width: calc(100% - var(--pet-rail, 76px)); margin-left: auto; margin-right: var(--pet-rail, 76px); }
+  body.pet-has-room .desktop-area { margin-inline: auto; }
+}
+/* Six compact links on wide screens; balanced rows of three when narrower. */
+.profile-intro { container-type: inline-size; }
+#home .profile-links { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+#home.os-window .app-content .profile-links .btn { min-height: 44px; padding: 8px 4px; font-size: 12px; }
+@container (min-width: 490px) {
+  #home .profile-links { grid-template-columns: repeat(6,minmax(0,1fr)); gap: 6px; }
+}
+#games.os-window .app-content > h2 { font-size: clamp(18px, 2.2vw, 24px); font-family: 'Press Start 2P', monospace; color: #E5B13A; }
+@media (max-width: 600px) {
+  #games.os-window .app-content > h2 { font-size: 16px; line-height: 1.6; }
+}
