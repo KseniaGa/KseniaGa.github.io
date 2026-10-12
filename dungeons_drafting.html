@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dungeons & Drafting</title>
+    <!-- Import Google's retro pixel font -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Accessibility Update: Softer dark slate theme instead of harsh blue */
+            --bg-color: #1a1b26; 
+            --panel-bg: #24283b; 
+            --panel-border: #7aa2f7;
+            --text-color: #c0caf5;
+            --btn-bg: #414868;
+            --btn-hover: #565f89;
+            --btn-active: #7aa2f7;
+            --bar-bg: #16161e;
+            
+            /* Stat Colors */
+            --color-intro: #f7768e;
+            --color-litrev: #9ece6a;
+            --color-method: #b4f9f8;
+            --color-analysis: #e0af68;
+            --color-conclusion: #bb9af7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(#292e42 1px, transparent 1px),
+                radial-gradient(#292e42 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            font-family: 'Press Start 2P', cursive;
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: background-color 0.5s, background-image 0.5s;
+        }
+
+        .rpg-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Chunky Retro Panel Style */
+        .rpg-panel {
+            background-color: var(--panel-bg);
+            border: 4px solid var(--panel-border);
+            box-shadow: 6px 6px 0px #11111a;
+            padding: 24px;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #e0af68;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        .xp-tracker {
+            font-size: 1.2rem;
+            background: #16161e;
+            display: inline-block;
+            padding: 15px 20px;
+            border: 2px solid var(--panel-border);
+            color: #9ece6a;
+        }
+
+        /* Boss HP Bar Section */
+        .boss-panel {
+            text-align: center;
+            background: #16161e;
+            border-color: #f7768e;
+        }
+        .boss-title {
+            color: #f7768e;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0px #000;
+        }
+        .boss-hp-container {
+            width: 100%;
+            height: 30px;
+            background: #000;
+            border: 3px solid #fff;
+            position: relative;
+        }
+        .boss-hp-fill {
+            height: 100%;
+            width: 100%; /* Starts full */
+            background: #f7768e;
+            transition: width 0.5s ease-out;
+            border-right: 2px solid #fff;
+        }
+        .boss-hp-text {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            text-shadow: 1px 1px 0px #000;
+            font-size: 0.9rem;
+            z-index: 10;
+        }
+
+        /* Stats Section */
+        .stats-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .stat-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .stat-name {
+            width: 180px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        button.btn-retro {
+            font-family: 'Press Start 2P', cursive;
+            background: var(--btn-bg);
+            color: var(--text-color);
+            border: 3px solid var(--panel-border);
+            border-bottom-width: 5px;
+            border-right-width: 5px;
+            padding: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.1s;
+            text-align: center;
+        }
+
+        button.btn-retro:active {
+            transform: translate(2px, 2px);
+            border-bottom-width: 3px;
+            border-right-width: 3px;
+            background: var(--btn-active);
+            color: #000;
+        }
+
+        button.btn-retro:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            border-bottom-width: 5px;
+            border-right-width: 5px;
+            background: var(--btn-bg);
+            color: var(--text-color);
+        }
+
+        .bar-container {
+            flex-grow: 1;
+            height: 24px;
+            background: var(--bar-bg);
+            border: 2px solid #fff;
+            position: relative;
+            box-shadow: inset 2px 2px 0px #000;
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.2s ease-out;
+            border-right: 2px solid rgba(255,255,255,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-val {
+            width: 80px;
+            text-align: right;
+            font-size: 0.8rem;
+        }
+
+        .action-btn { 
+            width: auto !important; font-size: 0.8rem !important; 
+        }
+
+        .submit-area { margin-top: 20px; text-align: center; display: none; }
+        .submit-btn { 
+            width: 100% !important; padding: 20px; font-size: 1.5rem !important; 
+            background: #f7768e !important; color: #111 !important; 
+            border-color: #ff9eaf !important; animation: pulse 1s infinite; 
+        }
+        
+        @keyframes pulse { 
+            0%, 100% { transform: scale(1); } 
+            50% { transform: scale(1.02); } 
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+        }
+        .shake { animation: shake 0.5s; }
+        
+        .flash-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: white; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.1s;
+        }
+        .flash-active { opacity: 1; transition: opacity 0.1s; }
+        
+        .dimmed { opacity: 0.4; filter: grayscale(80%); transition: all 0.3s; cursor: pointer; }
+        .dimmed:hover { opacity: 0.8; filter: grayscale(20%); transform: translateX(5px); border-color: #e0af68; }
+        .ready-status { border-color: #9ece6a !important; background: rgba(158, 206, 106, 0.2) !important; box-shadow: 0 0 10px #9ece6a inset; }
+        .ready-status .stat-name { color: #9ece6a !important; text-shadow: 0 0 5px #9ece6a; }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85); z-index: 100;
+            display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+        .hidden { display: none !important; }
+        
+        .chamber-modal { width: 100%; max-width: 900px; max-height: 90vh; overflow-y: auto; }
+        .chamber-layout { display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
+        .chamber-col { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 15px; }
+        
+        .guidance-list { list-style: none; padding: 0; margin: 0; color: #a9b1d6; }
+        .guidance-list li { margin-bottom: 15px; font-size: 0.8rem; line-height: 1.6; display: flex; gap: 10px; }
+        
+        .draft-pad {
+            background-color: #1a1b26;
+            background-image: 
+                linear-gradient(rgba(122, 162, 247, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(122, 162, 247, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            border: 2px solid #7aa2f7; box-shadow: inset 0 0 15px #000;
+            padding: 20px; flex-grow: 1; min-height: 250px; position: relative;
+        }
+        .draft-text { color: #c0caf5; font-size: 0.8rem; line-height: 2; opacity: 0.9; }
+        
+        .action-row { display: flex; gap: 10px; margin-top: 20px; }
+        
+        .particle { position: absolute; background: white; pointer-events: none; z-index: 50; animation: floatUp 2s linear forwards; }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-50px) scale(0); opacity: 0; }
+        }
+
+        /* --- CAMPFIRE THEME (PHASE 1) --- */
+        body.campfire-theme {
+            --bg-color: #17201c; 
+            --panel-bg: #223026; 
+            --panel-border: #9ece6a;
+            background-image: 
+                radial-gradient(#2d4033 1px, transparent 1px),
+                radial-gradient(#2d4033 1px, transparent 1px);
+        }
+
+        /* --- CAMPFIRE FROG & SAVE POINT --- */
+        @keyframes hop {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .frog-emoji { font-size: 3.5rem; display: inline-block; animation: hop 2.5s infinite ease-in-out; text-shadow: 2px 2px 0px #000; cursor: pointer; user-select: none; transition: transform 0.1s;}
+        .frog-emoji:active { transform: scale(0.9); animation: none; }
+        .speech-bubble {
+            position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+            margin-bottom: 10px; background: #fff; color: #000;
+            padding: 10px; padding-right: 25px; 
+            font-size: 0.65rem; border: 2px solid #000; border-radius: 4px;
+            box-shadow: 2px 2px 0px #000; z-index: 10; 
+            max-width: 250px; width: max-content; line-height: 1.6; text-align: center;
+            font-family: 'Press Start 2P', cursive;
+        }
+        .speech-bubble::before {
+            content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+            border-width: 10px 10px 0; border-style: solid; border-color: #000 transparent transparent transparent;
+        }
+        .speech-bubble::after {
+            content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+            border-width: 7px 7px 0; border-style: solid; border-color: #fff transparent transparent transparent;
+        }
+
+        .summary-stats { font-size: 1rem; line-height: 2; color: #ddd; margin-bottom: 20px; }
+        .highlight-val { color: #9ece6a; text-shadow: 0 0 5px #9ece6a; font-size: 1.2rem; }
+
+        /* --- UI FIX: OVERLAPPING BUTTONS & HIGHLIGHTS --- */
+        .toolbar { 
+            display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; justify-content: flex-start; 
+        }
+        .tool-btn { 
+            font-size: 0.65rem !important; 
+            padding: 8px 10px !important; 
+            border-width: 2px !important; 
+            background: #16161e !important;
+            white-space: nowrap; 
+            margin-bottom: 5px;
+        }
+        
+        .hl-spell { padding: 2px 4px; border-radius: 3px; color: #111; text-shadow: none; font-weight: bold; }
+        
+        .draft-pad[contenteditable="true"] { cursor: text; }
+        .draft-pad:focus { outline: 2px solid #7aa2f7; }
+        .word-counter { font-size: 0.8rem; text-align: right; margin-top: 5px; color: #7aa2f7; }
+
+        /* --- FULL PAPER VIEWER --- */
+        .full-paper-modal { width: 100%; max-width: 800px; max-height: 90vh; display: flex; flex-direction: column; }
+        .paper-content { 
+            background: #0f111a; color: #c0caf5; font-family: 'Segoe UI', sans-serif; 
+            padding: 30px; overflow-y: auto; flex-grow: 1; border: 4px solid #7aa2f7;
+            margin-bottom: 15px; box-shadow: inset 0 0 15px #000;
+        }
+        .paper-content h2 { font-family: 'Press Start 2P', cursive; font-size: 1rem; border-bottom: 2px dashed #414868; padding-bottom: 5px; margin-top: 20px; margin-bottom: 10px;}
+        .paper-content h1 { font-family: 'Press Start 2P', cursive; font-size: 1.5rem; text-align: center; margin-bottom: 20px; color: #e0af68; }
+        .paper-content p { line-height: 1.6; font-size: 1rem; margin-bottom: 10px; }
+        .download-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .cheat-btn { font-size: 0.6rem !important; padding: 5px 10px !important; background: #550055 !important; border-color: #ff55ff !important; margin-top: 10px;}
+
+        /* --- CHARACTER CREATOR (PHASE 0) --- */
+        .class-card {
+            background: #16161e; border: 2px solid #414868; padding: 15px; margin-bottom: 10px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .class-card:hover { border-color: #7aa2f7; transform: translateX(5px); }
+        .class-card.selected { border-color: #bb9af7; background: rgba(187, 154, 247, 0.1); box-shadow: 0 0 10px #bb9af7 inset; }
+        .class-title { color: #e0af68; font-size: 0.9rem; margin-bottom: 8px; }
+        .class-desc { color: #a9b1d6; font-size: 0.7rem; line-height: 1.4; }
+        .retro-input {
+            width: 100%; background: #000; color: #c0caf5; border: 2px solid #7aa2f7;
+            padding: 15px; font-family: 'Press Start 2P', cursive; font-size: 0.8rem;
+            margin-bottom: 20px; outline: none;
+        }
+        .retro-input:focus { border-color: #bb9af7; }
+        .weapon-select {
+            width: 100%; background: #000; color: #9ece6a; border: 2px solid #9ece6a;
+            padding: 15px; font-family: 'Press Start 2P', cursive; font-size: 0.7rem;
+            margin-bottom: 20px; cursor: pointer; outline: none;
+        }
+        .class-select {
+            width: 100%; background: #000; color: #bb9af7; border: 2px solid #bb9af7;
+            padding: 15px; font-family: 'Press Start 2P', cursive; font-size: 0.7rem;
+            margin-bottom: 20px; cursor: pointer; outline: none;
+        }
+
+        /* --- FIGHTING GAME IDLE ANIMATION --- */
+        @keyframes fighterBounce {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-4px) scaleY(0.95); }
+        }
+        .fighter-idle {
+            display: inline-block;
+            animation: fighterBounce 0.7s infinite ease-in-out;
+            transform-origin: bottom center;
+        }
+
+        /* --- TEST OF HONOR QUIZ --- */
+        .quiz-q { margin-bottom: 15px; color: #c0caf5; text-align: left; background: #16161e; padding: 10px; border: 1px solid #414868;}
+        .quiz-q h3 { font-size: 0.75rem; margin-bottom: 10px; color: #7aa2f7; line-height: 1.5; }
+        .quiz-label { display: block; font-size: 0.7rem; margin-bottom: 8px; cursor: pointer; line-height: 1.4; color: #a9b1d6; }
+        .quiz-label:hover { color: #fff; }
+        .quiz-label input { margin-right: 10px; }
+
+        /* --- LEVEL 2 (REVISION PHASE) THEME --- */
+        body.level2-theme {
+            --bg-color: #2b1111; 
+            --panel-bg: #331111; 
+            --panel-border: #ff3333;
+            background-image: 
+                radial-gradient(#441111 1px, transparent 1px),
+                radial-gradient(#441111 1px, transparent 1px);
+        }
+        body.level2-theme .boss-hp-fill { background: #ff0033; border-right: 2px solid #fff; box-shadow: 0 0 10px #ff0000; }
+        body.level2-theme .boss-title { color: #ff3333; animation: pulse 1s infinite; }
+        
+        .revision-arena { display: flex; flex-direction: column; gap: 15px; z-index: 10; position: relative; }
+        .revision-pad {
+            background-color: #1a1b26;
+            border: 2px solid #ff3333; box-shadow: inset 0 0 15px #000;
+            padding: 20px; flex-grow: 1; min-height: 400px;
+            color: #c0caf5; font-size: 0.9rem; line-height: 1.8;
+            overflow-y: auto; max-height: 60vh;
+        }
+        .revision-pad h2 { color: #ff3333; font-family: 'Press Start 2P', cursive; font-size: 0.8rem; margin: 15px 0 5px 0; }
+
+        /* Creepy Eyes for Revision Phase */
+        .creepy-eye {
+            position: fixed;
+            z-index: 0; /* Keeps them behind the main panels */
+            opacity: 0;
+            pointer-events: none;
+            animation: blinkEye linear forwards;
+            filter: drop-shadow(0 0 8px #ff3333);
+        }
+        
+        @keyframes blinkEye {
+            0% { opacity: 0; transform: scale(0.5) rotate(var(--rot)); }
+            20% { opacity: 0.6; transform: scale(1) rotate(var(--rot)); }
+            80% { opacity: 0.6; transform: scale(1) rotate(var(--rot)); }
+            100% { opacity: 0; transform: scale(0.5) rotate(var(--rot)); }
+        }
+
+        @media (max-width: 768px) {
+            .stat-row { flex-wrap: wrap; }
+            .stat-name { width: 100%; text-align: center; margin-bottom: 5px; }
+            .title { font-size: 1.2rem; }
+            .chamber-layout { flex-direction: column; }
+        }
+    </style>
+<link rel="stylesheet" href="dungeons-drafting.css">
+</head>
+<body>
+<nav class="drafting-site-nav"><a href="index.html#academy">← Back to Teaching</a><span id="draft-save-status" role="status">Progress stays in this browser. Download your manuscript for a backup.</span></nav>
+
+    <div id="flash-overlay" class="flash-overlay"></div>
+
+    <div class="rpg-container">
+
+        <!-- PHASE -1: Title Screen -->
+        <div id="title-screen" class="rpg-panel" style="text-align: center; border-color: #e0af68; padding: 40px; margin-top: 10vh;">
+            <div style="display: flex; justify-content: center; gap: 20px; font-size: 4rem; margin-bottom: 20px;">
+                <span class="fighter-idle" style="animation-delay: 0s;">🗡️</span>
+                <span class="fighter-idle" style="animation-delay: 0.3s;">🐸</span>
+            </div>
+            <h1 style="font-size: 2.5rem; color: #e0af68; text-shadow: 4px 4px 0px #000; margin-bottom: 10px; line-height: 1.4;">DUNGEONS<br>&<br>DRAFTING</h1>
+            <div style="color: #a9b1d6; font-size: 0.8rem; margin-bottom: 40px; line-height: 1.6;">An Academic RPG Adventure</div>
+            
+            <button class="btn-retro action-btn" style="width: 100%; margin-bottom: 15px; font-size: 1.5rem !important; padding: 15px !important; color: #9ece6a; border-color: #9ece6a; background: #223026;" onclick="startNewAdventure()">▶ NEW ADVENTURE</button><button id="resume-adventure" class="btn-retro action-btn hidden" onclick="resumeAdventure()">▶ RESUME ADVENTURE</button>
+            <button class="btn-retro action-btn" style="width: 100%; color: #bb9af7; border-color: #bb9af7; font-size: 1rem !important; padding: 12px !important;" onclick="toggleOptions()">⚙️ OPTIONS</button>
+            
+            <div id="options-menu" class="hidden" style="margin-top: 20px; border: 2px dashed #bb9af7; padding: 15px; background: rgba(0,0,0,0.3); text-align: left;">
+                <div style="color: #bb9af7; font-size: 0.9rem; margin-bottom: 15px; text-align: center;">OPTIONS</div>
+                <label style="display: flex; align-items: center; gap: 10px; color: #c0caf5; font-size: 0.8rem; cursor: pointer;">
+                    <input type="checkbox" id="god-mode-toggle" style="transform: scale(1.5);" onchange="toggleGodMode(this.checked)"> Enable God Mode (Playtest Cheats)
+                </label>
+                <div style="color: #a9b1d6; font-size: 0.6rem; margin-top: 10px; line-height: 1.4;">Unlocks auto-balance and instant-clear mechanics for testing.</div>
+            </div>
+        </div>
+        
+        <!-- Header (Visible from Phase 0 onwards) -->
+        <header class="rpg-panel header hidden" id="main-header" style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 15px; padding: 15px 24px;">
+            <div style="display: flex; align-items: center; gap: 15px; text-align: left;">
+                <div id="header-avatar" class="fighter-idle hidden" style="font-size: 2.5rem; text-shadow: 2px 2px 0px #000;"></div>
+                <div>
+                    <h1 class="title" style="margin-bottom: 0px; text-align: left; font-size: 1.2rem;">DUNGEONS & DRAFTING</h1>
+                    <div id="header-subtitle" style="color: #a9b1d6; font-size: 0.7rem; display: none; line-height: 1.4; margin-top: 5px;"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- PHASE 0: Character Creation -->
+        <div id="phase0-creation" class="rpg-panel hidden" style="border-color: #bb9af7;">
+            <div class="boss-title" style="color: #bb9af7; text-align: center;">📜 CHARACTER CREATOR 📜</div>
+            
+            <div style="margin-top: 20px;">
+                <div style="color: #c0caf5; font-size: 0.8rem; margin-bottom: 10px;">Every great adventurer names their quest...<br><span style="font-size: 0.6rem; color: #7aa2f7;">(Your Paper Title)</span></div>
+                <input type="text" id="quest-name-input" aria-label="Paper title" class="retro-input" placeholder="Enter quest name...">
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div style="color: #c0caf5; font-size: 0.8rem; margin-bottom: 10px;">Choose Your Class<br><span style="font-size: 0.6rem; color: #7aa2f7;">(Research Orientation)</span></div>
+                <select id="class-select" aria-label="Research orientation" class="class-select" onchange="selectClass(this.value)">
+                    <!-- Populated by JS -->
+                </select>
+                <div id="class-info" style="margin-bottom: 20px; min-height: 40px; text-align: left; padding: 15px; border: 2px dashed #414868; background: rgba(0,0,0,0.3); display: none;">
+                    <!-- Class preview populates here -->
+                </div>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div style="color: #c0caf5; font-size: 0.8rem; margin-bottom: 10px;">Set Target Mana<br><span style="font-size: 0.6rem; color: #7aa2f7;">(Target Word Count)</span></div>
+                <input type="number" id="mana-input" aria-label="Target word count" class="retro-input" value="1000" min="100" step="50">
+            </div>
+            
+            <button class="btn-retro action-btn" style="width: 100%; margin-top: 20px; border-color: #bb9af7; color: #bb9af7;" onclick="beginAdventure()">BEGIN ADVENTURE ⚔️</button>
+            <div id="creation-error" style="color: #f7768e; font-size: 0.8rem; text-align: center; margin-top: 10px; min-height: 15px;"></div>
+        </div>
+
+        <!-- Campfire Status Tracker (Phase 1) -->
+        <div class="rpg-panel hidden" id="campfire-panel" style="border-color: #9ece6a; background-color: transparent;">
+            <div class="boss-title" style="color: #9ece6a; text-align: center;">🔥 CAMPFIRE: PREPARING FOR BATTLE 🔥</div>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin: 25px 0;">
+                <div style="color: #c0caf5; font-size: 0.9rem; line-height: 1.8; text-align: right;">
+                    "It's dangerous to go alone!<br>Take this.<br><span style="font-size: 0.6rem; color: #9ece6a;">(Click the frog for wisdom)</span>"
+                </div>
+                <div style="position: relative;">
+                    <button class="frog-emoji frog-control" type="button" onclick="pokeFrog()" aria-label="Ask the frog for writing advice">🐸</button>
+                    <div class="speech-bubble hidden" id="frog-bubble">
+                        <span id="frog-text">CMOS18...</span>
+                        <span style="position: absolute; top: 4px; right: 6px; cursor: pointer; color: #ff3333; font-weight: bold; font-size: 0.8rem;" onclick="hideFrogBubble()" title="Hide Wisdom">×</span>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; color: #a9b1d6; font-size: 0.8rem; line-height: 1.6;">
+                Rest here. Equip your weapon and distribute your Mana (Words) strategically across your draft before entering the dungeons.
+            </div>
+        </div>
+
+        <!-- THE ARMORY (Phase 1) -->
+        <div class="rpg-panel hidden" id="armory-panel" style="border-color: #e0af68; padding: 20px;">
+            <div style="color: #e0af68; font-size: 1rem; margin-bottom: 15px; text-align: center;">
+                <span class="fighter-idle" style="font-size: 1.5rem; vertical-align: bottom;">🗡️</span>
+                <span class="fighter-idle" style="font-size: 1.5rem; vertical-align: bottom; animation-delay: 0.2s;">🏹</span>
+                <span class="fighter-idle" style="font-size: 1.5rem; vertical-align: bottom; animation-delay: 0.4s;">🛡️</span>
+                THE ARMORY 
+                <span class="fighter-idle" style="font-size: 1.5rem; vertical-align: bottom; animation-delay: 0.4s;">🛡️</span>
+                <span class="fighter-idle" style="font-size: 1.5rem; vertical-align: bottom; animation-delay: 0.2s;">🏹</span>
+                <span class="fighter-idle" style="font-size: 1.5rem; vertical-align: bottom;">🗡️</span>
+            </div>
+            <div style="color: #a9b1d6; font-size: 0.7rem; margin-bottom: 15px; text-align: center;">Select the concrete method you will wield in battle.</div>
+            <select id="weapon-select" aria-label="Research method" class="weapon-select" onchange="handleWeaponChange()">
+                <option value="">-- Select a Weapon --</option>
+                <!-- Populated by JS -->
+            </select>
+            <input type="text" id="custom-weapon-input" aria-label="Custom research method" class="retro-input hidden" placeholder="Name your custom method..." style="margin-top: -10px; margin-bottom: 20px;">
+        </div>
+
+        <!-- Planning Menu (Phase 1) -->
+        <div class="rpg-panel hidden" id="planning-menu-panel" style="border-color: #9ece6a; padding: 15px;">
+            <button class="btn-retro action-btn" style="width: 100%; border-color: #9ece6a; background: rgba(0,0,0,0.3); color: #9ece6a;" onclick="toggleManaMenu()" id="btn-toggle-mana">
+                ▼ OPEN MANA MENU ▼
+            </button>
+            
+            <div id="mana-menu-content" class="hidden" style="margin-top: 20px;">
+
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div class="xp-tracker" style="margin: 0 auto; box-shadow: 0 0 15px rgba(158, 206, 106, 0.2);">
+                        MANA (WORDS): <span id="xp-display">1000</span> / <span id="xp-max">1000</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div style="color: #e0af68; font-size: 0.9rem;">✨ MANA DISTRIBUTION</div>
+                    <button class="btn-retro action-btn" style="border-color: #7aa2f7; color: #7aa2f7; font-size: 0.6rem !important; padding: 5px 10px !important; background: rgba(0,0,0,0.3);" onclick="suggestManaDistribution()">💡 Suggest Balance</button>
+                </div>
+                <main class="stats-area" id="stats-mount">
+                    <!-- Stats generated via JS -->
+                </main>
+
+                <!-- VERIFY BUTTON (Phase 1) -->
+                <div id="verify-area" class="submit-area" style="display: block;">
+                    <button class="btn-retro submit-btn" style="background: #414868 !important; border-color: #7aa2f7 !important; color: #fff !important;" onclick="verifyWordCount()">DISTRIBUTE MANA (VERIFY)</button>
+                    <button id="btn-cheat-autopass" class="btn-retro action-btn cheat-btn hidden" onclick="cheatAutoPass()">✨ PLAYTEST CHEAT: Auto-Balance</button>
+                    <div id="verify-msg" style="margin-top: 10px; color: #f7768e; font-size: 0.8rem;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dungeon Entry Area (Phase 1) -->
+        <div class="rpg-panel hidden" id="dungeon-entry-panel" style="border-color: #551122; padding: 20px; margin-top: 20px; text-align: center;">
+            <div style="color: #a9b1d6; font-size: 0.8rem; margin-bottom: 15px;" id="dungeon-status-text">Requirements: Equip Weapon & Distribute Mana</div>
+            <button id="btn-enter-dungeon" class="btn-retro submit-btn" style="background: #222 !important; color: #555 !important; border-color: #444 !important; cursor: not-allowed; width: 100% !important;" disabled onclick="enterDungeon()">
+                ENTER THE DUNGEON ⚔️
+            </button>
+        </div>
+
+        <!-- Boss Status Tracker (Phase 2) -->
+        <div class="rpg-panel boss-panel hidden" id="tracker-panel">
+            <div class="boss-title" id="main-boss-title">💀 THE FINAL BOSS: THE DRAFT 💀</div>
+            <div class="boss-hp-container">
+                <div class="boss-hp-fill" id="boss-hp-fill"></div>
+                <div class="boss-hp-text">BOSS HP: <span id="boss-hp-text">600</span> / <span id="boss-hp-max">600</span></div>
+            </div>
+            <button class="btn-retro action-btn" id="btn-view-inventory" style="font-size: 0.7rem !important; padding: 10px !important; border-color: #e0af68; margin-top: 15px; width: 100%;" onclick="openFullPaper()">VIEW MANUSCRIPT INVENTORY</button>
+        </div>
+
+        <!-- Container for Phase 2 Stats -->
+        <div id="phase2-stats-container"></div>
+
+        <!-- Revision Arena (Phase 3 Teaser) -->
+        <div class="rpg-panel revision-arena hidden" id="revision-arena">
+            <h2 class="title" style="text-align: center; color: #ff3333;">TEASER: REVISION STAGE</h2>
+            <div style="font-size: 0.9rem; color: #c0caf5; margin-bottom: 15px; text-align: center; line-height: 1.6;">
+                TO BE CONTINUED...<br><br>
+                Come back when you are ready to take on this enemy and revise your manuscript.<br>
+                For now, review your draft below and claim your loot!
+            </div>
+            
+            <div class="revision-pad" id="revision-text-content" contenteditable="false">
+                <!-- Compiled paper loaded here -->
+            </div>
+            
+            <div class="download-row" style="margin-top: 20px;">
+                <button class="btn-retro action-btn" style="border-color: #7aa2f7; color: #7aa2f7;" onclick="downloadPaper('txt')">↓ Download TXT</button>
+                <button class="btn-retro action-btn" style="border-color: #9ece6a; color: #9ece6a;" onclick="downloadPaper('html')">↓ Download HTML</button>
+                <button class="btn-retro action-btn" style="border-color: #f7768e; background: #551122;" onclick="restartAdventure()">RESTART GAME</button>
+            </div>
+        </div>
+
+        <!-- Submit Button Area -->
+        <div id="submit-area" class="submit-area">
+            <button class="btn-retro submit-btn" id="btn-final-submit" onclick="submitLevel1()">DELIVER FINAL BLOW (SUBMIT)</button>
+        </div>
+
+    </div>
+
+    <!-- MODAL: DRAFTING DUNGEON -->
+    <div id="chamber-modal" class="modal-overlay hidden">
+        <div class="rpg-panel chamber-modal">
+            <h2 class="title" id="chamber-title" style="text-align: center; margin-bottom: 10px;">[SECTION] DUNGEON</h2>
+            
+            <div class="chamber-layout">
+                <!-- Left: Guidance -->
+                <div class="chamber-col" style="flex: 0.8;">
+                    <div style="font-size: 0.8rem; color: #7aa2f7; margin-bottom: 15px;">► DUNGEON SECRETS</div>
+                    <ul class="guidance-list" id="chamber-questions">
+                        <!-- Populated by JS -->
+                    </ul>
+                </div>
+                
+                <!-- Right: Drafting Pad -->
+                <div class="chamber-col" style="flex: 1.2;">
+                    <div style="font-size: 0.8rem; color: #7aa2f7; margin-bottom: 10px; display: flex; justify-content: space-between;">
+                        <span>► YOUR SPELLBOOK</span>
+                        <span id="chamber-xp-title" style="color: #a9b1d6;">(Target: 0 Words)</span>
+                    </div>
+                    
+                    <!-- Spells Toolbar (Hidden initially during drafting phase) -->
+                    <div class="toolbar hidden" id="spell-toolbar">
+                        <!-- Populated dynamically based on chamber -->
+                    </div>
+
+                    <div class="draft-pad" id="draft-text-content" role="textbox" aria-label="Section draft" aria-multiline="true" contenteditable="true" oninput="updateWordCount()">
+                        <!-- Typing happens here -->
+                    </div>
+                    <div class="word-counter" id="chamber-word-count">Words: 0 / 0</div>
+                </div>
+            </div>
+            
+            <!-- Phase 1 Button: Switch from Drafting to Spellcasting -->
+            <button class="btn-retro action-btn" id="chamber-prepare-btn" style="width: 100% !important; margin-top: 20px; color: #e0af68; border-color: #e0af68; box-shadow: 0 0 10px #e0af68 inset;" onclick="transitionToSpellPhase()">
+                PREPARE SPELLS (Done Drafting)
+            </button>
+
+            <!-- Phase 2 Button: Cast spells and beat the dungeon -->
+            <button class="btn-retro action-btn hidden" id="chamber-cast-btn" style="width: 100% !important; margin-top: 20px; color: #f7768e; border-color: #f7768e; background: #551122 !important; box-shadow: 0 0 10px #f7768e inset;" onclick="defeatDungeon()">
+                CAST SPELLS & DEFEAT DUNGEON ⚔️
+            </button>
+
+            <button class="btn-retro action-btn" style="width: 100% !important; margin-top: 10px; background: #16161e;" onclick="closeModals()">
+                FLEE DUNGEON (Save & Exit)
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL: FULL PAPER VIEWER -->
+    <div id="full-paper-modal" class="modal-overlay hidden">
+        <div class="rpg-panel full-paper-modal">
+            <h2 class="title" style="text-align: center; color: #7aa2f7;">MANUSCRIPT INVENTORY</h2>
+            
+            <div class="paper-content" id="compiled-paper-content">
+                <!-- Compiled text goes here -->
+            </div>
+
+            <div class="download-row">
+                <button class="btn-retro action-btn" style="border-color: #7aa2f7; color: #7aa2f7;" onclick="downloadPaper('txt')">↓ Download TXT</button>
+                <button class="btn-retro action-btn" style="border-color: #9ece6a; color: #9ece6a;" onclick="downloadPaper('html')">↓ Download HTML</button>
+                <button class="btn-retro action-btn" style="border-color: #f7768e; background: #551122;" onclick="closeFullPaper()">CLOSE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: TEST OF HONOR -->
+    <div id="test-honor-modal" class="modal-overlay hidden">
+        <div class="rpg-panel" style="border-color: #bb9af7; max-width: 600px;">
+            <h2 class="title" style="color: #bb9af7; text-align: center;">TEST OF HONOR</h2>
+            <div style="font-size: 0.8rem; color: #c0caf5; margin-bottom: 20px; text-align: center; line-height: 1.6;">
+                The Sphinx of CMOS-18 blocks your path!<br>Prove your Academic Integrity to deliver the final blow.
+            </div>
+            
+            <div class="quiz-q">
+                <h3>1. What do you put between author and date in an in-text citation?</h3>
+                <label class="quiz-label"><input type="radio" name="q1" value="a"> A) Period</label>
+                <label class="quiz-label"><input type="radio" name="q1" value="b"> B) Comma</label>
+                <label class="quiz-label"><input type="radio" name="q1" value="c"> C) Nothing / space</label>
+            </div>
+            
+            <div class="quiz-q">
+                <h3>2. How do you sort your list of references at the end of your text?</h3>
+                <label class="quiz-label"><input type="radio" name="q2" value="a"> A) Alphabetically</label>
+                <label class="quiz-label"><input type="radio" name="q2" value="b"> B) When they're mentioned in the text</label>
+                <label class="quiz-label"><input type="radio" name="q2" value="c"> C) Doesn't matter</label>
+            </div>
+            
+            <div class="quiz-q">
+                <h3>3. How do you format game names in your text?</h3>
+                <label class="quiz-label"><input type="radio" name="q3" value="a"> A) Quotation marks</label>
+                <label class="quiz-label"><input type="radio" name="q3" value="b"> B) Italics</label>
+                <label class="quiz-label"><input type="radio" name="q3" value="c"> C) Doesn't matter</label>
+            </div>
+
+            <div id="honor-error" style="color: #f7768e; font-size: 0.8rem; text-align: center; margin-bottom: 15px; min-height: 15px;"></div>
+
+            <div class="action-row">
+                <button class="btn-retro action-btn" style="flex: 1; border-color: #bb9af7; color: #bb9af7;" onclick="checkTestOfHonor()">SUBMIT ANSWERS</button>
+                <button class="btn-retro action-btn" style="flex: 1; background: #16161e;" onclick="document.getElementById('test-honor-modal').classList.add('hidden')">RETREAT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: SUMMARY / TWIST -->
+    <div id="summary-modal" class="modal-overlay hidden">
+        <div class="rpg-panel" id="summary-panel" style="border-color: #9ece6a; max-width: 600px; text-align: center;">
+            <h2 class="title" id="summary-title" style="color: #9ece6a;">BOSS DEFEATED!</h2>
+            
+            <div class="summary-stats" id="summary-content">
+                <!-- Final stats go here -->
+            </div>
+
+            <div class="action-row" id="summary-actions">
+                <!-- Dynamic Buttons -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game Constants & State
+        let MAX_XP = 1000;
+        const STEP_SIZE = 50;
+        let currentXP = MAX_XP;
+        let isGameOver = false;
+        
+        let gameState = 'TITLE'; // TITLE, CREATION, PLANNING, DRAFTING, or REVISING
+        let draftsCompleted = 0;
+        let currentChamber = null;
+        let chamberPhase = 'drafting'; 
+        let bossHP = 600; 
+        let maxBossHP = 600;
+        let godModeEnabled = false; // Toggled via Title Screen Options
+
+        // Player Character Data
+        let playerQuestName = "";
+        let playerClass = "";
+        let playerWeapon = "";
+
+        // Character Classes
+        const gameClasses = {
+            analyst: { icon: '🧙', name: 'The Lorekeeper', desc: 'Studying the texts, rules, and hidden meanings of the world.' },
+            player: { icon: '🧚', name: 'The Player Bard', desc: 'Tuning into the emotions, reactions, and experiences of the people.' },
+            community: { icon: '🧝', name: 'The Community Druid', desc: 'Observing how the ecosystem of the community interacts and creates culture.' },
+            design: { icon: '🧜', name: 'The Prototype Alchemist', desc: 'Mixing mechanics, testing potions, and seeing what blows up.' },
+            dave: { icon: '🧍‍♂️', name: 'Dave', desc: 'A regular person just trying to write a paper.' }
+        };
+
+        // Class-specific Weapons (Methods)
+        const classWeapons = {
+            analyst: [
+                { id: 'w_close', name: 'Lens of Close Reading', method: 'Close reading' },
+                { id: 'w_mech', name: 'Mechanics Blade', method: 'Formal analysis' },
+                { id: 'w_semiotic', name: 'Semiotic Mirror', method: 'Semiotic analysis' },
+                { id: 'w_twin', name: 'Twin Blades of Comparison', method: 'Comparative analysis' },
+                { id: 'w_theory', name: 'Theory Tome', method: 'Critical/theory-based analysis' }
+            ],
+            player: [
+                { id: 'w_interview', name: 'Interview Recorder', method: 'Interviews' },
+                { id: 'w_survey', name: 'Survey Scroll', method: 'Survey/questionnaire' },
+                { id: 'w_obs', name: 'Observation Cloak', method: 'Observation' },
+                { id: 'w_playtest', name: 'Playtest Gauntlet', method: 'Playtesting' },
+                { id: 'w_telemetry', name: 'Telemetry Crystal', method: 'Telemetry/log data' }
+            ],
+            community: [
+                { id: 'w_ethno', name: 'Ethnographer’s Map', method: 'Ethnography/digital ethnography' },
+                { id: 'w_discourse', name: 'Discourse Net', method: 'Discourse analysis' },
+                { id: 'w_com_int', name: 'Community Interview Recorder', method: 'Interviews' },
+                { id: 'w_field', name: 'Fieldnote Camera', method: 'Observation/fieldnotes' },
+                { id: 'w_archive', name: 'Archive Key', method: 'Forum/platform/archive analysis' }
+            ],
+            design: [
+                { id: 'w_proto', name: 'Prototype Hammer', method: 'Prototyping' },
+                { id: 'w_usability', name: 'Usability Potion', method: 'Usability testing' },
+                { id: 'w_heuristic', name: 'Heuristic Shield', method: 'Heuristic evaluation' },
+                { id: 'w_tech', name: 'Technical Scanner', method: 'Technical evaluation' },
+                { id: 'w_iter', name: 'Iteration Loop', method: 'Iterative design' },
+                { id: 'w_dsr', name: 'DSR Forge', method: 'Design Science Research' },
+                { id: 'w_rtd', name: 'RtD Sketchbook', method: 'Research through Design' }
+            ],
+            dave: [
+                { id: 'w_keyboard', name: 'Trusty Keyboard', method: 'Writing until it makes sense' },
+                { id: 'w_coffee', name: 'Mug of Holding', method: 'Caffeine-fueled drafting' },
+                { id: 'w_scholar', name: 'Scholar\'s Compass', method: 'Basic search engine magic' }
+            ]
+        };
+
+        // Stat Configuration (Upgraded with specific, actionable Spells)
+        const stats = {
+            intro: { 
+                name: 'Introduction', value: 0, color: '#f7768e', ready: false, draft: '',
+                qs: ['What is your paper about?', 'Why does this topic matter?'],
+                spells: [{id: 'hl-s1', label: 'Highlight: Main Topic', color: '#ff9eaf'}, {id: 'hl-s2', label: 'Highlight: Significance', color: '#e0af68'}]
+            },
+            relatedWork: { 
+                name: 'Related Work', value: 0, color: '#9ece6a', ready: false, draft: '',
+                qs: ['What has already been said in the field?', 'What is the gap in literature?'],
+                spells: [{id: 'hl-s1', label: 'Highlight: Prior Work', color: '#2ac3de'}, {id: 'hl-s2', label: 'Highlight: The Gap', color: '#f7768e'}] 
+            },
+            method: { 
+                name: 'Methodology', value: 0, color: '#2ac3de', ready: false, draft: '',
+                qs: ['How do you study it?', 'Are your methods reproducible?'],
+                spells: [{id: 'hl-s1', label: 'Highlight: Study Design', color: '#bb9af7'}, {id: 'hl-s2', label: 'Highlight: Data/Steps', color: '#7dcfff'}]
+            },
+            findings: { 
+                name: 'Analysis / Findings', value: 0, color: '#ff9e64', ready: false, draft: '',
+                qs: ['What did you find or observe?', 'Are the data clearly presented?'],
+                spells: [{id: 'hl-s1', label: 'Highlight: Key Finding', color: '#ff9eaf'}, {id: 'hl-s2', label: 'Highlight: Evidence', color: '#9ece6a'}]
+            },
+            discussion: { 
+                name: 'Discussion', value: 0, color: '#bb9af7', ready: false, draft: '',
+                qs: ['What do these findings mean?', 'How do they relate to the Related Work?'],
+                spells: [{id: 'hl-s1', label: 'Highlight: Implication', color: '#ff9e64'}, {id: 'hl-s2', label: 'Highlight: Link to Literature', color: '#7aa2f7'}]
+            },
+            conclusion: { 
+                name: 'Conclusion', value: 0, color: '#7dcfff', ready: false, draft: '',
+                qs: ['What should the reader take away?', 'What are the limitations or next steps?'],
+                spells: [{id: 'hl-s1', label: 'Highlight: Core Takeaway', color: '#9ece6a'}, {id: 'hl-s2', label: 'Highlight: Future Steps', color: '#bb9af7'}]
+            }
+        };
+
+        const xpDisplay = document.getElementById('xp-display');
+        const statsMount = document.getElementById('stats-mount');
+        const chamberModal = document.getElementById('chamber-modal');
+        const summaryModal = document.getElementById('summary-modal');
+
+        // --- TITLE SCREEN LOGIC ---
+        function toggleOptions() {
+            document.getElementById('options-menu').classList.toggle('hidden');
+        }
+
+        function toggleGodMode(isEnabled) {
+            godModeEnabled = isEnabled;
+        }
+
+        function startGame() {
+            gameState = 'CREATION';
+            document.getElementById('title-screen').classList.add('hidden');
+            document.getElementById('phase0-creation').classList.remove('hidden');
+            
+            // Handle cheat button visibility based on God Mode
+            const autoPassBtn = document.getElementById('btn-cheat-autopass');
+            if (godModeEnabled) {
+                autoPassBtn.classList.remove('hidden');
+            } else {
+                autoPassBtn.classList.add('hidden');
+            }
+
+            initApp();
+        }
+
+        // --- FROG LOGIC ---
+        const frogFacts = [
+            "Citations in CMOS18-AD are just author and date in parentheses, nothing between them! *ribbit*",
+            "The list of references is always sorted alphabetically! *croak*",
+            "Titles of works of any kind should always be in italics in your text! *ribbit*",
+            "CMOS 18 removed Publisher Location from books! *ribbit*",
+            "In-text citation? List up to 2 authors. 3+ gets 'et al.'!",
+            "Ref list? Max 6 authors. If 7+, list first 3 and 'et al.'!"
+        ];
+
+        function pokeFrog() {
+            const bubble = document.getElementById('frog-bubble');
+            const textEl = document.getElementById('frog-text');
+            bubble.classList.remove('hidden');
+            textEl.innerText = frogFacts[Math.floor(Math.random() * frogFacts.length)];
+        }
+
+        function hideFrogBubble() {
+            document.getElementById('frog-bubble').classList.add('hidden');
+        }
+
+        // --- MANA MENU LOGIC ---
+        function toggleManaMenu() {
+            const content = document.getElementById('mana-menu-content');
+            const btn = document.getElementById('btn-toggle-mana');
+            if(content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                btn.innerText = '▲ CLOSE MANA MENU ▲';
+            } else {
+                content.classList.add('hidden');
+                btn.innerText = '▼ OPEN MANA MENU ▼';
+            }
+        }
+
+        // Helper to count words stripped of HTML
+        function getWordCount(htmlStr) {
+            if (!htmlStr) return 0;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = htmlStr;
+            const text = tempDiv.innerText.trim();
+            if(text === '' || text === 'Start typing your draft here...') return 0;
+            return text.split(/\s+/).filter(w => w.length > 0).length;
+        }
+
+        // --- PHASE 0: CHARACTER CREATION ---
+        function renderClassDropdown() {
+            const select = document.getElementById('class-select');
+            select.innerHTML = '<option value="">-- Select a Class --</option>';
+            for (const [key, cls] of Object.entries(gameClasses)) {
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.innerText = `${cls.name}`;
+                select.appendChild(opt);
+            }
+        }
+
+        function selectClass(key) {
+            playerClass = key;
+            const infoDiv = document.getElementById('class-info');
+            if (key && gameClasses[key]) {
+                const cls = gameClasses[key];
+                infoDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span class="fighter-idle" style="font-size: 2.5rem; text-shadow: 2px 2px 0px #000;">${cls.icon}</span>
+                        <div>
+                            <div style="color: #e0af68; font-size: 0.9rem; margin-bottom: 5px;">${cls.name}</div>
+                            <div style="color: #a9b1d6; font-size: 0.7rem; line-height: 1.4;">${cls.desc}</div>
+                        </div>
+                    </div>
+                `;
+                infoDiv.style.display = 'block';
+            } else {
+                infoDiv.style.display = 'none';
+            }
+        }
+
+        function beginAdventure() {
+            const nameInput = document.getElementById('quest-name-input').value.trim();
+            const manaInput = parseInt(document.getElementById('mana-input').value, 10);
+            const errDiv = document.getElementById('creation-error');
+            
+            if (!nameInput) {
+                errDiv.innerText = "❌ Every quest needs a name! (Enter a paper title)";
+                return;
+            }
+            if (!playerClass) {
+                errDiv.innerText = "❌ You must choose a Class to proceed!";
+                return;
+            }
+            if (isNaN(manaInput) || manaInput < 100) {
+                errDiv.innerText = "❌ Mana pool must be at least 100!";
+                return;
+            }
+            
+            MAX_XP = manaInput;
+            currentXP = MAX_XP;
+            document.getElementById('xp-max').innerText = MAX_XP;
+
+            playerQuestName = nameInput;
+            errDiv.innerText = "";
+            
+            // Set up Player Avatar in the Header
+            const avatarEl = document.getElementById('header-avatar');
+            avatarEl.innerText = gameClasses[playerClass].icon;
+            avatarEl.classList.remove('hidden');
+            
+            const subtitleEl = document.getElementById('header-subtitle');
+            subtitleEl.innerHTML = `<span style="color: #e0af68;">Quest:</span> ${escapeDraftText(playerQuestName)}<br><span style="color: #bb9af7;">Class:</span> ${gameClasses[playerClass].name}`;
+            subtitleEl.style.display = 'block';
+
+            // Transition to Phase 1 (Campfire)
+            gameState = 'PLANNING';
+            document.body.classList.add('campfire-theme'); // Apply campfire theme
+            document.getElementById('phase0-creation').classList.add('hidden');
+            document.getElementById('main-header').classList.remove('hidden');
+            document.getElementById('campfire-panel').classList.remove('hidden');
+            document.getElementById('armory-panel').classList.remove('hidden');
+            document.getElementById('planning-menu-panel').classList.remove('hidden');
+            document.getElementById('dungeon-entry-panel').classList.remove('hidden');
+            
+            populateArmory();
+            initApp();
+        }
+
+        function populateArmory() {
+            const select = document.getElementById('weapon-select');
+            select.innerHTML = '<option value="">-- Select a Weapon --</option>';
+            const weapons = classWeapons[playerClass];
+            weapons.forEach(w => {
+                const opt = document.createElement('option');
+                opt.value = w.name; // Store full weapon string
+                opt.innerText = `${w.name} (${w.method})`;
+                select.appendChild(opt);
+            });
+            
+            // Add custom option
+            const customOpt = document.createElement('option');
+            customOpt.value = "custom";
+            customOpt.innerText = "✨ Custom Weapon (Input your own method)";
+            select.appendChild(customOpt);
+
+            // Reset custom input state
+            document.getElementById('custom-weapon-input').classList.add('hidden');
+            document.getElementById('custom-weapon-input').value = "";
+        }
+
+        function handleWeaponChange() {
+            const select = document.getElementById('weapon-select');
+            const customInput = document.getElementById('custom-weapon-input');
+            if (select.value === 'custom') {
+                customInput.classList.remove('hidden');
+            } else {
+                customInput.classList.add('hidden');
+            }
+        }
+
+        // --- MAIN APP INITIALIZATION & UI UPDATES ---
+        function initApp() {
+            if (gameState === 'TITLE' || gameState === 'CREATION') {
+                if (gameState === 'CREATION') renderClassDropdown();
+                return; 
+            }
+
+            statsMount.innerHTML = ''; 
+            
+            for (const [key, stat] of Object.entries(stats)) {
+                const row = document.createElement('div');
+                row.className = 'stat-row'; 
+                row.id = `row-${key}`;
+                
+                let controlsHtml = '';
+                let playtestHtml = ''; 
+
+                if (gameState === 'PLANNING') {
+                    controlsHtml = `
+                        <div class="controls">
+                            <button class="btn-retro" style="width: 40px;" id="btn-sub-${key}" onclick="modifyStat('${key}', -${STEP_SIZE})">-</button>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="bar-${key}" style="background-color: ${stat.color}; width: 0%;"></div>
+                            </div>
+                            <button class="btn-retro" style="width: 40px;" id="btn-add-${key}" onclick="modifyStat('${key}', ${STEP_SIZE})">+</button>
+                        </div>
+                    `;
+                } else {
+                    // Only show cheat checkboxes if God Mode is enabled
+                    if (godModeEnabled) {
+                        playtestHtml = `<input type="checkbox" title="Playtest Cheat: Mark Complete" 
+                                        style="transform: scale(1.5); margin-right: 15px; cursor: pointer;" 
+                                        onchange="cheatMarkReady('${key}', this.checked)" ${stat.ready ? 'checked disabled' : ''}>`;
+                    }
+                    controlsHtml = `
+                        <div class="bar-container" style="margin: 0 15px; flex-grow:1;">
+                            <div class="bar-fill" id="bar-${key}" style="background-color: ${stat.color}; width: 0%;"></div>
+                        </div>
+                        <button class="btn-retro action-btn" style="border-color: #fff;" onclick="openDungeon('${key}')">ENTER DUNGEON</button>
+                    `;
+                }
+
+                row.innerHTML = `
+                    ${playtestHtml}
+                    <div class="stat-name" id="name-${key}" style="color: ${stat.color}; text-shadow: 1px 1px #000;">
+                        ${stat.name} <span id="icon-${key}"></span>
+                    </div>
+                    ${controlsHtml}
+                    <div class="stat-val" id="val-${key}" style="${gameState === 'DRAFTING' ? 'margin-right: 15px;' : ''}">0</div>
+                `;
+                statsMount.appendChild(row);
+            }
+            updateUI();
+        }
+
+        function cheatMarkReady(key, isChecked) {
+            if (isChecked && !stats[key].ready) {
+                stats[key].ready = true;
+                draftsCompleted++;
+                damageBoss();
+                updateUI();
+                createScreenParticles(5);
+            }
+        }
+
+        function suggestManaDistribution() {
+            if (gameState !== 'PLANNING') return;
+            // Standard Academic Weighting
+            stats.intro.value = Math.floor(MAX_XP * 0.15);
+            stats.relatedWork.value = Math.floor(MAX_XP * 0.20);
+            stats.method.value = Math.floor(MAX_XP * 0.15);
+            stats.findings.value = Math.floor(MAX_XP * 0.25);
+            stats.discussion.value = Math.floor(MAX_XP * 0.15);
+            stats.conclusion.value = MAX_XP - (stats.intro.value + stats.relatedWork.value + stats.method.value + stats.findings.value + stats.discussion.value); // Prevents rounding remainder
+            currentXP = 0;
+            updateUI();
+        }
+
+        function cheatAutoPass() {
+            if (gameState !== 'PLANNING') return;
+            
+            suggestManaDistribution();
+            
+            const select = document.getElementById('weapon-select');
+            if(select.options.length > 1) {
+                select.selectedIndex = 1;
+            }
+            verifyWordCount();
+        }
+
+        function modifyStat(statKey, delta) {
+            if (gameState !== 'PLANNING') return;
+            const stat = stats[statKey];
+            if (delta < 0 && stat.value + delta < 0) return;
+            if (delta > 0 && currentXP - delta < 0) return;
+
+            stat.value += delta;
+            currentXP -= delta;
+            updateUI();
+        }
+
+        function verifyWordCount() {
+            const errDiv = document.getElementById('verify-msg');
+            const btnEnter = document.getElementById('btn-enter-dungeon');
+            const statusText = document.getElementById('dungeon-status-text');
+            
+            let selectedWep = document.getElementById('weapon-select').value;
+            
+            // Handle custom weapon logic
+            if (selectedWep === 'custom') {
+                const customVal = document.getElementById('custom-weapon-input').value.trim();
+                if (!customVal) {
+                    errDiv.style.color = '#f7768e';
+                    errDiv.innerText = `❌ You must name your custom weapon/method!`;
+                    document.body.classList.add('shake');
+                    setTimeout(() => document.body.classList.remove('shake'), 500);
+                    
+                    btnEnter.disabled = true;
+                    btnEnter.style.background = '#222';
+                    btnEnter.style.color = '#555';
+                    btnEnter.style.borderColor = '#444';
+                    btnEnter.style.cursor = 'not-allowed';
+                    statusText.innerText = "Requirements: Equip Weapon & Distribute Mana";
+                    statusText.style.color = '#a9b1d6';
+                    return;
+                }
+                selectedWep = customVal; // Override with their typed input
+            } else if (!selectedWep) {
+                errDiv.style.color = '#f7768e';
+                errDiv.innerText = `❌ You cannot enter the dungeon unarmed! Equip a weapon from the Armory.`;
+                document.body.classList.add('shake');
+                setTimeout(() => document.body.classList.remove('shake'), 500);
+                
+                btnEnter.disabled = true;
+                btnEnter.style.background = '#222';
+                btnEnter.style.color = '#555';
+                btnEnter.style.borderColor = '#444';
+                btnEnter.style.cursor = 'not-allowed';
+                statusText.innerText = "Requirements: Equip Weapon & Distribute Mana";
+                statusText.style.color = '#a9b1d6';
+                return;
+            }
+
+            if (currentXP > 0) {
+                errDiv.style.color = '#f7768e';
+                errDiv.innerText = `❌ You must distribute all 1000 Mana! (${currentXP} remaining)`;
+                document.body.classList.add('shake');
+                setTimeout(() => document.body.classList.remove('shake'), 500);
+                
+                btnEnter.disabled = true;
+                btnEnter.style.background = '#222';
+                btnEnter.style.color = '#555';
+                btnEnter.style.borderColor = '#444';
+                btnEnter.style.cursor = 'not-allowed';
+                statusText.innerText = "Requirements: Equip Weapon & Distribute Mana";
+                statusText.style.color = '#a9b1d6';
+                return;
+            }
+
+            const valIntro = stats.intro.value;
+            const valRelated = stats.relatedWork.value;
+            const valMethod = stats.method.value;
+            const valFindings = stats.findings.value;
+            const valDiscussion = stats.discussion.value;
+            const valConclusion = stats.conclusion.value;
+
+            let errorMsg = "";
+            if (valIntro > MAX_XP * 0.25) errorMsg = "Introduction is too long! Get to the point quicker.";
+            else if (valRelated > MAX_XP * 0.35) errorMsg = "Too much Related Work. Don't let background drown your original work.";
+            else if (valMethod < MAX_XP * 0.10) errorMsg = "Methodology too short! How can we reproduce your study?";
+            else if (valFindings < MAX_XP * 0.15) errorMsg = "Findings are too sparse. Where is the meat of the paper?";
+            else if (valDiscussion < MAX_XP * 0.10) errorMsg = "Discussion is lacking. What do these findings actually mean?";
+            else if (valConclusion === 0) errorMsg = "Fatal Error: You forgot to write a Conclusion!";
+
+            if (errorMsg !== "") {
+                errDiv.style.color = '#f7768e';
+                errDiv.innerText = "❌ Mana unbalanced! " + errorMsg;
+                
+                btnEnter.disabled = true;
+                btnEnter.style.background = '#222';
+                btnEnter.style.color = '#555';
+                btnEnter.style.borderColor = '#444';
+                btnEnter.style.cursor = 'not-allowed';
+                statusText.innerText = "Requirements: Equip Weapon & Distribute Mana";
+                statusText.style.color = '#a9b1d6';
+
+                document.body.classList.add('shake');
+                setTimeout(() => document.body.classList.remove('shake'), 500);
+            } else {
+                playerWeapon = selectedWep; // Lock in weapon choice
+                errDiv.style.color = '#9ece6a';
+                errDiv.innerText = "✅ Mana distributed perfectly. The path opens...";
+                
+                btnEnter.disabled = false;
+                btnEnter.style.background = '#e0af68';
+                btnEnter.style.color = '#111';
+                btnEnter.style.borderColor = '#fff';
+                btnEnter.style.cursor = 'pointer';
+                statusText.innerText = "Ready to proceed.";
+                statusText.style.color = '#9ece6a';
+            }
+        }
+
+        function enterDungeon() {
+            gameState = 'DRAFTING';
+            document.body.classList.remove('campfire-theme');
+            
+            // Hide Phase 1 UI
+            document.getElementById('campfire-panel').classList.add('hidden');
+            document.getElementById('armory-panel').classList.add('hidden');
+            document.getElementById('planning-menu-panel').classList.add('hidden');
+            document.getElementById('dungeon-entry-panel').classList.add('hidden');
+            
+            // Show Phase 2 UI
+            document.getElementById('tracker-panel').classList.remove('hidden');
+            
+            // Reparent the stats area so it acts as the main panel in the dungeon
+            const statsMount = document.getElementById('stats-mount');
+            statsMount.classList.add('rpg-panel');
+            document.getElementById('phase2-stats-container').appendChild(statsMount);
+            
+            initApp(); 
+        }
+
+        function updateUI() {
+            xpDisplay.innerText = currentXP;
+            xpDisplay.style.color = currentXP === 0 ? 'var(--color-intro)' : '#9ece6a';
+
+            for (const [key, stat] of Object.entries(stats)) {
+                
+                // Logic based on phase
+                if (gameState === 'PLANNING') {
+                    document.getElementById(`val-${key}`).innerText = stat.value;
+                    const percentage = (stat.value / MAX_XP) * 100;
+                    document.getElementById(`bar-${key}`).style.width = `${percentage}%`;
+                    
+                    const btnSub = document.getElementById(`btn-sub-${key}`);
+                    const btnAdd = document.getElementById(`btn-add-${key}`);
+                    if(btnSub) btnSub.disabled = stat.value <= 0;
+                    if(btnAdd) btnAdd.disabled = currentXP < STEP_SIZE;
+                } else if (gameState === 'DRAFTING') {
+                    const row = document.getElementById(`row-${key}`);
+                    const icon = document.getElementById(`icon-${key}`);
+                    const valEl = document.getElementById(`val-${key}`);
+                    const bar = document.getElementById(`bar-${key}`);
+                    
+                    // Live word counts
+                    const wordsWritten = getWordCount(stat.draft);
+                    if(valEl) valEl.innerText = `${wordsWritten} / ${stat.value}`;
+                    
+                    if(bar) {
+                        const percentage = Math.min((wordsWritten / stat.value) * 100, 100) || 0;
+                        bar.style.width = `${percentage}%`;
+                    }
+                    
+                    // Highlight logic: first 4 are active, last 2 wait for the first 4
+                    const firstFourKeys = ['intro', 'relatedWork', 'method', 'findings'];
+                    const allFirstFourReady = firstFourKeys.every(k => stats[k].ready);
+                    const isLastTwo = key === 'discussion' || key === 'conclusion';
+
+                    if (stat.ready) {
+                        row.classList.remove('dimmed');
+                        row.classList.add('ready-status');
+                        icon.innerText = '💀'; 
+                    } else {
+                        if (isLastTwo && !allFirstFourReady) {
+                            row.classList.add('dimmed');
+                        } else {
+                            row.classList.remove('dimmed');
+                        }
+                    }
+                }
+            }
+
+            if (gameState === 'DRAFTING' && draftsCompleted === 6) {
+                document.getElementById('submit-area').style.display = 'block';
+            }
+        }
+
+        function damageBoss(amount = 100) {
+            bossHP -= amount;
+            if(bossHP < 0) bossHP = 0;
+            document.getElementById('boss-hp-text').innerText = bossHP;
+            document.getElementById('boss-hp-fill').style.width = `${(bossHP / maxBossHP) * 100}%`;
+            
+            document.body.classList.add('shake');
+            setTimeout(() => document.body.classList.remove('shake'), 500);
+        }
+
+        // --- DUNGEON & SPELL MECHANICS ---
+
+        function openDungeon(key) {
+            if (isGameOver) return;
+            currentChamber = key;
+            const stat = stats[key];
+
+            document.getElementById('chamber-title').innerText = `${stat.name.toUpperCase()} DUNGEON`;
+            document.getElementById('chamber-title').style.color = stat.color;
+
+            // COLOR-CODED SECRETS: Match the question color to the spell color
+            const qList = document.getElementById('chamber-questions');
+            qList.innerHTML = '';
+            stat.qs.forEach((q, index) => {
+                const spellColor = stat.spells[index] ? stat.spells[index].color : '#7aa2f7';
+                qList.innerHTML += `<li style="color: ${spellColor};"><span>🗝️</span> <span>${q}</span></li>`;
+            });
+
+            document.getElementById('chamber-xp-title').innerText = `(Target: ${stat.value} Words)`;
+            
+            const pad = document.getElementById('draft-text-content');
+            pad.innerHTML = stat.draft || (stat.ready ? " " : "Start typing your draft here...");
+            pad.style.borderColor = stat.color;
+
+            // Generate Spell Toolbar with Instructions and Error div
+            const toolbar = document.getElementById('spell-toolbar');
+            toolbar.innerHTML = `
+                <div style="width: 100%; font-size: 0.7rem; color: #a9b1d6; margin-bottom: 10px; line-height: 1.6; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px;">
+                    <span style="color: #bb9af7;">HOW TO CAST:</span> Highlight the answer in your text with your mouse, then click the matching spell below!
+                </div>
+                <div id="spell-error" style="width: 100%; color: #f7768e; font-size: 0.75rem; display: none; margin-bottom: 10px; font-weight: bold;"></div>
+                <div id="spell-buttons-container" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+            `;
+            
+            const btnContainer = document.getElementById('spell-buttons-container');
+            stat.spells.forEach(spell => {
+                btnContainer.innerHTML += `<button class="btn-retro tool-btn" onmousedown="event.preventDefault()" onclick="castHighlight('${spell.color}')" style="border-color: ${spell.color}; color: ${spell.color};">${spell.label}</button>`;
+            });
+            btnContainer.innerHTML += `<button class="btn-retro tool-btn" onmousedown="event.preventDefault()" onclick="clearFormatting()" style="border-color: #fff; color: #fff;">Clear Spell</button>`;
+
+            chamberPhase = 'drafting';
+            
+            document.getElementById('spell-toolbar').classList.add('hidden');
+            document.getElementById('chamber-prepare-btn').style.display = stat.ready ? 'none' : 'block';
+            document.getElementById('chamber-cast-btn').classList.add('hidden');
+
+            updateWordCount();
+            chamberModal.classList.remove('hidden');
+        }
+
+        function updateWordCount() {
+            if(!currentChamber) return;
+            const pad = document.getElementById('draft-text-content');
+            const target = stats[currentChamber].value;
+            
+            const words = getWordCount(pad.innerHTML);
+            document.getElementById('chamber-word-count').innerText = `Words: ${words} / ${target}`;
+
+            // Real-time UI syncing to background elements
+            stats[currentChamber].draft = pad.innerHTML;
+            
+            const valEl = document.getElementById(`val-${currentChamber}`);
+            if(valEl) valEl.innerText = `${words} / ${target}`;
+            
+            const bar = document.getElementById(`bar-${currentChamber}`);
+            if(bar) {
+                const percentage = Math.min((words / target) * 100, 100) || 0;
+                bar.style.width = `${percentage}%`;
+            }
+        }
+
+        // Phase Transition
+        function transitionToSpellPhase() {
+            chamberPhase = 'spells';
+            
+            // Note: We intentionally DO NOT disable contentEditable here anymore, 
+            // because document.execCommand requires the element to be editable to work properly.
+            
+            document.getElementById('chamber-prepare-btn').style.display = 'none';
+            document.getElementById('spell-toolbar').classList.remove('hidden');
+            document.getElementById('chamber-cast-btn').classList.remove('hidden');
+        }
+
+        function castHighlight(hexColor) {
+            const selection = window.getSelection();
+            const errDiv = document.getElementById('spell-error');
+
+            // ERROR HANDLING: Check if the user actually selected text
+            if (!selection.rangeCount || selection.toString().trim().length === 0) {
+                errDiv.innerText = "❌ You must highlight some text with your mouse first!";
+                errDiv.style.display = "block";
+                
+                // Shake the pad to indicate an error
+                const pad = document.getElementById('draft-text-content');
+                pad.classList.add('shake');
+                setTimeout(() => pad.classList.remove('shake'), 500);
+
+                // Hide the error after 3 seconds
+                setTimeout(() => errDiv.style.display = "none", 3000);
+                return;
+            }
+
+            // Clear any previous errors
+            errDiv.style.display = "none";
+            
+            document.execCommand('styleWithCSS', false, true);
+            document.execCommand('hiliteColor', false, hexColor);
+            document.execCommand('foreColor', false, '#111111');
+            
+            // Format the node to make it bold and readable
+            let node = selection.anchorNode.parentNode;
+            if(node && node.nodeName === 'SPAN') {
+                node.style.padding = '2px 4px';
+                node.style.borderRadius = '3px';
+                node.style.fontWeight = 'bold';
+            }
+
+            if(currentChamber) {
+                stats[currentChamber].draft = document.getElementById('draft-text-content').innerHTML;
+            }
+        }
+
+        function clearFormatting() {
+            const selection = window.getSelection();
+            const errDiv = document.getElementById('spell-error');
+
+            if (!selection.rangeCount || selection.toString().trim().length === 0) {
+                errDiv.innerText = "❌ Select the text you want to clear first!";
+                errDiv.style.display = "block";
+                setTimeout(() => errDiv.style.display = "none", 3000);
+                return;
+            }
+
+            errDiv.style.display = "none";
+            
+            document.execCommand('removeFormat', false, null);
+            document.execCommand('hiliteColor', false, 'transparent');
+            document.execCommand('foreColor', false, '#c0caf5');
+            if(currentChamber) {
+                stats[currentChamber].draft = document.getElementById('draft-text-content').innerHTML;
+            }
+        }
+
+        function defeatDungeon() {
+            stats[currentChamber].draft = document.getElementById('draft-text-content').innerHTML;
+            if (!stats[currentChamber].ready) draftsCompleted++;
+            stats[currentChamber].ready = true;
+            
+            damageBoss();
+            closeModals();
+            updateUI();
+            createScreenParticles(); 
+        }
+
+        function closeModals() {
+            if(currentChamber) {
+                stats[currentChamber].draft = document.getElementById('draft-text-content').innerHTML;
+            }
+            chamberModal.classList.add('hidden');
+            currentChamber = null;
+        }
+
+        // --- FULL PAPER VIEWER ---
+        function getCompiledPaperHTML() {
+            let html = `<h1>${escapeDraftText(playerQuestName || 'Dungeons & Drafting: Manuscript')}</h1>`;
+            
+            // Add Subtitle with Class and Weapon
+            if (playerClass && playerWeapon) {
+                const className = gameClasses[playerClass].name;
+                html += `<div style="text-align: center; color: #a9b1d6; font-style: italic; margin-top: -15px; margin-bottom: 30px;">A ${className} Quest using ${escapeDraftText(playerWeapon)}</div>`;
+            }
+            
+            for (const [key, stat] of Object.entries(stats)) {
+                let content = stat.draft.trim();
+                if (content === 'Start typing your draft here...' || content === '') {
+                    content = '<em>[Dungeon not defeated]</em>';
+                }
+                html += `<h2 style="color: ${stat.color};">${stat.name}</h2>`;
+                html += `<p>${content}</p>`;
+            }
+            return html;
+        }
+
+        function openFullPaper() {
+            if(currentChamber) {
+                stats[currentChamber].draft = document.getElementById('draft-text-content').innerHTML;
+            }
+            document.getElementById('compiled-paper-content').innerHTML = getCompiledPaperHTML();
+            document.getElementById('full-paper-modal').classList.remove('hidden');
+        }
+
+        function closeFullPaper() {
+            document.getElementById('full-paper-modal').classList.add('hidden');
+        }
+
+        function downloadPaper(format) {
+            let content = "";
+            let filename = "My_Epic_Paper";
+            let mimeType = "";
+            
+            // Get text either from chambers (Phase 2) or revision arena (Phase 3)
+            let innerHtml = "";
+            if (gameState === 'REVISING') {
+                innerHtml = document.getElementById('revision-text-content').innerHTML;
+            } else {
+                innerHtml = getCompiledPaperHTML();
+            }
+
+            if (format === 'html') {
+                content = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>My Epic Paper</title>
+                        <style>
+                            body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 30px; background: #0f111a; color: #c0caf5;}
+                            h1 { text-align: center; font-family: monospace; font-size: 2rem; color: #e0af68;}
+                            h2 { border-bottom: 2px dashed #414868; padding-bottom: 5px; font-family: monospace; margin-top: 2em; }
+                            /* Highlight preservation */
+                            span { padding: 2px 4px; border-radius: 3px; font-weight: bold; color: #111; }
+                        </style>
+                    </head>
+                    <body>
+                        ${innerHtml}
+                    
+</body>
+                    </html>
+                `;
+                filename += ".html";
+                mimeType = "text/html";
+            } else if (format === 'txt') {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = innerHtml;
+                const headings = tempDiv.querySelectorAll('h1, h2');
+                headings.forEach(h => { h.innerText = '\n\n--- ' + h.innerText.toUpperCase() + ' ---\n'; });
+                const paragraphs = tempDiv.querySelectorAll('p');
+                paragraphs.forEach(p => { p.innerText = p.innerText + '\n\n'; });
+                
+                content = tempDiv.innerText.trim();
+                filename += ".txt";
+                mimeType = "text/plain";
+            }
+
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // --- PHASE 2 TO PHASE 3 TRANSITION (THE TWIST TEASER) ---
+
+        function submitLevel1() {
+            // Open the Test of Honor before allowing them to submit
+            document.getElementById('test-honor-modal').classList.remove('hidden');
+            document.getElementById('honor-error').innerText = '';
+        }
+
+        function checkTestOfHonor() {
+            const q1 = document.querySelector('input[name="q1"]:checked')?.value;
+            const q2 = document.querySelector('input[name="q2"]:checked')?.value;
+            const q3 = document.querySelector('input[name="q3"]:checked')?.value;
+
+            if (q1 === 'c' && q2 === 'a' && q3 === 'b') {
+                document.getElementById('test-honor-modal').classList.add('hidden');
+                
+                // Add the word "FIRST" dynamically to the Boss Title
+                document.getElementById('main-boss-title').innerHTML = '💀 THE FINAL BOSS: THE <span style="color: #ff3333; animation: pulse 1s infinite;">FIRST</span> DRAFT 💀';
+                
+                document.body.classList.add('shake');
+                document.getElementById('flash-overlay').classList.add('flash-active');
+                
+                setTimeout(() => {
+                    document.getElementById('flash-overlay').classList.remove('flash-active');
+                    document.body.classList.remove('shake');
+                    showTwistSummary();
+                }, 1200); // Wait slightly longer so they can read the title change
+            } else {
+                document.getElementById('honor-error').innerText = "❌ The Sphinx rejects your answers! Review your CMOS18 notes.";
+                document.getElementById('test-honor-modal').classList.add('shake');
+                setTimeout(() => document.getElementById('test-honor-modal').classList.remove('shake'), 500);
+            }
+        }
+
+        function showTwistSummary() {
+            const panel = document.getElementById('summary-panel');
+            const title = document.getElementById('summary-title');
+            const summary = document.getElementById('summary-content');
+            const actions = document.getElementById('summary-actions');
+            
+            panel.style.borderColor = '#ff3333';
+            title.style.color = '#ff3333';
+            title.innerText = "FIRST DRAFT COMPLETE... OR IS IT?";
+            
+            summary.innerHTML = `
+                <div style="font-size: 1.2rem; color: #c0caf5; margin-bottom: 20px;">
+                    You fool. You thought writing the FIRST draft was the hard part?
+                </div>
+                <div style="font-size: 1.5rem; color: #ff3333; font-weight: bold; animation: pulse 1s infinite;">
+                    THE REVISION BOSS HAS ENTERED THE CHAT.
+                </div>
+                <div style="margin-top: 15px; color: #e0af68;">
+                    Editing and revising is where the real battle happens.
+                </div>
+            `;
+            
+            actions.innerHTML = `
+                <button class="btn-retro action-btn" style="flex: 1; background: #551111; color: #ff5555; border-color: #ff3333;" onclick="startLevel2()">FACE THE REVISION BOSS 👁️</button>
+            `;
+            
+            document.getElementById('summary-modal').classList.remove('hidden');
+        }
+
+        function startLevel2() {
+            document.getElementById('summary-modal').classList.add('hidden');
+            gameState = 'REVISING';
+            
+            // Apply Theme
+            document.body.classList.add('level2-theme');
+            
+            // Hide Level 1 Elements
+            document.getElementById('stats-mount').classList.add('hidden');
+            document.getElementById('submit-area').style.display = 'none';
+            document.getElementById('tracker-panel').classList.add('hidden'); // Hide the old boss bar completely
+            
+            // Load Paper into Arena
+            document.getElementById('revision-text-content').innerHTML = getCompiledPaperHTML();
+            document.getElementById('revision-arena').classList.remove('hidden');
+
+            createScreenParticles(20);
+            spawnCreepyEyes(); // Trigger the eyes!
+        }
+
+        function spawnCreepyEyes() {
+            const maxEyes = 35; // Maximum eyes on screen at once
+            
+            const eyeInterval = setInterval(() => {
+                if (gameState !== 'REVISING') {
+                    clearInterval(eyeInterval);
+                    return;
+                }
+                
+                // Don't overwhelm the browser
+                const currentEyes = document.querySelectorAll('.creepy-eye').length;
+                if (currentEyes >= maxEyes) return;
+
+                const eye = document.createElement('div');
+                eye.className = 'creepy-eye';
+                eye.innerText = '👁️';
+                
+                // Random positioning
+                eye.style.left = Math.random() * 100 + 'vw';
+                eye.style.top = Math.random() * 100 + 'vh';
+                
+                // Random animation duration (2 to 6 seconds)
+                const animDuration = (Math.random() * 4 + 2); 
+                eye.style.animationDuration = animDuration + 's';
+                
+                // Random size
+                eye.style.fontSize = (Math.random() * 3 + 1.5) + 'rem';
+                
+                // Random slight rotation to make them feel organic and unsettling
+                const rotation = (Math.random() * 60 - 30) + 'deg';
+                eye.style.setProperty('--rot', rotation);
+
+                document.body.appendChild(eye);
+
+                // Clean up the DOM element after its animation finishes
+                setTimeout(() => {
+                    if (eye.parentNode) eye.parentNode.removeChild(eye);
+                }, animDuration * 1000);
+                
+            }, 300); // Spawn a new eye every 300ms
+        }
+
+        function createScreenParticles(count = 10) {
+            for(let i=0; i<count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.width = '8px'; p.style.height = '8px';
+                p.style.background = gameState === 'REVISING' ? '#ff3333' : '#e0af68';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.top = '100vh';
+                p.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 3000);
+            }
+        }
+
+        // Boot up
+        initApp();
+
+    </script>
+<script src="dungeons-drafting.js"></script>
+</body>
+</html>

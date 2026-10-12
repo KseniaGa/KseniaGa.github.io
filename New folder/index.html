@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kseniia Harshina | Game Researcher</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <meta name="description" content="Kseniia Harshina is a PhD researcher in HCI, informatics, and game studies, exploring how autobiographical games can support catharsis, reflection, and community-building around migration and displacement.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Press+Start+2P&family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =========================================
+       OS DESKTOP ENVIRONMENT VARIABLES
+       ========================================= */
+    :root {
+      --bg-sky-top: #8b6ccf;
+      --bg-sky-mid: #c988c8;
+      --bg-sky-low: #f4a2b9;
+      --bg-sun: #fad4b3;
+      --text-main: #4a4a4a;
+      --shadow-color: rgba(0,0,0,0.2);
+    }
+
+    /* HORROR OVERRIDE: Silent Hill / Bioshock Vibe */
+    [data-theme="horror"] {
+      --bg-sky-top: #101211; 
+      --bg-sky-mid: #252b28; 
+      --bg-sky-low: #3c403a; 
+      --bg-sun: #050505;
+      --text-main: #d1cbb8; 
+      --shadow-color: rgba(0, 0, 0, 0.8);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0; min-height: 100vh;
+      background: linear-gradient(180deg, var(--bg-sky-top) 0%, var(--bg-sky-mid) 40%, var(--bg-sky-low) 70%, var(--bg-sun) 100%);
+      background-attachment: fixed; color: var(--text-main);
+      font-family: "Atkinson Hyperlegible", sans-serif; line-height: 1.6;
+      overflow-x: hidden; cursor: crosshair; transition: background 0.8s ease;
+    }
+
+    /* Horror Vignette Overlay (Stays on top of everything) */
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 999; pointer-events: none;
+      background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.8) 100%);
+      opacity: 0; transition: opacity 0.8s ease;
+    }
+    [data-theme="horror"] body::before { opacity: 1; }
+
+    /* CRT Scanlines (Pushed to background behind the windows) */
+    body::after {
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+      background-size: 100% 4px; opacity: 0.8; transition: all 0.8s ease;
+    }
+    [data-theme="horror"] body::after {
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+      background-size: 100% 4px;
+    }
+
+    .pixel-font { font-family: "Press Start 2P", monospace; text-transform: uppercase; line-height: 1.4; }
+    a { color: inherit; text-decoration: underline; font-weight: bold; cursor: pointer; }
+    
+    /* =========================================
+       TOP OS BAR
+       ========================================= */
+    .top-bar {
+      position: sticky; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(4px);
+      border-bottom: 2px solid var(--text-main); padding: 6px 12px;
+      display: flex; justify-content: space-between; align-items: center; font-size: 8px;
+      transition: all 0.5s ease;
+    }
+    [data-theme="horror"] .top-bar { background: rgba(20,20,20,0.9); border-bottom-color: #5c2c22; color: #8b3a2b; }
+    
+    .stats-container { display: flex; gap: 15px; align-items: center; }
+    .bar-bg { width: 60px; height: 10px; background: rgba(0,0,0,0.1); border: 2px solid var(--text-main); }
+    [data-theme="horror"] .bar-bg { border-color: #5c2c22; }
+    .bar-fg.hp { width: 100%; height: 100%; background: #ff8ca3; }
+    .bar-fg.xp { width: 15%; height: 100%; background: #8cd6ff; transition: width 0.3s; }
+    [data-theme="horror"] .bar-fg.hp { background: #5c2c22; }
+    [data-theme="horror"] .bar-fg.xp { background: #8b3a2b; }
+
+    .corrupt-btn { background: transparent; border: none; font-family: "Press Start 2P"; font-size: 8px; cursor: pointer; color: var(--text-main); }
+    .corrupt-btn:hover { color: red; text-decoration: underline; }
+    [data-theme="horror"] .corrupt-btn { color: #8b3a2b; }
+
+    /* =========================================
+       BASE OS WINDOWS
+       ========================================= */
+    .desktop-area { max-width: 900px; margin: 40px auto 120px auto; padding: 0 15px; position: relative; z-index: 10; }
+
+    .os-window {
+      border-radius: 12px; margin-bottom: 30px; overflow: hidden;
+      animation: openApp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: none; box-shadow: 8px 8px 0px var(--shadow-color);
+      border: 4px solid #000; 
+      transition: filter 0.8s ease;
+    }
+    .os-window.active { display: block; }
+    @keyframes openApp { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+    .title-bar {
+      padding: 8px 12px; display: flex; justify-content: space-between; align-items: center;
+      font-size: 10px; font-family: "Press Start 2P"; border-bottom: 4px solid #000;
+    }
+    .window-controls { display: flex; gap: 6px; }
+    .win-btn {
+      width: 14px; height: 14px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 6px; font-family: monospace; font-weight: bold;
+    }
+
+    .app-content { padding: 24px; position: relative; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+    .img-frame { border-radius: 8px; overflow: hidden; cursor: pointer; }
+    .img-frame img { width: 100%; height: auto; display: block; filter: contrast(1.1); transition: transform 0.2s;}
+    .img-frame:hover img { transform: scale(1.05); }
+    
+    /* Clean, unfiltered display for posters/photos */
+    .poster-frame { position: relative; z-index: 10; }
+    .poster-frame img { filter: brightness(1.05) !important; }
+
+    /* =========================================
+       THEME 1: BARBIE SECRET AGENT (Home)
+       ========================================= */
+    .theme-barbie { background: #ffe4f2; border-color: #00ffff; }
+    .theme-barbie .title-bar { background: linear-gradient(90deg, #ff1493, #ff69b4); border-bottom-color: #00ffff; color: #fff; text-shadow: 2px 2px 0 #ff00ff; }
+    .theme-barbie .win-btn { background: #fff; border: 2px solid #00ffff; color: #00ffff; }
+    .theme-barbie .app-content { color: #8b008b; }
+    .theme-barbie h2, .theme-barbie h3 { color: #ff1493; text-shadow: 1px 1px 0 #00ffff; font-family: "Press Start 2P"; }
+    .theme-barbie .inner-box { background: rgba(255,255,255,0.8); border: 3px solid #00ffff; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: inset 0 0 10px rgba(255,20,147,0.2); }
+    .theme-barbie .btn { background: #ff69b4; color: #fff; border: 2px solid #00ffff; padding: 8px 12px; border-radius: 20px; font-family: "Press Start 2P"; font-size: 8px; display: inline-block; text-decoration: none; box-shadow: 2px 2px 0 #00ffff; margin: 4px; transition: all 0.1s; }
+    .theme-barbie .btn:hover { background: #ff1493; transform: translate(-2px, -2px); box-shadow: 4px 4px 0 #00ffff; }
+    .theme-barbie .img-frame { border: 4px solid #ff69b4; box-shadow: 0 0 15px #00ffff; }
+
+    /* =========================================
+       THEME 2: THE SIMS 2 (Research)
+       ========================================= */
+    .theme-sims2 { background: #2A5A9B; border-color: #1A3E70; font-family: "Atkinson Hyperlegible", sans-serif; }
+    .theme-sims2 .title-bar { background: #1A3E70; border-bottom-color: #112A4F; color: #fff; font-family: "Atkinson Hyperlegible", sans-serif; font-weight: bold; letter-spacing: 1px;}
+    .theme-sims2 .win-btn { background: #4CAF50; border: 2px solid #1A3E70; color: #fff; } 
+    .theme-sims2 .app-content { color: #fff; }
+    .theme-sims2 h2, .theme-sims2 h3 { color: #fff; font-family: "Atkinson Hyperlegible", sans-serif; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); border-bottom: none;}
+    .theme-sims2 .inner-box { background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+    .theme-sims2 .btn { background: linear-gradient(180deg, #5185CA, #2A5A9B); color: #fff; border: 2px solid #fff; border-radius: 20px; padding: 6px 16px; font-weight: bold; font-family: "Atkinson Hyperlegible", sans-serif; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); box-shadow: 0 4px 6px rgba(0,0,0,0.3); text-decoration: none; display: inline-block; transition: all 0.1s;}
+    .theme-sims2 .btn:hover { background: linear-gradient(180deg, #6398DF, #3B6EB2); transform: translateY(-2px); box-shadow: 0 6px 8px rgba(0,0,0,0.3); color: #fff;}
+    .theme-sims2 .plumbob { position: relative; font-size: 16px; animation: floatSpin 3s ease-in-out infinite; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
+    @keyframes floatSpin { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(10deg); } }
+    
+    .aspiration-points {
+      position: absolute; top: 15px; right: 25px; z-index: 10;
+      display: flex; align-items: center; gap: 8px; 
+      background: rgba(0,0,0,0.3); padding: 5px 12px; 
+      border-radius: 15px; border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    /* =========================================
+       THEME 3: SLAY THE SPIRE (Games/Inventory)
+       ========================================= */
+    .theme-spire { background: #2E282A; border-color: #4A0E17; }
+    .theme-spire .title-bar { background: #1C1819; border-bottom-color: #8B0000; color: #c4a482; }
+    .theme-spire .win-btn { background: #8B0000; border: 2px solid #c4a482; color: #c4a482; }
+    .theme-spire .app-content { color: #D3D3D3; }
+    .theme-spire h2 { color: #E5B13A; font-family: "Press Start 2P"; font-size: 12px; text-shadow: 2px 2px #000; }
+    .theme-spire .card-item { 
+      background: #c4a482; color: #1C1819; border: 4px solid #4A0E17; border-radius: 8px; 
+      padding: 10px; display: flex; flex-direction: column; position: relative;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 4px 4px 10px rgba(0,0,0,0.8);
+      transition: transform 0.2s;
+    }
+    .theme-spire .card-item:hover { transform: translateY(-10px) scale(1.05); z-index: 5; }
+    .theme-spire .card-cost { position: absolute; top: -10px; left: -10px; background: #8B0000; color: #fff; width: 30px; height: 30px; border-radius: 50%; border: 3px solid #E5B13A; display: flex; align-items: center; justify-content: center; font-family: "Press Start 2P"; font-size: 10px; }
+    .theme-spire .img-frame { border: 2px solid #1C1819; height: 150px; margin-bottom: 10px; }
+    .theme-spire .img-frame img { height: 100%; object-fit: cover; }
+    .theme-spire .card-item h3 { font-family: "Press Start 2P"; font-size: 10px; text-align: center; border-bottom: 2px solid #4A0E17; padding-bottom: 5px; margin: 0 0 10px 0;}
+    .theme-spire .tags span { background: #4A0E17; color: #fff; border: none; font-family: "Atkinson Hyperlegible"; font-size: 10px; font-weight: bold; border-radius: 10px; padding: 2px 8px; margin-right: 4px;}
+    .theme-spire .btn { background: #8B0000; color: #E5B13A; text-align: center; padding: 8px; font-family: "Press Start 2P"; font-size: 8px; border: 2px solid #E5B13A; text-decoration: none; margin-top: auto; transition: all 0.1s;}
+    .theme-spire .btn:hover { background: #4A0E17; }
+
+    /* =========================================
+       THEME 4: ANIMAL CROSSING (Guild)
+       ========================================= */
+    .theme-ac { background: #E8F5E9; border-color: #8D6E63; }
+    .theme-ac .title-bar { background: #A2D149; border-bottom-color: #8D6E63; color: #fff; text-shadow: 1px 1px 0 #558B2F; }
+    .theme-ac .win-btn { background: #fff; border: 2px solid #8D6E63; color: #8D6E63; }
+    .theme-ac .app-content { color: #5D4037; background-image: radial-gradient(#C8E6C9 2px, transparent 2px); background-size: 20px 20px; }
+    .theme-ac h2, .theme-ac h3 { color: #33691E; font-family: "Atkinson Hyperlegible", sans-serif; font-weight: bold; }
+    .theme-ac .inner-box { background: #FFF9C4; border: 3px dashed #FFCA28; border-radius: 16px; padding: 16px; margin-bottom: 16px; position: relative; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+    .theme-ac .bulletin-pin { position: absolute; top: 5px; left: 50%; transform: translateX(-50%); font-size: 20px; }
+    .theme-ac .btn { background: #FFCC80; color: #5D4037; border: 2px solid #EF6C00; border-radius: 20px; padding: 8px 16px; font-weight: bold; text-decoration: none; display: inline-block; transition: all 0.1s;}
+    .theme-ac .btn:hover { background: #EF6C00; color: #fff; transform: translateY(-2px);}
+
+    /* =========================================
+       THEME 5: UNDERTALE (Academy)
+       ========================================= */
+    .theme-ut { background: #000; border-color: #fff; border-radius: 0; border-width: 4px; border-style: solid; box-shadow: none; }
+    .theme-ut .title-bar { background: #000; border-bottom: 4px solid #fff; color: #fff; font-size: 10px; }
+    .theme-ut .win-btn { display: none; }
+    .theme-ut .app-content { color: #fff; font-family: "Press Start 2P", monospace; font-size: 10px; line-height: 1.8; }
+    .theme-ut h2, .theme-ut h3 { color: #fff; font-size: 12px; }
+    .theme-ut .inner-box { background: #000; border: 4px solid #fff; padding: 16px; margin-bottom: 16px; border-radius: 0; }
+    .theme-ut p::before { content: "* "; color: #fff; }
+    .theme-ut .tags span { background: #000; color: #fff; padding: 2px 4px; font-size: 8px; border: 1px solid #fff; }
+    .theme-ut .btn { background: #000; color: #fff; border: 2px solid #fff; padding: 6px 10px; font-family: "Press Start 2P"; font-size: 8px; text-decoration: none; display: inline-block; margin-top: 10px; transition: all 0.1s;}
+    .theme-ut .btn:hover { color: #ffff00; border-color: #ffff00; }
+
+    /* =========================================
+       THEME 6: VAMPIRE THE MASQUERADE (Chronicles)
+       ========================================= */
+    .theme-vtm { background: #130a0a; border-color: #5c1414; border-radius: 0; box-shadow: inset 0 0 50px #000; }
+    .theme-vtm .title-bar { background: #0a0505; border-bottom-color: #5c1414; color: #c09f6b; font-family: "EB Garamond", serif; font-size: 14px; font-style: italic; }
+    .theme-vtm .win-btn { background: #5c1414; border: 1px solid #c09f6b; color: #c09f6b; }
+    .theme-vtm .app-content { color: #d4c5b0; font-family: "EB Garamond", serif; font-size: 16px; }
+    .theme-vtm h2, .theme-vtm h3 { color: #a12020; font-family: "EB Garamond", serif; font-variant: small-caps; font-size: 20px; border-bottom: 1px solid #361010; padding-bottom: 4px;}
+    .theme-vtm .inner-box { background: rgba(0,0,0,0.6); border: 1px solid #361010; border-radius: 0; padding: 16px; margin-bottom: 16px; }
+    .theme-vtm .btn { background: #0a0505; color: #a12020; border: 1px solid #5c1414; padding: 4px 8px; font-family: "EB Garamond", serif; font-size: 14px; text-transform: uppercase; text-decoration: none; display: inline-block; transition: all 0.2s;}
+    .theme-vtm .btn:hover { background: #5c1414; color: #c09f6b; }
+
+    /* =========================================
+       HORROR MODE OVERRIDE (Silent Hill / BioShock)
+       ========================================= */
+    [data-theme="horror"] .os-window { 
+      filter: grayscale(0.5) sepia(0.3) brightness(0.9) contrast(1.2) hue-rotate(-10deg) !important; 
+      border-color: #2b2b2b !important;
+    }
+
+    /* =========================================
+       TASKBAR & DOCK
+       ========================================= */
+    .taskbar {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 16px;
+      display: flex; gap: 10px; padding: 10px; z-index: 100;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); flex-wrap: wrap; justify-content: center; max-width: 95%;
+      transition: all 0.5s ease;
+    }
+    [data-theme="horror"] .taskbar { background: rgba(15, 17, 16, 0.9); border-color: #383b38; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
+
+    .dock-icon {
+      background: #fff; border: 2px solid var(--text-main); border-radius: 8px;
+      padding: 8px; cursor: pointer; transition: all 0.2s;
+      font-family: "Press Start 2P"; font-size: 8px; color: var(--text-main);
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    [data-theme="horror"] .dock-icon { background: #1a1c1a; border-color: #5c2c22; color: #8b3a2b; }
+    .dock-icon:hover { transform: translateY(-5px); box-shadow: 0 4px 0 var(--text-main); }
+    .dock-icon.active { background: var(--text-main); color: #fff; transform: translateY(2px); box-shadow: none; }
+    [data-theme="horror"] .dock-icon.active { background: #5c2c22; color: #d1cbb8; }
+    .dock-art { font-size: 16px; line-height: 1; filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.2)); }
+    [data-theme="horror"] .dock-art { filter: grayscale(1) sepia(0.5) contrast(1.5); opacity: 0.7; }
+
+    /* =========================================
+       TAMAGOTCHI WIDGET
+       ========================================= */
+    .tama-widget {
+      position: fixed; bottom: 80px; right: 20px; 
+      width: 100px; height: 130px; 
+      background: linear-gradient(135deg, #ffc4d9 0%, #e09ab3 100%); border: 3px solid var(--text-main);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; box-shadow: 4px 4px 0px var(--shadow-color);
+      z-index: 90; display: flex; flex-direction: column; align-items: center; padding-top: 25px; transform: rotate(5deg);
+      transition: filter 0.8s ease, background 0.8s ease;
+    }
+    [data-theme="horror"] .tama-widget { background: #262927; border-color: #111; box-shadow: 4px 4px 0 rgba(0,0,0,0.8); }
+    
+    .tama-ring { position: absolute; top: -12px; width: 18px; height: 18px; border: 3px solid silver; border-radius: 50%; z-index: -1; box-shadow: inset 1px 1px 0 rgba(0,0,0,0.2), 2px 2px 0 rgba(0,0,0,0.2); }
+    [data-theme="horror"] .tama-ring { border-color: #333; box-shadow: none; }
+    
+    .tama-screen { 
+      width: 60px; height: 45px; background: #98bd93; border: 3px solid var(--text-main); border-radius: 6px; 
+      box-shadow: inset 2px 2px 0 rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; 
+      font-family: monospace; font-size: 12px; font-weight: bold; color: #2b3d27; margin-bottom: 12px; 
+    }
+    [data-theme="horror"] .tama-screen { background: #1c211e; color: #4a544d; border-color: #000; }
+    
+    .tama-buttons { display: flex; gap: 8px; }
+    .tama-btn { width: 12px; height: 12px; background: var(--bg-sun); border: 2px solid var(--text-main); border-radius: 50%; cursor: pointer; box-shadow: 1px 1px 0 var(--text-main); }
+    .tama-btn:active { transform: translate(1px, 1px); box-shadow: 0 0 0 var(--text-main); }
+    [data-theme="horror"] .tama-btn { background: #111; border-color: #000; box-shadow: 1px 1px 0 #000; }
+    @media (max-width: 900px) { .tama-widget { display: none; } }
+
+    /* SLEEK NOTIFICATIONS */
+    #level-up-msg { 
+      position: fixed; top: 80px; right: 20px; 
+      font-family: "Press Start 2P", monospace; font-size: 10px; 
+      color: #fff; background: var(--text-main); padding: 12px 16px; 
+      border: 2px solid #fff; box-shadow: 4px 4px 0 rgba(0,0,0,0.3); 
+      z-index: 2000; display: none; text-align: right; border-radius: 4px; 
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    #achievement-toast {
+      position: fixed; top: 130px; right: 20px; 
+      font-family: "Press Start 2P", monospace; font-size: 10px; 
+      color: #FFD700; background: #222; padding: 12px 16px; 
+      border: 2px solid #FFD700; box-shadow: 4px 4px 0 rgba(0,0,0,0.5); 
+      z-index: 2000; display: none; text-align: right; border-radius: 4px; 
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+    
+    [data-theme="horror"] #level-up-msg { background: #262927; border-color: #5c2c22; color: #8b3a2b; box-shadow: 4px 4px 0 rgba(0,0,0,0.8); }
+    [data-theme="horror"] #achievement-toast { background: #111; border-color: #5c1414; color: #a12020; box-shadow: 4px 4px 0 rgba(0,0,0,0.8); }
+
+    /* ACHIEVEMENT LIST STYLES */
+    .ach-list { list-style: none; padding: 0; margin: 0; font-family: "Press Start 2P", monospace; font-size: 8px; line-height: 1.8;}
+    .ach-item { margin-bottom: 10px; padding-left: 15px; position: relative; }
+    .ach-item::before { content: "-"; position: absolute; left: 0; color: #00ffff; }
+    .ach-locked { color: #ff69b4; opacity: 0.6; }
+    .ach-unlocked { color: #8b008b; }
+    .ach-title { font-weight: bold; font-size: 10px;}
+
+  </style>
+</head>
+<body>
+
+  <div id="level-up-msg">ACHIEVEMENT UNLOCKED: LEVEL UP!</div>
+  <div id="achievement-toast">🏆 NEW TROPHY:<br><span id="ach-title" style="color: #fff; margin-top: 5px; display: inline-block;"></span></div>
+
+  <!-- TAMAGOTCHI WIDGET -->
+  <div class="tama-widget" id="tama-widget">
+    <div class="tama-ring"></div>
+    <div class="tama-screen" id="tama-pet">(•ᴥ•)</div>
+    <div class="tama-buttons">
+      <div class="tama-btn" onclick="feedTama()" title="Feed"></div>
+      <div class="tama-btn" onclick="playTama()" title="Play"></div>
+      <div class="tama-btn" onclick="sleepTama()" title="Sleep"></div>
+    </div>
+  </div>
+
+  <!-- TOP MENU BAR -->
+  <header class="top-bar pixel-font">
+    <div>Kseniia_OS v4.0 <span style="color: var(--text-muted);">| klagenfurt.loc</span></div>
+    <div class="stats-container">
+      <div>LVL <span id="player-lvl">1</span></div>
+      <div style="display: flex; align-items: center; gap: 5px;">HP <div class="bar-bg"><div class="bar-fg hp"></div></div></div>
+      <div style="display: flex; align-items: center; gap: 5px;">XP <div class="bar-bg"><div class="bar-fg xp" id="xp-bar"></div></div></div>
+      <button class="corrupt-btn" onclick="toggleTheme()">corrupt.exe</button>
+    </div>
+  </header>
+
+  <div class="desktop-area">
+    
+    <!-- =========================================
+         APP 1: BARBIE SECRET AGENT (Home)
+         ========================================= -->
+    <div id="home" class="os-window theme-barbie active">
+      <div class="title-bar">
+        <span>Secret_Agent_Profile.exe 🎀</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content">
+        <div style="position: absolute; top: -10px; left: -10px; font-size: 30px; transform: rotate(-20deg);">✨</div>
+        <div class="inner-box" style="text-align: center;">
+          <h2>[ KSENIIA HARSHINA ]</h2>
+          <p id="typewriter-text" class="pixel-font" style="font-size: 10px; min-height: 25px; margin: 0;"></p>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="img-frame" id="avatar-frame" style="margin-bottom: 15px;" onclick="boopAvatar(event)">
+              <img id="main-avatar-img" src="images/hero.jpg" alt="Avatar" onerror="this.style.display='none'">
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+              <a class="btn" href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ&hl=en" target="_blank">SCHOLAR</a>
+              <a class="btn" href="https://kseniaharshina.itch.io/" target="_blank">ITCH.IO</a>
+              <a class="btn" href="mailto:kseniia.harshina@aau.at">EMAIL</a>
+            </div>
+          </div>
+          <div>
+            <div class="inner-box">
+              <h3>[ ACTIVE MISSIONS ] <span style="font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 12px; font-weight: bold; text-shadow: none; text-transform: none; color: #8b008b;">(current research & work)</span></h3>
+              <ul>
+                <li><strong>Prototyping Tools:</strong> Autobiographical game design.</li>
+                <li><strong>Knowledge Transfer:</strong> Teaching Scientific Writing.</li>
+                <li><strong>Guild Gathering:</strong> Organizing the GIRT Roundtable.</li>
+              </ul>
+            </div>
+            
+            <div class="inner-box">
+              <h3 style="display: flex; justify-content: space-between;">[ BIO ] <span style="font-size: 20px; transform: translateY(-8px);">🐸 hi</span></h3>
+              <p style="margin: 0;">I design games and study how they help us process difficult experiences, reflect on who we are, and connect with others. Game Studies & Engineering at the University of Klagenfurt.</p>
+            </div>
+            
+            <div class="inner-box">
+              <h3 onclick="toggleTrophies()" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin: 0; user-select: none;" title="Click to expand">
+                <span>[ YOUR ACHIEVEMENTS ]</span> 
+                <span id="trophy-icon" style="font-size: 18px;">+</span>
+              </h3>
+              <div id="trophies-content" style="display: none; margin-top: 15px;">
+                <ul class="ach-list" id="achievement-list">
+                  <!-- Javascript will populate this -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         APP 2: SIMS 2 (Research)
+         ========================================= -->
+    <div id="phd" class="os-window theme-sims2">
+      <div class="title-bar">
+        <span>Knowledge_Aspiration.exe 💎</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content">
+        
+        <div class="aspiration-points">
+           <span style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #fff;">15,000</span>
+           <div class="plumbob">💎</div>
+        </div>
+        
+        <div class="grid-2" style="align-items: center;">
+          <div>
+            <h2>Aspiration: Knowledge & Research</h2>
+            <p>Designing games as tools for emotional reflection, empowerment, and community care.</p>
+          </div>
+          <div class="img-frame poster-frame" style="border: 6px solid #fff; border-bottom-width: 20px; box-shadow: 2px 4px 10px rgba(0,0,0,0.4); transform: rotate(2deg);">
+            <img src="images/phd_talk.jpg" alt="Presenting research" onerror="this.style.display='none'">
+          </div>
+        </div>
+
+        <h3 style="margin-top: 25px; margin-bottom: 15px;">Exploring how games can:</h3>
+        <div class="grid-2" style="align-items: start;">
+          
+          <!-- Focus 1 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 📖 Focus: Storytelling</h3>
+            <p style="margin-bottom: 15px;">Support people in telling their own stories (participatory design & migration).</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-story')">
+              <span>Publications</span> <span id="icon-pubs-story" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-story" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;">
+              <div style="margin-bottom: 8px;"><strong>Experiencing Forced Migration: A Participatory Approach to Developing Games</strong> (GALA 2024) <a href="https://link.springer.com/chapter/10.1007/978-3-031-78269-5_40" target="_blank" style="text-decoration: underline; font-weight: bold;">[Read]</a></div>
+              <div style="margin-bottom: 8px;"><strong>Tell Your Story Through Games (TYS): Preliminary Guidelines for Mixed-Migrant Participatory Game Jams</strong> (3GGS 2026 • <em>Forthcoming</em>)</div>
+            </div>
+          </div>
+
+          <!-- Focus 2 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 🎭 Focus: Catharsis</h3>
+            <p style="margin-bottom: 15px;">Create space for emotional reflection and catharsis.</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-catharsis')">
+              <span>Publications</span> <span id="icon-pubs-catharsis" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-catharsis" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;">
+              <div style="margin-bottom: 8px;"><strong>For Empowerment’s Sake: Rethinking Video Game Adaptations of Real-Life Experiences</strong> (ICGaN 2025 • <em>Extended Abstract</em>)</div>
+            </div>
+          </div>
+
+          <!-- Focus 3 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 🤖 Focus: Ethical Tech</h3>
+            <p style="margin-bottom: 15px;">Use AI in ethical, local, and human-centered ways.</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-ai')">
+              <span>Publications</span> <span id="icon-pubs-ai" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-ai" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;">
+              <div style="margin-bottom: 8px;"><strong>One Spell Fits All: A Generative AI Game as a Tool for Research in AI Creativity and Sustainable Design</strong> (EXAG@AIIDE 2024) <a href="https://ceur-ws.org/Vol-3926/paper11.pdf" target="_blank" style="text-decoration: underline; font-weight: bold;">[Read]</a></div>
+              <div style="margin-bottom: 8px;"><strong>Dynamic Participatory Game Design with Local AI: From Interviews to Trauma-Aware Interactive Narratives</strong> (Text2Story Workshop 2026 • <em>Forthcoming</em>)</div>
+            </div>
+          </div>
+
+          <!-- Focus 4 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 👾 Focus: Critical Studies</h3>
+            <p style="margin-bottom: 15px;">Analyze ideologies, safe spaces, and representation in game cultures.</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-crit')">
+              <span>Publications</span> <span id="icon-pubs-crit" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-crit" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;">
+              <div style="margin-bottom: 8px;"><strong>The Slow Apocalypse: Cute Video Game Aesthetics as Ideological Tools in Normalizing Colonialism and Authoritarianism</strong> (2025) <a href="https://doi.org/10.48341/ccmd-a102" target="_blank" style="text-decoration: underline; font-weight: bold;">[Read]</a></div>
+              <div style="margin-bottom: 8px;"><strong>Video Games as Safe Spaces: A Walking Perspective</strong> (Exploring New Horizons in Video Game Cultures, 2025) <a href="https://doi.org/10.59641/i1l7f8g9h0" target="_blank" style="text-decoration: underline; font-weight: bold;">[Read]</a></div>
+              <div style="margin-bottom: 8px;"><strong>In the Ring and on the Runway: Masculinities of Drag and Wrestling from TV to Video Games</strong> (Play/Write Student Journal, 2025) <a href="https://doi.org/10.48415/001.2024.04.5" target="_blank" style="text-decoration: underline; font-weight: bold;">[Read]</a></div>
+              <div style="margin-bottom: 8px;"><strong>Pleasure Not For Everyone: Epistemic Injustice Towards Ukrainian Game Studies</strong> (DiGRA 2026 • <em>Accepted Short Paper</em>)</div>
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="inner-box" style="background: rgba(76, 175, 80, 0.3); border-color: #4CAF50; margin-top: 20px;">
+          <h2>🏡 Community Event (Past Lot)</h2>
+          <div class="grid-2" style="align-items: center;">
+            <div>
+              <p>The <strong>Tell Your Story Through Games</strong> jam was a creative workshop about migration, identity, and belonging. Participants created small games inspired by lived experiences.</p>
+              <p style="margin-bottom: 15px;"><em>(Event concluded — stay tuned for future lots!)</em></p>
+            </div>
+            <div class="img-frame poster-frame" style="border: 3px solid #4CAF50;">
+              <img src="images/tys_.png" alt="Tell Your Story Poster" onerror="this.style.display='none'">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- =========================================
+         APP 3: SLAY THE SPIRE (Games)
+         ========================================= -->
+    <div id="games" class="os-window theme-spire">
+      <div class="title-bar">
+        <span>Spire_Inventory.exe 🗡️</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content">
+        <h2>YOUR DECK (EQUIPPED ITEMS) <span style="font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 12px; text-shadow: none; text-transform: none; font-weight: normal; color: #E5B13A;">(games & prototypes)</span></h2>
+        <p>Small scope, playful mechanics, fast iteration. Care-first design.</p>
+
+        <div class="grid-2">
+          <!-- Card 1 -->
+          <div class="card-item">
+            <div class="card-cost">1</div>
+            <div class="img-frame"><img src="images/game_monster_match.png" alt="Monster Match" onerror="this.style.display='none';"></div>
+            <h3>MONSTER MATCH</h3>
+            <div class="tags"><span>JAM</span><span>DATING SIM</span></div>
+            <p style="font-size: 12px;">Speed-date your way out of a pub crawling with flesh-eating monsters.</p>
+            <a class="btn" href="https://rachelgo.itch.io/monstermatch" target="_blank">PLAY CARD</a>
+          </div>
+          <!-- Card 2 -->
+          <div class="card-item">
+            <div class="card-cost">0</div>
+            <div class="img-frame"><img src="images/game_ui_chill.png" alt="UI & Chill" onerror="this.style.display='none';"></div>
+            <h3>UI & CHILL</h3>
+            <div class="tags"><span>COZY</span><span>UI EXP</span></div>
+            <p style="font-size: 12px;">Cozy game designed to help you calm down and de-stress… right?</p>
+            <a class="btn" href="https://rachelgo.itch.io/u-i-chill" target="_blank">PLAY CARD</a>
+          </div>
+          <!-- Card 3 -->
+          <div class="card-item">
+            <div class="card-cost">2</div>
+            <div class="img-frame"><img src="images/potoybik.png" alt="Potoybik" onerror="this.style.display='none';"></div>
+            <h3>POTOYBIK: VILA'S WINGS</h3>
+            <div class="tags"><span>FOLKLORE</span><span>EN/UKR</span></div>
+            <p style="font-size: 12px;">Short visual narrative about a lost Vila guided by the spirit Berehynia.</p>
+            <a class="btn" href="https://kseniaharshina.itch.io/potoybik" target="_blank">PLAY CARD</a>
+          </div>
+          <!-- Card 4 -->
+          <div class="card-item">
+            <div class="card-cost">X</div>
+            <div class="img-frame"><img src="images/game_curse.png" alt="Curse of the Narrator" onerror="this.style.display='none';"></div>
+            <h3>CURSE OF NARRATOR</h3>
+            <div class="tags"><span>JAM</span><span>NARRATIVE</span></div>
+            <p style="font-size: 12px;">Create an outstanding story to satisfy the narrator.</p>
+            <a class="btn" href="https://vulvarine.itch.io/the-curse-of-the-narrator" target="_blank">PLAY CARD</a>
+          </div>
+          <!-- Card 5 -->
+          <div class="card-item">
+            <div class="card-cost">3</div>
+            <div class="img-frame"><img src="images/game_resistance.jpg" alt="Welcome to the Resistance" onerror="this.src='images/game_resistance.png'; this.onerror=null;"></div>
+            <h3>RESISTANCE</h3>
+            <div class="tags"><span>JAM</span><span>NARRATIVE</span></div>
+            <p style="font-size: 12px;">Gather your allies and organize a resistance in this narrative game.</p>
+            <a class="btn" href="https://kseniaharshina.itch.io/resistance" target="_blank">PLAY CARD</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         APP 4: ANIMAL CROSSING (Guild)
+         ========================================= -->
+    <div id="guild" class="os-window theme-ac">
+      <div class="title-bar">
+        <span>Cozy_Guild.exe 🍃</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content">
+        <h2>Town Hall: GIRT</h2>
+        <p>Games Intersectional Roundtables: A community for marginalized people in games — students, researchers, and indie developers navigating academia and the game industry.</p>
+        <a class="btn" href="mailto:gamesintersectional@gmail.com">Send Mail ✈️</a>
+
+        <div class="grid-2" style="margin-top: 20px;">
+          <div class="inner-box">
+            <div class="bulletin-pin">📌</div>
+            <h3 style="margin-top: 5px;">Community Board</h3>
+            <p>Founded in Dec 2023 at AAU. Alumni wanted to extend the sense of support and belonging they found during their studies.</p>
+            <ul>
+              <li>50+ Villagers on Server</li>
+              <li>10+ Community Events</li>
+            </ul>
+          </div>
+
+          <div class="inner-box">
+            <div class="bulletin-pin">📌</div>
+            <h3 style="margin-top: 5px;">Town Activities</h3>
+            <ul>
+              <li><strong>Roundtables:</strong> Monthly meetups.</li>
+              <li><strong>Workshops:</strong> Skill-sharing.</li>
+              <li><strong>Discussions:</strong> Inclusivity & representation.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="inner-box" style="text-align: center;">
+          <div class="bulletin-pin">📌</div>
+          <h3 style="margin-top: 5px;">GIS SYMPOSIUM</h3>
+          <p>A GIRT conference with talks, reflections, and a digital zine.</p>
+          
+          <div class="img-frame" style="max-width: 250px; margin: 15px auto; border: 3px solid #8D6E63; transform: rotate(2deg); box-shadow: 2px 2px 8px rgba(0,0,0,0.2);">
+            <img src="images/gis25.jpg" alt="GIS 2025 Zine Cover" onerror="this.style.display='none'">
+          </div>
+          
+          <a class="btn" href="https://www.canva.com/design/DAG1UCS6JZM/2xIakTkQnT5q7exdjXs5Nw/watch" target="_blank">Read Zine 📖</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         APP 5: UNDERTALE (Academy)
+         ========================================= -->
+    <div id="academy" class="os-window theme-ut">
+      <div class="title-bar">
+        <span>* ACADEMY.</span>
+        <div class="window-controls"></div>
+      </div>
+      <div class="app-content">
+        <h2>* Academy Grounds.</h2>
+        <p>Courses designed or co-taught in Game Studies & Engineering.</p>
+
+        <div class="grid-2">
+          <div class="inner-box">
+            <h3>* Rep & Config.</h3>
+            <div class="tags"><span>WINTER 24-25</span></div>
+            <p>Exploring perspectives, identity, accessibility, and experimental game design.</p>
+            <a class="btn">♥ ACT</a>
+          </div>
+
+          <div class="inner-box">
+            <h3>* Scientific Writing.</h3>
+            <div class="tags"><span>SUMMER 2026</span></div>
+            <p>Focused on academic writing, research communication, and publishing.</p>
+            <a class="btn">♥ ITEM</a>
+          </div>
+
+          <div class="inner-box">
+            <h3>* Mod. Sustainability.</h3>
+            <div class="tags"><span>SUMMER 2025</span><span>70+ STUDENTS</span></div>
+            <p>Co-taught course exploring sustainability through tabletop game design jams.</p>
+            <a class="btn">♥ MERCY</a>
+          </div>
+          
+          <div class="inner-box" style="display: flex; align-items: center; justify-content: center; padding: 10px;">
+            <div class="img-frame poster-frame" style="border: 2px solid #fff; width: 100%;">
+              <img src="images/teaching.jpg" alt="Teaching about Camp" onerror="this.style.display='none'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         APP 6: VAMPIRE THE MASQUERADE (Chronicles)
+         ========================================= -->
+    <div id="chronicles" class="os-window theme-vtm">
+      <div class="title-bar">
+        <span>Chronicles_Log.exe 🦇</span>
+        <div class="window-controls"><span class="win-btn"></span></div>
+      </div>
+      <div class="app-content">
+        <h2>Chronicles & Archives</h2>
+        <p>Selected talks, interviews, and public broadcasts from the night.</p>
+
+        <div class="grid-2">
+          <div class="inner-box">
+            <h3>Blood & Broadcasts</h3>
+            <p><strong>Colonial Narratives</strong><br>FROG 2024</p>
+            <a class="btn" href="https://www.youtube.com/watch?v=37-sqVJrMoY" target="_blank">Inspect Tape</a>
+            <br><br>
+            <p><strong>Freeing Player Agency AI</strong><br>Games & Language 2023</p>
+            <a class="btn" href="https://www.youtube.com/watch?v=OX_e3UXyLTs" target="_blank">Inspect Tape</a>
+          </div>
+
+          <div class="inner-box">
+            <h3>Tech & Whispers</h3>
+            <p><strong>Neurodiversität in Lehre</strong><br>Youniversity Podcast</p>
+            <a class="btn" href="https://www.aau.at/universitaet/organisation/interessensvertretungen-beauftragte/arbeitskreis-fuer-gleichbehandlungsfragen/youniversity-vielfaltfeiern-respektleben/" target="_blank">Listen closely</a>
+            <br><br>
+            <p><strong>Data Analytics in Game Dev</strong><br>WiDS Villach 2023</p>
+            <a class="btn" href="https://www.youtube.com/watch?v=DcqM1dnY1zI" target="_blank">Inspect Tape</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- End Desktop Area -->
+
+  <!-- BOTTOM TASKBAR (DOCK) -->
+  <nav class="taskbar">
+    <button class="dock-icon active" onclick="switchView('home')">
+      <div class="dock-art">🎀</div>
+      <span>PROFILE</span>
+    </button>
+    <button class="dock-icon" onclick="switchView('phd')">
+      <div class="dock-art">💎</div>
+      <span>RESEARCH</span>
+    </button>
+    <button class="dock-icon" onclick="switchView('games')">
+      <div class="dock-art">🗡️</div>
+      <span>GAMES</span>
+    </button>
+    <button class="dock-icon" onclick="switchView('guild')">
+      <div class="dock-art">🍃</div>
+      <span>GIRT</span>
+    </button>
+    <button class="dock-icon" onclick="switchView('academy')">
+      <div class="dock-art">⚔️</div>
+      <span>ACADEMY</span>
+    </button>
+    <button class="dock-icon" onclick="switchView('chronicles')">
+      <div class="dock-art">🦇</div>
+      <span>TALKS</span>
+    </button>
+  </nav>
+
+  <script>
+    let isHorror = false;
+    let typeTimeout = null;
+
+    const dialogLinesLight = [
+      "Вітаю! Welcome! I'm Kseniia (she/they).",
+      "I design and study games as tools for emotional reflection.",
+      "Sul sul! 🦙 Don't forget to save your progress."
+    ];
+    
+    // BioShock / Silent Hill inspired dialogue
+    const dialogLinesHorror = [
+      "Would you kindly check your active quests?",
+      "There was a file here. It's gone now.",
+      "The fog is rolling in over the desktop...",
+      "A familiar chill runs down your spine."
+    ];
+
+    // --- TROPHY / ACHIEVEMENT SYSTEM ---
+    const achievements = {
+      home: { title: "Secret Agent 🎀", desc: "Booted up the OS.", unlocked: true },
+      phd: { title: "Sul sul! 🦙", desc: "Found the Knowledge Aspiration.", unlocked: false },
+      games: { title: "The Spire 🗡️", desc: "Checked the inventory deck.", unlocked: false },
+      guild: { title: "New Villager 🍃", desc: "Visited the town hall.", unlocked: false },
+      academy: { title: "Determination ♥", desc: "Entered the Academy.", unlocked: false },
+      chronicles: { title: "Kindred 🦇", desc: "Listened to the chronicles.", unlocked: false },
+      dark_mode: { title: "Corrupted 💀", desc: "Uncovered the dark truth of the OS.", unlocked: false },
+      tama_friend: { title: "Tama Caretaker 💖", desc: "Interacted with your desktop pet.", unlocked: false },
+      level_5: { title: "Dedicated Grinder 🌟", desc: "Reached Level 5.", unlocked: false }
+    };
+
+    function toggleTrophies() {
+      const content = document.getElementById('trophies-content');
+      const icon = document.getElementById('trophy-icon');
+      if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+        icon.innerText = '-';
+      } else {
+        content.style.display = 'none';
+        icon.innerText = '+';
+      }
+    }
+
+    function toggleFocus(id) {
+      const content = document.getElementById(id);
+      const icon = document.getElementById('icon-' + id);
+      if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+        icon.innerText = '-';
+      } else {
+        content.style.display = 'none';
+        icon.innerText = '+';
+      }
+    }
+
+    function unlockAchievement(id) {
+      if (achievements[id] && !achievements[id].unlocked) {
+        achievements[id].unlocked = true;
+        showAchievementToast(achievements[id].title);
+        renderAchievements();
+        addXP(20); 
+      }
+    }
+
+    function renderAchievements() {
+      const list = document.getElementById('achievement-list');
+      if (!list) return;
+      list.innerHTML = '';
+      for (let key in achievements) {
+        const ach = achievements[key];
+        const li = document.createElement('li');
+        li.className = 'ach-item';
+        if (ach.unlocked) {
+          li.innerHTML = `<span class="ach-unlocked"><span class="ach-title">${ach.title}</span><br><span style="font-size: 6px; font-family: 'Atkinson Hyperlegible';">${ach.desc}</span></span>`;
+        } else {
+          li.innerHTML = `<span class="ach-locked">🔒 ???</span>`;
+        }
+        list.appendChild(li);
+      }
+    }
+
+    function showAchievementToast(title) {
+      const toast = document.getElementById('achievement-toast');
+      document.getElementById('ach-title').innerText = title;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 4000);
+    }
+
+    function toggleTheme() {
+      isHorror = !isHorror;
+      document.body.setAttribute('data-theme', isHorror ? 'horror' : 'light');
+      
+      const newLines = isHorror ? dialogLinesHorror : dialogLinesLight;
+      startTypewriter(newLines[Math.floor(Math.random() * newLines.length)]);
+      document.getElementById('tama-pet').innerText = isHorror ? "X_X" : "(•ᴥ•)";
+      
+      if (isHorror) {
+        unlockAchievement('dark_mode');
+      }
+    }
+
+    function switchView(viewId) {
+      document.querySelectorAll('.os-window').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.dock-icon').forEach(el => el.classList.remove('active'));
+      
+      // Safety check to ensure the target window exists before adding the class
+      const targetWindow = document.getElementById(viewId);
+      if (targetWindow) {
+          targetWindow.classList.add('active');
+      }
+      
+      const ids = ['home', 'phd', 'games', 'guild', 'academy', 'chronicles'];
+      const index = ids.indexOf(viewId);
+      if(index !== -1) {
+        const icons = document.querySelectorAll('.dock-icon');
+        if (icons[index]) {
+            icons[index].classList.add('active');
+        }
+      }
+
+      // Achievement check
+      unlockAchievement(viewId);
+
+      if(viewId === 'home') {
+        const lines = isHorror ? dialogLinesHorror : dialogLinesLight;
+        startTypewriter(lines[Math.floor(Math.random() * lines.length)]);
+      }
+    }
+
+    function startTypewriter(text) {
+      const el = document.getElementById("typewriter-text");
+      if(!el) return;
+      el.innerHTML = "> ";
+      let i = 0;
+      clearTimeout(typeTimeout);
+
+      function type() {
+        if (i < text.length) {
+          el.innerHTML += text.charAt(i);
+          i++;
+          typeTimeout = setTimeout(type, 30);
+        }
+      }
+      type();
+    }
+    
+    window.onload = () => {
+      startTypewriter(dialogLinesLight[0]);
+      renderAchievements();
+    };
+
+    // XP & Particles
+    let currentXP = 15;
+    let currentLevel = 1;
+    const xpBar = document.getElementById('xp-bar');
+    const lvlDisplay = document.getElementById('player-lvl');
+    
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.btn') || e.target.closest('.dock-icon') || e.target.closest('.window-controls') || e.target.closest('#avatar-frame') || e.target.closest('.tama-widget')) return;
+
+      const texts = isHorror ? ['ERROR', '0xDEAD', 'glitch', '???'] : ['✨ +10', '🐸 +10', '🎀 +10', '💎 +10', '🗡️ +10'];
+      const text = texts[Math.floor(Math.random() * texts.length)];
+      spawnParticle(e.clientX, e.clientY, text);
+      addXP(10);
+    });
+
+    function boopAvatar(event) {
+      const avatarFrame = document.getElementById('avatar-frame');
+      if(avatarFrame) {
+        avatarFrame.style.transform = "scale(0.9)";
+        setTimeout(()=> avatarFrame.style.transform = "scale(1)", 150);
+      }
+      
+      const text = isHorror ? "GLITCH_!" : "🐸 hi";
+      spawnParticle(event.clientX, event.clientY, text);
+      addXP(50);
+    }
+
+    // Tamagotchi Logic
+    const tamaPet = document.getElementById('tama-pet');
+    const pets = { normal: "(•ᴥ•)", happy: "(^∇^)", eating: "(˘▽˘)っ", sleep: "(-_-)zZ", horror: "X_X" };
+
+    function feedTama() {
+      if (!tamaPet) return;
+      if(isHorror) return tamaPet.innerText = "NO";
+      unlockAchievement('tama_friend');
+      tamaPet.innerText = pets.eating;
+      spawnParticle(window.innerWidth - 70, window.innerHeight - 150, "🍙");
+      setTimeout(() => { if(!isHorror) tamaPet.innerText = pets.normal; }, 2000);
+      addXP(5);
+    }
+
+    function playTama() {
+      if (!tamaPet) return;
+      if(isHorror) return tamaPet.innerText = "HELP";
+      unlockAchievement('tama_friend');
+      tamaPet.innerText = pets.happy;
+      spawnParticle(window.innerWidth - 70, window.innerHeight - 150, "💖");
+      setTimeout(() => { if(!isHorror) tamaPet.innerText = pets.normal; }, 2000);
+      addXP(5);
+    }
+
+    function sleepTama() {
+      if (!tamaPet) return;
+      if(isHorror) return tamaPet.innerText = "WAKE";
+      unlockAchievement('tama_friend');
+      tamaPet.innerText = pets.sleep;
+      spawnParticle(window.innerWidth - 70, window.innerHeight - 150, "💤");
+      setTimeout(() => { if(!isHorror) tamaPet.innerText = pets.normal; }, 3000);
+    }
+
+    function spawnParticle(x, y, text) {
+      const particle = document.createElement('div');
+      particle.style.position = 'fixed';
+      particle.style.fontFamily = '"Press Start 2P", monospace';
+      particle.style.fontSize = '10px';
+      particle.style.pointerEvents = 'none';
+      particle.style.zIndex = '1000';
+      particle.style.animation = 'floatUp 1s forwards linear';
+      
+      const colorsLight = ['#ffffff', '#fdf6cc', '#e6f6fa', '#e0ccfa'];
+      const colorsHorror = ['#a12020', '#5c2c22'];
+      
+      const colors = isHorror ? colorsHorror : colorsLight;
+      particle.style.color = colors[Math.floor(Math.random() * colors.length)];
+      if(!isHorror) { particle.style.textShadow = '1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000'; }
+      
+      particle.innerText = text;
+      particle.style.left = (x - 20) + 'px';
+      particle.style.top = (y - 20) + 'px';
+      document.body.appendChild(particle);
+
+      if (!document.getElementById('particle-style')) {
+          const style = document.createElement('style');
+          style.id = 'particle-style';
+          style.innerHTML = `@keyframes floatUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-50px); opacity: 0; } }`;
+          document.head.appendChild(style);
+      }
+      setTimeout(() => { particle.remove(); }, 1000);
+    }
+
+    function addXP(amount) {
+      currentXP += amount;
+      if (currentXP >= 100) {
+        currentXP = currentXP - 100; 
+        currentLevel++;
+        if(lvlDisplay) lvlDisplay.innerText = currentLevel;
+        
+        const msg = document.getElementById('level-up-msg');
+        if (msg) {
+            msg.innerText = isHorror ? "A CHILL RUNS DOWN YOUR SPINE." : "ACHIEVEMENT UNLOCKED: LEVEL UP!";
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 2000);
+        }
+        
+        if (currentLevel >= 5) {
+          unlockAchievement('level_5');
+        }
+      }
+      if (xpBar) xpBar.style.width = currentXP + '%';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+import { build } from 'esbuild';
+import postcss from 'postcss';
+import tailwindcss from '@tailwindcss/postcss';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+const here = path.dirname(fileURLToPath(import.meta.url));
+await mkdir(path.join(here, 'assets'), { recursive: true });
+await build({ entryPoints: [path.join(here, 'main.tsx')], outfile: path.join(here, 'assets/app.js'), bundle: true, minify: true, format: 'iife', target: ['es2020'], nodePaths: [path.join(here, 'node_modules')], define: {'process.env.NODE_ENV': '"production"'}, legalComments: 'linked' });
+const css = await postcss([tailwindcss({base: here, optimize: true})]).process(await readFile(path.join(here, 'styles.css'), 'utf8'), {from: path.join(here, 'styles.css'), to: path.join(here, 'assets/app.css')});
+await writeFile(path.join(here, 'assets/app.css'), css.css);
+console.log('Built Todo Terrarium into assets/app.js and assets/app.css');

@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kseniia Harshina | Game Researcher</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <meta name="description" content="Kseniia Harshina is a PhD researcher in HCI, informatics, and game studies, exploring how autobiographical games can support catharsis, reflection, and community-building around migration and displacement.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Press+Start+2P&amp;family=EB+Garamond:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css"></head>
+<body>
+
+  <div id="level-up-msg">ACHIEVEMENT UNLOCKED: LEVEL UP!</div>
+  <div id="achievement-toast">🏆 NEW TROPHY:<br><span id="ach-title" style="color: #fff; margin-top: 5px; display: inline-block;"></span></div>
+
+  <!-- TAMAGOTCHI WIDGET -->
+  <div class="tama-widget" id="tama-widget">
+    <div class="tama-ring"></div>
+    <div class="tama-screen" id="tama-pet">(•ᴥ•)</div>
+    <div class="tama-buttons">
+      <div class="tama-btn" onclick="feedTama()" title="Feed"></div>
+      <div class="tama-btn" onclick="playTama()" title="Play"></div>
+      <div class="tama-btn" onclick="sleepTama()" title="Sleep"></div>
+    </div>
+  </div>
+
+  <!-- TOP MENU BAR -->
+  <header class="top-bar pixel-font">
+    <div>Kseniia_OS v4.0 <span style="color: var(--text-muted);">| klagenfurt.loc</span></div>
+    <div class="stats-container">
+      <div>LVL <span id="player-lvl">1</span></div>
+      <div style="display: flex; align-items: center; gap: 5px;">HP <div class="bar-bg"><div class="bar-fg hp"></div></div></div>
+      <div style="display: flex; align-items: center; gap: 5px;">XP <div class="bar-bg"><div class="bar-fg xp" id="xp-bar"></div></div></div>
+      <button class="corrupt-btn" onclick="toggleTheme()">corrupt.exe</button>
+    </div>
+  </header>
+
+  <div class="desktop-area">
+    
+    <!-- =========================================
+         APP 1: BARBIE SECRET AGENT (Home)
+         ========================================= -->
+    <div id="home" class="os-window theme-barbie active">
+      <div class="title-bar">
+        <span>Secret_Agent_Profile.exe 🎀</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content">
+        <div style="position: absolute; top: -10px; left: -10px; font-size: 30px; transform: rotate(-20deg);">✨</div>
+        <div class="inner-box" style="text-align: center;">
+          <h2>[ KSENIIA HARSHINA ]</h2>
+          <p id="typewriter-text" class="pixel-font" style="font-size: 10px; min-height: 25px; margin: 0;"></p>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="img-frame" id="avatar-frame" style="margin-bottom: 15px;" onclick="boopAvatar(event)">
+              <img id="main-avatar-img" src="images/hero.jpg" alt="Avatar" onerror="this.style.display='none'">
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+              <a class="btn" href="https://scholar.google.com/citations?user=GN3Bb2UAAAAJ&amp;hl=en" target="_blank">SCHOLAR</a>
+              <a class="btn" href="https://kseniaharshina.itch.io/" target="_blank">ITCH.IO</a>
+              <a class="btn" href="mailto:kseniia.harshina@aau.at">EMAIL</a>
+            </div>
+          </div>
+          <div>
+            <div class="inner-box">
+              <h3>[ ACTIVE MISSIONS ] <span style="font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 12px; font-weight: bold; text-shadow: none; text-transform: none; color: #8b008b;">(current research &amp; work)</span></h3>
+              <ul>
+                <li><strong>Prototyping Tools:</strong> Autobiographical game design.</li>
+                <li><strong>Knowledge Transfer:</strong> Teaching Scientific Writing.</li>
+                <li><strong>Guild Gathering:</strong> Organizing the GIRT Roundtable.</li>
+              </ul>
+            </div>
+            
+            <div class="inner-box">
+              <h3 style="display: flex; justify-content: space-between;">[ BIO ] <span style="font-size: 20px; transform: translateY(-8px);">🐸 hi</span></h3>
+              <p style="margin: 0;">I design games and study how they help us process difficult experiences, reflect on who we are, and connect with others. Game Studies &amp; Engineering at the University of Klagenfurt.</p>
+            </div>
+            
+            <div class="inner-box">
+              <h3 onclick="toggleTrophies()" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin: 0; user-select: none;" title="Click to expand">
+                <span>[ YOUR ACHIEVEMENTS ]</span> 
+                <span id="trophy-icon" style="font-size: 18px;">+</span>
+              </h3>
+              <div id="trophies-content" style="display: none; margin-top: 15px;">
+                <ul class="ach-list" id="achievement-list">
+                  <!-- Javascript will populate this -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         APP 2: SIMS 2 (Research)
+         ========================================= -->
+    <div id="phd" class="os-window theme-sims2">
+      <div class="title-bar">
+        <span>Knowledge_Aspiration.exe 💎</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content">
+        
+        <div class="aspiration-points">
+           <span style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #fff;">15,000</span>
+           <div class="plumbob">💎</div>
+        </div>
+        
+        <div class="grid-2" style="align-items: center;">
+          <div>
+            <h2>Aspiration: Knowledge &amp; Research</h2>
+            <p>Designing games as tools for emotional reflection, empowerment, and community care.</p>
+          </div>
+          <div class="img-frame poster-frame" style="border: 6px solid #fff; border-bottom-width: 20px; box-shadow: 2px 4px 10px rgba(0,0,0,0.4); transform: rotate(2deg);">
+            <img src="images/phd_talk.jpg" alt="Presenting research" onerror="this.style.display='none'">
+          </div>
+        </div>
+
+        <h3 style="margin-top: 25px; margin-bottom: 15px;">Exploring how games can:</h3>
+        <div class="grid-2" style="align-items: start;">
+          
+          <!-- Focus 1 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 📖 Focus: Storytelling</h3>
+            <p style="margin-bottom: 15px;">Support people in telling their own stories (participatory design &amp; migration).</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-story')">
+              <span>Publications</span> <span id="icon-pubs-story" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-story" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;"></div>
+          </div>
+
+          <!-- Focus 2 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 🎭 Focus: Catharsis</h3>
+            <p style="margin-bottom: 15px;">Create space for emotional reflection and catharsis.</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-catharsis')">
+              <span>Publications</span> <span id="icon-pubs-catharsis" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-catharsis" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;"></div>
+          </div>
+
+          <!-- Focus 3 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 🤖 Focus: Ethical Tech</h3>
+            <p style="margin-bottom: 15px;">Use AI in ethical, local, and human-centered ways.</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-ai')">
+              <span>Publications</span> <span id="icon-pubs-ai" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-ai" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;"></div>
+          </div>
+
+          <!-- Focus 4 -->
+          <div class="inner-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+            <h3 style="margin-top: 0;">✦ 👾 Focus: Critical Studies</h3>
+            <p style="margin-bottom: 15px;">Analyze ideologies, safe spaces, and representation in game cultures.</p>
+            <div class="btn" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleFocus('pubs-crit')">
+              <span>Publications</span> <span id="icon-pubs-crit" style="font-weight: normal;">+</span>
+            </div>
+            <div id="pubs-crit" style="display: none; margin-top: 15px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px;"></div>
+          </div>
+          
+        </div>
+
+        <div class="inner-box" style="background: rgba(76, 175, 80, 0.3); border-color: #4CAF50; margin-top: 20px;">
+          <h2>🏡 Community Event (Past Lot)</h2>
+          <div class="grid-2" style="align-items: center;">
+            <div>
+              <p>The <strong>Tell Your Story Through Games</strong> jam was a creative workshop about migration, identity, and belonging. Participants created small games inspired by lived experiences.</p>
+              <p style="margin-bottom: 15px;"><em>(Event concluded — stay tuned for future lots!)</em></p>
+            </div>
+            <div class="img-frame poster-frame" style="border: 3px solid #4CAF50;">
+              <img src="images/tys_.png" alt="Tell Your Story Poster" onerror="this.style.display='none'">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- =========================================
+         APP 3: SLAY THE SPIRE (Games)
+         ========================================= -->
+    <div id="games" class="os-window theme-spire">
+      <div class="title-bar">
+        <span>Spire_Inventory.exe 🗡️</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content">
+        <h2>YOUR DECK (EQUIPPED ITEMS) <span style="font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 12px; text-shadow: none; text-transform: none; font-weight: normal; color: #E5B13A;">(games &amp; prototypes)</span></h2>
+        <p>Small scope, playful mechanics, fast iteration. Care-first design.</p>
+
+        <div class="grid-2" id="game-list">
+          <!-- Card 1 -->
+          <!-- Card 2 -->
+          <!-- Card 3 -->
+          <!-- Card 4 -->
+          <!-- Card 5 -->
+          </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         APP 4: ANIMAL CROSSING (Guild)
+         ========================================= -->
+    <div id="guild" class="os-window theme-ac">
+      <div class="title-bar">
+        <span>Cozy_Guild.exe 🍃</span>
+        <div class="window-controls"><span class="win-btn">_</span><span class="win-btn">[]</span><span class="win-btn">x</span></div>
+      </div>
+      <div class="app-content">
+        <h2>Town Hall: GIRT</h2>
+        <p>Games Intersectional Roundtables: A community for marginalized people in games — students, researchers, and indie developers navigating academia and the game industry.</p>
+        <a class="btn" href="mailto:gamesintersectional@gmail.com">Send Mail ✈️</a>
+
+        <div class="grid-2" style="margin-top: 20px;">
+          <div class="inner-box">
+            <div class="bulletin-pin">📌</div>
+            <h3 style="margin-top: 5px;">Community Board</h3>
+            <p>Founded in Dec 2023 at AAU. Alumni wanted to extend the sense of support and belonging they found during their studies.</p>
+            <ul>
+              <li>50+ Villagers on Server</li>
+              <li>10+ Community Events</li>
+            </ul>
+          </div>
+
+          <div class="inner-box">
+            <div class="bulletin-pin">📌</div>
+            <h3 style="margin-top: 5px;">Town Activities</h3>
+            <ul>
+              <li><strong>Roundtables:</strong> Monthly meetups.</li>
+              <li><strong>Workshops:</strong> Skill-sharing.</li>
+              <li><strong>Discussions:</strong> Inclusivity &amp; representation.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="inner-box" style="text-align: center;">
+          <div class="bulletin-pin">📌</div>
+          <h3 style="margin-top: 5px;">GIS SYMPOSIUM</h3>
+          <p>A GIRT conference with talks, reflections, and a digital zine.</p>
+          
+          <div class="img-frame" style="max-width: 250px; margin: 15px auto; border: 3px solid #8D6E63; transform: rotate(2deg); box-shadow: 2px 2px 8px rgba(0,0,0,0.2);">
+            <img src="images/gis25.jpg" alt="GIS 2025 Zine Cover" onerror="this.style.display='none'">
+          </div>
+          
+          <a class="btn" href="https://www.canva.com/design/DAG1UCS6JZM/2xIakTkQnT5q7exdjXs5Nw/watch" target="_blank">Read Zine 📖</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         APP 5: UNDERTALE (Academy)
+         ========================================= -->
+    <div id="academy" class="os-window theme-ut">
+      <div class="title-bar">
+        <span>* ACADEMY.</span>
+        <div class="window-controls"></div>
+      </div>
+      <div class="app-content">
+        <h2>* Academy Grounds.</h2>
+        <p>Courses designed or co-taught in Game Studies &amp; Engineering.</p>
+
+        <div class="grid-2" id="course-list">
+          <div class="inner-box" style="display: flex; align-items: center; justify-content: center; padding: 10px;">
+            <div class="img-frame poster-frame" style="border: 2px solid #fff; width: 100%;">
+              <img src="images/teaching.jpg" alt="Teaching about Camp" onerror="this.style.display='none'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         APP 6: VAMPIRE THE MASQUERADE (Chronicles)
+         ========================================= -->
+    <div id="chronicles" class="os-window theme-vtm">
+      <div class="title-bar">
+        <span>Chronicles_Log.exe 🦇</span>
+        <div class="window-controls"><span class="win-btn"></span></div>
+      </div>
+      <div class="app-content">
+        <h2>Chronicles &amp; Archives</h2>
+        <p>Selected talks, interviews, and public broadcasts from the night.</p>
+
+        <div class="grid-2">
+          <div class="inner-box">
+            <h3>Blood &amp; Broadcasts</h3>
+            <p><strong>Colonial Narratives</strong><br>FROG 2024</p>
+            <a class="btn" href="https://www.youtube.com/watch?v=37-sqVJrMoY" target="_blank">Inspect Tape</a>
+            <br><br>
+            <p><strong>Freeing Player Agency AI</strong><br>Games &amp; Language 2023</p>
+            <a class="btn" href="https://www.youtube.com/watch?v=OX_e3UXyLTs" target="_blank">Inspect Tape</a>
+          </div>
+
+          <div class="inner-box">
+            <h3>Tech &amp; Whispers</h3>
+            <p><strong>Neurodiversität in Lehre</strong><br>Youniversity Podcast</p>
+            <a class="btn" href="https://www.aau.at/universitaet/organisation/interessensvertretungen-beauftragte/arbeitskreis-fuer-gleichbehandlungsfragen/youniversity-vielfaltfeiern-respektleben/" target="_blank">Listen closely</a>
+            <br><br>
+            <p><strong>Data Analytics in Game Dev</strong><br>WiDS Villach 2023</p>
+            <a class="btn" href="https://www.youtube.com/watch?v=DcqM1dnY1zI" target="_blank">Inspect Tape</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- End Desktop Area -->
+
+  <!-- BOTTOM TASKBAR (DOCK) -->
+  <nav class="taskbar">
+    <button class="dock-icon active" onclick="switchView('home')">
+      <div class="dock-art">🎀</div>
+      <span>PROFILE</span>
+    </button>
+    <button class="dock-icon" onclick="switchView('phd')">
+      <div class="dock-art">💎</div>
+      <span>RESEARCH</span>
+    </button>
+    <button class="dock-icon" onclick="switchView('games')">
+      <div class="dock-art">🗡️</div>
+      <span>GAMES</span>
+    </button>
+    <button class="dock-icon" onclick="switchView('guild')">
+      <div class="dock-art">🍃</div>
+      <span>GIRT</span>
+    </button>
+    <button class="dock-icon" onclick="switchView('academy')">
+      <div class="dock-art">⚔️</div>
+      <span>ACADEMY</span>
+    </button>
+    <button class="dock-icon" onclick="switchView('chronicles')">
+      <div class="dock-art">🦇</div>
+      <span>TALKS</span>
+    </button>
+  </nav>
+
+  <template id="game-card-template"><div class="card-item">
+            <div class="card-cost"></div>
+            <div class="img-frame"><img alt="" onerror="this.style.display='none';"></div>
+            <h3></h3>
+            <div class="tags"></div>
+            <p style="font-size: 12px;"></p>
+            <a class="btn" target="_blank">PLAY CARD</a>
+          </div></template><template id="course-card-template"><div class="inner-box">
+            <h3></h3>
+            <div class="tags"></div>
+            <p></p>
+            <a class="btn"></a>
+          </div></template><script src="content.js"></script><script src="script.js"></script></body>
+</html>

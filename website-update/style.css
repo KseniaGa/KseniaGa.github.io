@@ -1,0 +1,305 @@
+/* =========================================
+       OS DESKTOP ENVIRONMENT VARIABLES
+       ========================================= */
+    :root {
+      --bg-sky-top: #8b6ccf;
+      --bg-sky-mid: #c988c8;
+      --bg-sky-low: #f4a2b9;
+      --bg-sun: #fad4b3;
+      --text-main: #4a4a4a;
+      --shadow-color: rgba(0,0,0,0.2);
+    }
+
+    /* HORROR OVERRIDE: Silent Hill / Bioshock Vibe */
+    [data-theme="horror"] {
+      --bg-sky-top: #101211; 
+      --bg-sky-mid: #252b28; 
+      --bg-sky-low: #3c403a; 
+      --bg-sun: #050505;
+      --text-main: #d1cbb8; 
+      --shadow-color: rgba(0, 0, 0, 0.8);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0; min-height: 100vh;
+      background: linear-gradient(180deg, var(--bg-sky-top) 0%, var(--bg-sky-mid) 40%, var(--bg-sky-low) 70%, var(--bg-sun) 100%);
+      background-attachment: fixed; color: var(--text-main);
+      font-family: "Atkinson Hyperlegible", sans-serif; line-height: 1.6;
+      overflow-x: hidden; cursor: crosshair; transition: background 0.8s ease;
+    }
+
+    /* Horror Vignette Overlay (Stays on top of everything) */
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 999; pointer-events: none;
+      background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.8) 100%);
+      opacity: 0; transition: opacity 0.8s ease;
+    }
+    [data-theme="horror"] body::before { opacity: 1; }
+
+    /* CRT Scanlines (Pushed to background behind the windows) */
+    body::after {
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+      background-size: 100% 4px; opacity: 0.8; transition: all 0.8s ease;
+    }
+    [data-theme="horror"] body::after {
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+      background-size: 100% 4px;
+    }
+
+    .pixel-font { font-family: "Press Start 2P", monospace; text-transform: uppercase; line-height: 1.4; }
+    a { color: inherit; text-decoration: underline; font-weight: bold; cursor: pointer; }
+    
+    /* =========================================
+       TOP OS BAR
+       ========================================= */
+    .top-bar {
+      position: sticky; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(4px);
+      border-bottom: 2px solid var(--text-main); padding: 6px 12px;
+      display: flex; justify-content: space-between; align-items: center; font-size: 8px;
+      transition: all 0.5s ease;
+    }
+    [data-theme="horror"] .top-bar { background: rgba(20,20,20,0.9); border-bottom-color: #5c2c22; color: #8b3a2b; }
+    
+    .stats-container { display: flex; gap: 15px; align-items: center; }
+    .bar-bg { width: 60px; height: 10px; background: rgba(0,0,0,0.1); border: 2px solid var(--text-main); }
+    [data-theme="horror"] .bar-bg { border-color: #5c2c22; }
+    .bar-fg.hp { width: 100%; height: 100%; background: #ff8ca3; }
+    .bar-fg.xp { width: 15%; height: 100%; background: #8cd6ff; transition: width 0.3s; }
+    [data-theme="horror"] .bar-fg.hp { background: #5c2c22; }
+    [data-theme="horror"] .bar-fg.xp { background: #8b3a2b; }
+
+    .corrupt-btn { background: transparent; border: none; font-family: "Press Start 2P"; font-size: 8px; cursor: pointer; color: var(--text-main); }
+    .corrupt-btn:hover { color: red; text-decoration: underline; }
+    [data-theme="horror"] .corrupt-btn { color: #8b3a2b; }
+
+    /* =========================================
+       BASE OS WINDOWS
+       ========================================= */
+    .desktop-area { max-width: 900px; margin: 40px auto 120px auto; padding: 0 15px; position: relative; z-index: 10; }
+
+    .os-window {
+      border-radius: 12px; margin-bottom: 30px; overflow: hidden;
+      animation: openApp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: none; box-shadow: 8px 8px 0px var(--shadow-color);
+      border: 4px solid #000; 
+      transition: filter 0.8s ease;
+    }
+    .os-window.active { display: block; }
+    @keyframes openApp { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+    .title-bar {
+      padding: 8px 12px; display: flex; justify-content: space-between; align-items: center;
+      font-size: 10px; font-family: "Press Start 2P"; border-bottom: 4px solid #000;
+    }
+    .window-controls { display: flex; gap: 6px; }
+    .win-btn {
+      width: 14px; height: 14px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 6px; font-family: monospace; font-weight: bold;
+    }
+
+    .app-content { padding: 24px; position: relative; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+    .img-frame { border-radius: 8px; overflow: hidden; cursor: pointer; }
+    .img-frame img { width: 100%; height: auto; display: block; filter: contrast(1.1); transition: transform 0.2s;}
+    .img-frame:hover img { transform: scale(1.05); }
+    
+    /* Clean, unfiltered display for posters/photos */
+    .poster-frame { position: relative; z-index: 10; }
+    .poster-frame img { filter: brightness(1.05) !important; }
+
+    /* =========================================
+       THEME 1: BARBIE SECRET AGENT (Home)
+       ========================================= */
+    .theme-barbie { background: #ffe4f2; border-color: #00ffff; }
+    .theme-barbie .title-bar { background: linear-gradient(90deg, #ff1493, #ff69b4); border-bottom-color: #00ffff; color: #fff; text-shadow: 2px 2px 0 #ff00ff; }
+    .theme-barbie .win-btn { background: #fff; border: 2px solid #00ffff; color: #00ffff; }
+    .theme-barbie .app-content { color: #8b008b; }
+    .theme-barbie h2, .theme-barbie h3 { color: #ff1493; text-shadow: 1px 1px 0 #00ffff; font-family: "Press Start 2P"; }
+    .theme-barbie .inner-box { background: rgba(255,255,255,0.8); border: 3px solid #00ffff; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: inset 0 0 10px rgba(255,20,147,0.2); }
+    .theme-barbie .btn { background: #ff69b4; color: #fff; border: 2px solid #00ffff; padding: 8px 12px; border-radius: 20px; font-family: "Press Start 2P"; font-size: 8px; display: inline-block; text-decoration: none; box-shadow: 2px 2px 0 #00ffff; margin: 4px; transition: all 0.1s; }
+    .theme-barbie .btn:hover { background: #ff1493; transform: translate(-2px, -2px); box-shadow: 4px 4px 0 #00ffff; }
+    .theme-barbie .img-frame { border: 4px solid #ff69b4; box-shadow: 0 0 15px #00ffff; }
+
+    /* =========================================
+       THEME 2: THE SIMS 2 (Research)
+       ========================================= */
+    .theme-sims2 { background: #2A5A9B; border-color: #1A3E70; font-family: "Atkinson Hyperlegible", sans-serif; }
+    .theme-sims2 .title-bar { background: #1A3E70; border-bottom-color: #112A4F; color: #fff; font-family: "Atkinson Hyperlegible", sans-serif; font-weight: bold; letter-spacing: 1px;}
+    .theme-sims2 .win-btn { background: #4CAF50; border: 2px solid #1A3E70; color: #fff; } 
+    .theme-sims2 .app-content { color: #fff; }
+    .theme-sims2 h2, .theme-sims2 h3 { color: #fff; font-family: "Atkinson Hyperlegible", sans-serif; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); border-bottom: none;}
+    .theme-sims2 .inner-box { background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+    .theme-sims2 .btn { background: linear-gradient(180deg, #5185CA, #2A5A9B); color: #fff; border: 2px solid #fff; border-radius: 20px; padding: 6px 16px; font-weight: bold; font-family: "Atkinson Hyperlegible", sans-serif; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); box-shadow: 0 4px 6px rgba(0,0,0,0.3); text-decoration: none; display: inline-block; transition: all 0.1s;}
+    .theme-sims2 .btn:hover { background: linear-gradient(180deg, #6398DF, #3B6EB2); transform: translateY(-2px); box-shadow: 0 6px 8px rgba(0,0,0,0.3); color: #fff;}
+    .theme-sims2 .plumbob { position: relative; font-size: 16px; animation: floatSpin 3s ease-in-out infinite; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
+    @keyframes floatSpin { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(10deg); } }
+    
+    .aspiration-points {
+      position: absolute; top: 15px; right: 25px; z-index: 10;
+      display: flex; align-items: center; gap: 8px; 
+      background: rgba(0,0,0,0.3); padding: 5px 12px; 
+      border-radius: 15px; border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    /* =========================================
+       THEME 3: SLAY THE SPIRE (Games/Inventory)
+       ========================================= */
+    .theme-spire { background: #2E282A; border-color: #4A0E17; }
+    .theme-spire .title-bar { background: #1C1819; border-bottom-color: #8B0000; color: #c4a482; }
+    .theme-spire .win-btn { background: #8B0000; border: 2px solid #c4a482; color: #c4a482; }
+    .theme-spire .app-content { color: #D3D3D3; }
+    .theme-spire h2 { color: #E5B13A; font-family: "Press Start 2P"; font-size: 12px; text-shadow: 2px 2px #000; }
+    .theme-spire .card-item { 
+      background: #c4a482; color: #1C1819; border: 4px solid #4A0E17; border-radius: 8px; 
+      padding: 10px; display: flex; flex-direction: column; position: relative;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 4px 4px 10px rgba(0,0,0,0.8);
+      transition: transform 0.2s;
+    }
+    .theme-spire .card-item:hover { transform: translateY(-10px) scale(1.05); z-index: 5; }
+    .theme-spire .card-cost { position: absolute; top: -10px; left: -10px; background: #8B0000; color: #fff; width: 30px; height: 30px; border-radius: 50%; border: 3px solid #E5B13A; display: flex; align-items: center; justify-content: center; font-family: "Press Start 2P"; font-size: 10px; }
+    .theme-spire .img-frame { border: 2px solid #1C1819; height: 150px; margin-bottom: 10px; }
+    .theme-spire .img-frame img { height: 100%; object-fit: cover; }
+    .theme-spire .card-item h3 { font-family: "Press Start 2P"; font-size: 10px; text-align: center; border-bottom: 2px solid #4A0E17; padding-bottom: 5px; margin: 0 0 10px 0;}
+    .theme-spire .tags span { background: #4A0E17; color: #fff; border: none; font-family: "Atkinson Hyperlegible"; font-size: 10px; font-weight: bold; border-radius: 10px; padding: 2px 8px; margin-right: 4px;}
+    .theme-spire .btn { background: #8B0000; color: #E5B13A; text-align: center; padding: 8px; font-family: "Press Start 2P"; font-size: 8px; border: 2px solid #E5B13A; text-decoration: none; margin-top: auto; transition: all 0.1s;}
+    .theme-spire .btn:hover { background: #4A0E17; }
+
+    /* =========================================
+       THEME 4: ANIMAL CROSSING (Guild)
+       ========================================= */
+    .theme-ac { background: #E8F5E9; border-color: #8D6E63; }
+    .theme-ac .title-bar { background: #A2D149; border-bottom-color: #8D6E63; color: #fff; text-shadow: 1px 1px 0 #558B2F; }
+    .theme-ac .win-btn { background: #fff; border: 2px solid #8D6E63; color: #8D6E63; }
+    .theme-ac .app-content { color: #5D4037; background-image: radial-gradient(#C8E6C9 2px, transparent 2px); background-size: 20px 20px; }
+    .theme-ac h2, .theme-ac h3 { color: #33691E; font-family: "Atkinson Hyperlegible", sans-serif; font-weight: bold; }
+    .theme-ac .inner-box { background: #FFF9C4; border: 3px dashed #FFCA28; border-radius: 16px; padding: 16px; margin-bottom: 16px; position: relative; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+    .theme-ac .bulletin-pin { position: absolute; top: 5px; left: 50%; transform: translateX(-50%); font-size: 20px; }
+    .theme-ac .btn { background: #FFCC80; color: #5D4037; border: 2px solid #EF6C00; border-radius: 20px; padding: 8px 16px; font-weight: bold; text-decoration: none; display: inline-block; transition: all 0.1s;}
+    .theme-ac .btn:hover { background: #EF6C00; color: #fff; transform: translateY(-2px);}
+
+    /* =========================================
+       THEME 5: UNDERTALE (Academy)
+       ========================================= */
+    .theme-ut { background: #000; border-color: #fff; border-radius: 0; border-width: 4px; border-style: solid; box-shadow: none; }
+    .theme-ut .title-bar { background: #000; border-bottom: 4px solid #fff; color: #fff; font-size: 10px; }
+    .theme-ut .win-btn { display: none; }
+    .theme-ut .app-content { color: #fff; font-family: "Press Start 2P", monospace; font-size: 10px; line-height: 1.8; }
+    .theme-ut h2, .theme-ut h3 { color: #fff; font-size: 12px; }
+    .theme-ut .inner-box { background: #000; border: 4px solid #fff; padding: 16px; margin-bottom: 16px; border-radius: 0; }
+    .theme-ut p::before { content: "* "; color: #fff; }
+    .theme-ut .tags span { background: #000; color: #fff; padding: 2px 4px; font-size: 8px; border: 1px solid #fff; }
+    .theme-ut .btn { background: #000; color: #fff; border: 2px solid #fff; padding: 6px 10px; font-family: "Press Start 2P"; font-size: 8px; text-decoration: none; display: inline-block; margin-top: 10px; transition: all 0.1s;}
+    .theme-ut .btn:hover { color: #ffff00; border-color: #ffff00; }
+
+    /* =========================================
+       THEME 6: VAMPIRE THE MASQUERADE (Chronicles)
+       ========================================= */
+    .theme-vtm { background: #130a0a; border-color: #5c1414; border-radius: 0; box-shadow: inset 0 0 50px #000; }
+    .theme-vtm .title-bar { background: #0a0505; border-bottom-color: #5c1414; color: #c09f6b; font-family: "EB Garamond", serif; font-size: 14px; font-style: italic; }
+    .theme-vtm .win-btn { background: #5c1414; border: 1px solid #c09f6b; color: #c09f6b; }
+    .theme-vtm .app-content { color: #d4c5b0; font-family: "EB Garamond", serif; font-size: 16px; }
+    .theme-vtm h2, .theme-vtm h3 { color: #a12020; font-family: "EB Garamond", serif; font-variant: small-caps; font-size: 20px; border-bottom: 1px solid #361010; padding-bottom: 4px;}
+    .theme-vtm .inner-box { background: rgba(0,0,0,0.6); border: 1px solid #361010; border-radius: 0; padding: 16px; margin-bottom: 16px; }
+    .theme-vtm .btn { background: #0a0505; color: #a12020; border: 1px solid #5c1414; padding: 4px 8px; font-family: "EB Garamond", serif; font-size: 14px; text-transform: uppercase; text-decoration: none; display: inline-block; transition: all 0.2s;}
+    .theme-vtm .btn:hover { background: #5c1414; color: #c09f6b; }
+
+    /* =========================================
+       HORROR MODE OVERRIDE (Silent Hill / BioShock)
+       ========================================= */
+    [data-theme="horror"] .os-window { 
+      filter: grayscale(0.5) sepia(0.3) brightness(0.9) contrast(1.2) hue-rotate(-10deg) !important; 
+      border-color: #2b2b2b !important;
+    }
+
+    /* =========================================
+       TASKBAR & DOCK
+       ========================================= */
+    .taskbar {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 16px;
+      display: flex; gap: 10px; padding: 10px; z-index: 100;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); flex-wrap: wrap; justify-content: center; max-width: 95%;
+      transition: all 0.5s ease;
+    }
+    [data-theme="horror"] .taskbar { background: rgba(15, 17, 16, 0.9); border-color: #383b38; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
+
+    .dock-icon {
+      background: #fff; border: 2px solid var(--text-main); border-radius: 8px;
+      padding: 8px; cursor: pointer; transition: all 0.2s;
+      font-family: "Press Start 2P"; font-size: 8px; color: var(--text-main);
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    [data-theme="horror"] .dock-icon { background: #1a1c1a; border-color: #5c2c22; color: #8b3a2b; }
+    .dock-icon:hover { transform: translateY(-5px); box-shadow: 0 4px 0 var(--text-main); }
+    .dock-icon.active { background: var(--text-main); color: #fff; transform: translateY(2px); box-shadow: none; }
+    [data-theme="horror"] .dock-icon.active { background: #5c2c22; color: #d1cbb8; }
+    .dock-art { font-size: 16px; line-height: 1; filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.2)); }
+    [data-theme="horror"] .dock-art { filter: grayscale(1) sepia(0.5) contrast(1.5); opacity: 0.7; }
+
+    /* =========================================
+       TAMAGOTCHI WIDGET
+       ========================================= */
+    .tama-widget {
+      position: fixed; bottom: 80px; right: 20px; 
+      width: 100px; height: 130px; 
+      background: linear-gradient(135deg, #ffc4d9 0%, #e09ab3 100%); border: 3px solid var(--text-main);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; box-shadow: 4px 4px 0px var(--shadow-color);
+      z-index: 90; display: flex; flex-direction: column; align-items: center; padding-top: 25px; transform: rotate(5deg);
+      transition: filter 0.8s ease, background 0.8s ease;
+    }
+    [data-theme="horror"] .tama-widget { background: #262927; border-color: #111; box-shadow: 4px 4px 0 rgba(0,0,0,0.8); }
+    
+    .tama-ring { position: absolute; top: -12px; width: 18px; height: 18px; border: 3px solid silver; border-radius: 50%; z-index: -1; box-shadow: inset 1px 1px 0 rgba(0,0,0,0.2), 2px 2px 0 rgba(0,0,0,0.2); }
+    [data-theme="horror"] .tama-ring { border-color: #333; box-shadow: none; }
+    
+    .tama-screen { 
+      width: 60px; height: 45px; background: #98bd93; border: 3px solid var(--text-main); border-radius: 6px; 
+      box-shadow: inset 2px 2px 0 rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; 
+      font-family: monospace; font-size: 12px; font-weight: bold; color: #2b3d27; margin-bottom: 12px; 
+    }
+    [data-theme="horror"] .tama-screen { background: #1c211e; color: #4a544d; border-color: #000; }
+    
+    .tama-buttons { display: flex; gap: 8px; }
+    .tama-btn { width: 12px; height: 12px; background: var(--bg-sun); border: 2px solid var(--text-main); border-radius: 50%; cursor: pointer; box-shadow: 1px 1px 0 var(--text-main); }
+    .tama-btn:active { transform: translate(1px, 1px); box-shadow: 0 0 0 var(--text-main); }
+    [data-theme="horror"] .tama-btn { background: #111; border-color: #000; box-shadow: 1px 1px 0 #000; }
+    @media (max-width: 900px) { .tama-widget { display: none; } }
+
+    /* SLEEK NOTIFICATIONS */
+    #level-up-msg { 
+      position: fixed; top: 80px; right: 20px; 
+      font-family: "Press Start 2P", monospace; font-size: 10px; 
+      color: #fff; background: var(--text-main); padding: 12px 16px; 
+      border: 2px solid #fff; box-shadow: 4px 4px 0 rgba(0,0,0,0.3); 
+      z-index: 2000; display: none; text-align: right; border-radius: 4px; 
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    #achievement-toast {
+      position: fixed; top: 130px; right: 20px; 
+      font-family: "Press Start 2P", monospace; font-size: 10px; 
+      color: #FFD700; background: #222; padding: 12px 16px; 
+      border: 2px solid #FFD700; box-shadow: 4px 4px 0 rgba(0,0,0,0.5); 
+      z-index: 2000; display: none; text-align: right; border-radius: 4px; 
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+    
+    [data-theme="horror"] #level-up-msg { background: #262927; border-color: #5c2c22; color: #8b3a2b; box-shadow: 4px 4px 0 rgba(0,0,0,0.8); }
+    [data-theme="horror"] #achievement-toast { background: #111; border-color: #5c1414; color: #a12020; box-shadow: 4px 4px 0 rgba(0,0,0,0.8); }
+
+    /* ACHIEVEMENT LIST STYLES */
+    .ach-list { list-style: none; padding: 0; margin: 0; font-family: "Press Start 2P", monospace; font-size: 8px; line-height: 1.8;}
+    .ach-item { margin-bottom: 10px; padding-left: 15px; position: relative; }
+    .ach-item::before { content: "-"; position: absolute; left: 0; color: #00ffff; }
+    .ach-locked { color: #ff69b4; opacity: 0.6; }
+    .ach-unlocked { color: #8b008b; }
+    .ach-title { font-weight: bold; font-size: 10px;}
