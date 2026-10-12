@@ -94,8 +94,7 @@ window.SITE_CONTENT = {
     "image": "images/tys_.png",
     "imageAlt": "Tell Your Story Poster",
     "link": "https://www.itec.aau.at/~kseniia/gamejam/",
-    "buttonLabel": "Explore the workshop website ↗",
-    "role": "I developed the ethics and funding applications, designed and led the workshop, and analysed the seven participant-created interactive stories alongside reflections on the making process."
+    "buttonLabel": "Explore the workshop website ↗"
   },
   "gamesIntro": "Small scope, playful mechanics, fast iteration. Care-first design.",
   "teachingIntro": "Teaching in Game Studies and Engineering at the University of Klagenfurt, connecting critical perspectives, creative practice, and research skills.",
